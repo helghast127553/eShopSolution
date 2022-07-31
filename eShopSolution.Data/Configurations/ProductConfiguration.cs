@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eShopSolution.Data.Configuration
+namespace eShopSolution.Data.Configurations
 {
     public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {
@@ -16,6 +16,7 @@ namespace eShopSolution.Data.Configuration
             builder.ToTable("Products");
 
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).UseIdentityColumn();
 
             builder.Property(x => x.Price)
                 .IsRequired();

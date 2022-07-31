@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eShopSolution.Data.Configuration
+namespace eShopSolution.Data.Configurations
 {
     public class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {
@@ -18,8 +18,8 @@ namespace eShopSolution.Data.Configuration
 
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Status)
-                .HasDefaultValue(Status.Active);
+            builder.Property(x => x.Id).UseIdentityColumn();
+            builder.Property(x => x.Status).HasDefaultValue(Status.Active);
         }
     }
 }
