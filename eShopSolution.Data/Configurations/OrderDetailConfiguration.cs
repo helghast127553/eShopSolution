@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eShopSolution.Data.Configuration
+namespace eShopSolution.Data.Configurations
 {
     public class OrderDetailConfiguration : IEntityTypeConfiguration<OrderDetail>
     {

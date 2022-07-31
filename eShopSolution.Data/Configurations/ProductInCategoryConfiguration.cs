@@ -7,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eShopSolution.Data.Configuration
+namespace eShopSolution.Data.Configurations
 {
     public class ProductInCategoryConfiguration : IEntityTypeConfiguration<ProductInCategory>
     {
         public void Configure(EntityTypeBuilder<ProductInCategory> builder)
         {
-            builder.ToTable("ProductInCategory");
+            builder.ToTable("ProductInCategories");
 
             builder.HasKey(x => new { x.CategoryId, x.ProductId });
 
