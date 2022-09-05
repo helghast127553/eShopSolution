@@ -107,7 +107,7 @@ namespace eShopSolution.Application.Catalog.Products
             return await _dbContext.SaveChangesAsync();
         }
 
-        public Task<List<ProductImageViewModel>> GetAllImage(int productId)
+        public Task<IList<ProductImageViewModel>> GetAllImage(int productId)
         {
             throw new NotImplementedException();
         }
