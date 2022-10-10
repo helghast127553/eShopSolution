@@ -16,4 +16,8 @@
     <ProjectReference Include="..\eShopSolution.Utilities\eShopSolution.Utilities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Thumbnail\" />
+  </ItemGroup>
+
 </Project>

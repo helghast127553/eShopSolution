@@ -8,6 +8,6 @@ namespace eShopSolution.Utilities.Constants
 {
     public class SystemConstants
     {
-        public const string MAIN_CONNECTION_STRING = "eShopSolutionDatabase";
+        public const string MAIN_CONNECTION_STRING = "eShopSolution";
     }
 }
