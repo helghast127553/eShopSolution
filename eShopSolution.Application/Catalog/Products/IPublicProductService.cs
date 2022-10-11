@@ -13,6 +13,6 @@ namespace eShopSolution.Application.Catalog.Products
     {
         Task<PagedResult<ProductViewModel>> GetAllByCategoryId(GetPublicProductPagingRequest request);
 
-        Task<IList<ProductViewModel>> GetAll(string languageId);
+        Task<IList<ProductViewModel>> GetAll();
     }
 }

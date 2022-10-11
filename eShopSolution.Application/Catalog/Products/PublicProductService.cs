@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace eShopSolution.Application.Catalog.Products
 {
@@ -20,30 +21,28 @@ namespace eShopSolution.Application.Catalog.Products
             _dbContext = dbContext;
         }
 
-        public async Task<IList<ProductViewModel>> GetAll(string languageId)
+        public async Task<IList<ProductViewModel>> GetAll()
         {
             var query = from p in _dbContext.Products
-                        join pt in _dbContext.ProductTranslations on p.Id equals pt.ProductId
-                        join pic in _dbContext.ProductInCategories on p.Id equals pic.ProductId
-                        join c in _dbContext.Categories on pic.CategoryId equals c.Id
-                        where pt.LanguageId == languageId
-                        select new { p, pt, pic };
+                        join c in _dbContext.Categories on p.CategoryId equals c.Id
+                        join i in _dbContext.ProductImages on p.Id equals i.ProductId
+                        select new { p, i };
 
             var data = await query.Select(x => new ProductViewModel()
             {
                 Id = x.p.Id,
-                Name = x.pt.Name,
-                DateCreated = x.p.DateCreated,
-                Description = x.pt.Description,
-                Details = x.pt.Details,
-                LanguageId = x.pt.LanguageId,
+                Name = x.p.Name,
+                DateCreated = x.p.DateCreated.Value,
+                Description = x.p.Description,
+                Details = x.p.Details,
                 OriginalPrice = x.p.OriginalPrice,
                 Price = x.p.Price,
-                SeoAlias = x.pt.SeoAlias,
-                SeoDescription = x.pt.SeoDescription,
-                SeoTitle = x.pt.SeoTitle,
+                SeoAlias = x.p.SeoAlias,
+                SeoDescription = x.p.SeoDescription,
+                SeoTitle = x.p.SeoTitle,
                 Stock = x.p.Stock,
-                ViewCount = x.p.ViewCount
+                ViewCount = x.p.ViewCount,
+                ImageUrl = $"https://localhost:7064/image/{x.i.ImagePath}"
             }).ToListAsync();
 
             return data;
@@ -53,15 +52,13 @@ namespace eShopSolution.Application.Catalog.Products
         {
             //1.select join
             var query = from p in _dbContext.Products
-                        join pt in _dbContext.ProductTranslations on p.Id equals pt.ProductId
-                        join pic in _dbContext.ProductInCategories on p.Id equals pic.ProductId
-                        join c in _dbContext.Categories on pic.CategoryId equals c.Id
-                        select new { p, pt, pic };
+                        join c in _dbContext.Categories on p.CategoryId equals c.Id
+                        select new { p };
 
             //2.filter
             if (request.CategoryId.HasValue && request.CategoryId.Value > 0)
             {
-                query = query.Where(p => p.pic.CategoryId == request.CategoryId);
+                query = query.Where(p => p.p.CategoryId == request.CategoryId);
             }
 
             //3.Paging
@@ -73,16 +70,15 @@ namespace eShopSolution.Application.Catalog.Products
                 .Select(x => new ProductViewModel
                 {
                     Id = x.p.Id,
-                    Name = x.pt.Name,
-                    DateCreated = x.p.DateCreated,
-                    Description = x.pt.Description,
-                    Details = x.pt.Details,
-                    LanguageId = x.pt.LanguageId,
+                    Name = x.p.Name,
+                    DateCreated = x.p.DateCreated.Value,
+                    Description = x.p.Description,
+                    Details = x.p.Details,
                     OriginalPrice = x.p.OriginalPrice,
                     Price = x.p.Price,
-                    SeoAlias = x.pt.SeoAlias,
-                    SeoDescription = x.pt.SeoDescription,
-                    SeoTitle = x.pt.SeoTitle,
+                    SeoAlias = x.p.SeoAlias,
+                    SeoDescription = x.p.SeoDescription,
+                    SeoTitle = x.p.SeoTitle,
                     Stock = x.p.Stock,
                     ViewCount = x.p.ViewCount
                 }).ToListAsync();

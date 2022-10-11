@@ -20,15 +20,15 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         //http://localhost:port/product
-        [HttpGet("{languageId}")]
-        public async Task<IActionResult> Get(string languageId)
+        [HttpGet()]
+        public async Task<IActionResult> Get()
         {
-            var products = await _publicProductService.GetAll(languageId);
+            var products = await _publicProductService.GetAll();
             return Ok(products);
         }
 
         //http://localhost:port/product/public-paging
-        [HttpGet("public-paging/{languageId}")]
+        [HttpGet("public-paging")]
         public async Task<IActionResult> Get([FromQuery]GetPublicProductPagingRequest request)
         {
             var products = await _publicProductService.GetAllByCategoryId(request);
@@ -36,10 +36,10 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         //http://localhost:port/product/:id
-        [HttpGet("{id}/{languageId}")]
-        public async Task<IActionResult> GetById(int productId, string languageId)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int productId)
         {
-            var product = await _manageProductService.GetById(productId, languageId);
+            var product = await _manageProductService.GetById(productId);
             if (product == null)
             {
                 return BadRequest("Cannot find product");
@@ -56,7 +56,7 @@ namespace eShopSolution.BackendApi.Controllers
                 return BadRequest();
             }
 
-            var product = await _manageProductService.GetById(productId, request.LanguageId);
+            var product = await _manageProductService.GetById(productId);
 
             return CreatedAtAction(nameof(GetById), new { id = productId }, product);
         }
@@ -83,18 +83,6 @@ namespace eShopSolution.BackendApi.Controllers
             }
 
             return Ok();
-        }
-
-        [HttpPut("price/{id}/{newPrice}")]
-        public async Task<IActionResult> UpdatePrice(int id, decimal newPrice)
-        {
-            var isSuccessful = await _manageProductService.UpdatePrice(id, newPrice);
-            if (isSuccessful)
-            {
-                return Ok();
-            }
-
-            return BadRequest();
         }
     }
 }

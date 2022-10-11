@@ -18,22 +18,8 @@ namespace eShopSolution.Application.Catalog.Products
 
         Task<int> Delete(int productId);
 
-        Task<ProductViewModel> GetById(int productId, string languageId);
-
-        Task<bool> UpdatePrice(int productId, decimal newPrice);
-
-        Task<bool> UpdateStock(int productId, int addedQuantity);
-
-        Task AddViewCount(int productId);
+        Task<ProductViewModel> GetById(int productId);
 
         Task<PagedResult<ProductViewModel>> GetAllPaging(GetManageProductPagingRequest request);
-
-        Task<int> AddImages(int productId, List<IFormFile> files);
-
-        Task<int> RemoveImages(int imageId);
-
-        Task<int> UpdateImage(int imageId, string caption, bool isDefault);
-
-        Task<IList<ProductImageViewModel>> GetAllImage(int productId);
     }
 }
