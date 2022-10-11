@@ -16,20 +16,28 @@ namespace eShopSolution.Data.Configurations
             builder.ToTable("Products");
 
             builder.HasKey(x => x.Id);
+
             builder.Property(x => x.Id).UseIdentityColumn();
 
-            builder.Property(x => x.Price)
-                .IsRequired();
+            builder.Property(x => x.Name).IsRequired().HasMaxLength(200);
 
-            builder.Property(x => x.OriginalPrice)
-                .IsRequired();
+            builder.Property(x => x.Description).HasColumnType("ntext");
 
-            builder.Property(x => x.Stock).IsRequired()
-                .HasDefaultValue(0);
+            builder.Property(x => x.SeoAlias).HasMaxLength(200).IsRequired(false);
 
-            builder.Property(x => x.ViewCount)
-                .IsRequired()
-                .HasDefaultValue(0);
+            builder.Property(x => x.Details).HasMaxLength(500).IsRequired(false);
+
+            builder.Property(x => x.Price).IsRequired();
+
+            builder.Property(x => x.OriginalPrice);
+
+            builder.Property(x => x.Stock).HasDefaultValue(0);
+
+            builder.Property(x => x.ViewCount).HasDefaultValue(0);
+
+            builder.HasOne(x => x.Category)
+                .WithMany(x => x.Products)
+                .HasForeignKey(x => x.CategoryId);
         }
     }
 }

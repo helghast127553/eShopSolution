@@ -9,8 +9,6 @@ namespace eShopSolution.ViewModels.Catalog.Products.Manage
 {
     public class ProductCreateRequest
     {
-        public int Id { get; set; }
-
         public decimal Price { get; set; }
 
         public decimal OriginalPrice { get; set; }
@@ -29,7 +27,7 @@ namespace eShopSolution.ViewModels.Catalog.Products.Manage
 
         public string SeoAlias { get; set; }
 
-        public string LanguageId { set; get; }
+        public int CategoryId { get; set; }
 
         public IFormFile ThumbnailImage { get; set; }
     }
