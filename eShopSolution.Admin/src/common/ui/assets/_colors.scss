@@ -1,0 +1,109 @@
+/** All color using in this website is defined here */
+
+$primary: #1eb2ff; // Primary color, Btn, icon, action, select
+
+$dark-primary: #0682dd;
+
+$gradient: linear-gradient(
+  148.2deg,
+  rgba(30, 178, 255, 0.75) 32.22%,
+  rgba(5, 143, 242, 0.75) 112.96%
+);
+
+$blue-light-gradient: linear-gradient(
+  270deg,
+  #058ff2 2.93%,
+  rgba(30, 178, 255, 0.75) 100%
+);
+
+$black-gradient: linear-gradient(rgba(140, 153, 175, 1), rgba(43, 53, 70, 1));
+
+$light-blue: #c9e7fc;
+
+$blue: #1baefd;
+
+$dark-blue: #007ed9;
+
+$white: #ffffff;
+
+$grey-white: #eeedf2;
+
+$light-grey: #656873;
+
+$bg-grey: #e5e5e5;
+
+$dark: #333333; // Body text
+
+$bg: #fafafa; // Background
+
+$bg-textbox: #f8f8f8; // Background text box
+
+$textbox-border: #dfe1e6; // Textbox border
+
+$bg-drop-gadget: #e0e2e8; // Background drop gadget
+
+$add-gadget-border: #c2c2c2; // Add gadget border
+
+$label: #5e6c84;
+
+$green: #24e780;
+
+$dark-green: #1bac5f;
+
+$light-green: #e2feef;
+
+$orange: #ffc567;
+
+$dark-orange: #efa617;
+
+$light-org: #fff5e3;
+
+$yellow: #ffd15b;
+
+$magenta: #f596db;
+
+$red: #f04338;
+
+$light-red: #ffe9eb;
+
+$shadow: rgba(0, 0, 0, 0.1);
+
+$bg-badge-light: rgba(30, 178, 255, 0.1);
+
+$cyan: #23cbb7;
+
+$bg-textbox-disable: #dedede;
+
+$text-disable: #959595;
+
+$text-disable-opacity: #b6b6b6;
+
+$light-disable: #f8f8f8;
+
+$bg-tooltip: #212121;
+
+$lang: #e0f2ff;
+
+$lang-border: #eaebed;
+
+$bg-drop-gadget: #f1f1f1;
+
+$border-table: #ededed;
+
+$table-header: #eff8ff; // Background table header
+
+$border-chart: #e1e1e1;
+
+$table-row: #f5f5f5;
+
+$black: #000000;
+
+$bg-modal: rgba(51, 51, 51, 0.8);
+
+$noti-bg-red: #ffecec;
+
+$noti-bg-blue: #dff0fd;
+
+$noti-bg-yellow: #f9edd6;
+
+$noti-bg-green: #d2f3e2;
