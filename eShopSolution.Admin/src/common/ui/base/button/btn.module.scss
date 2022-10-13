@@ -1,0 +1,130 @@
+@import "../../assets/colors.scss";
+
+.btn {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border-radius: 2px;
+  line-height: 21px !important;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  &.borderless {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin-left: 4px;
+    margin-right: 4px;
+    box-shadow: none !important;
+    border-radius: 50%;
+    padding: 2px !important;
+
+    &:active {
+      background: $noti-bg-blue !important;
+    }
+  }
+
+  &.btn24 {
+    padding: 1.6px 12px;
+  }
+
+  &.btn32 {
+    padding: 5.6px 12px;
+  }
+
+  &.btn40 {
+    padding: 9.6px 12px;
+  }
+
+  &.defaultBtn {
+    background: $primary;
+    color: white;
+    border: none;
+    box-shadow: inset 0px 0px 0px 1px $primary;
+
+    &:hover {
+      background: $dark-primary;
+      box-shadow: inset 0px 0px 0px 1px $dark-primary;
+    }
+
+    &.opacity {
+      opacity: 0.6;
+
+      &:hover {
+        background: $primary;
+        box-shadow: inset 0px 0px 0px 1px $primary;
+      }
+    }
+  }
+
+  &.outlineBtn {
+    box-shadow: inset 0px 0px 0px 1px $primary;
+    color: $primary;
+    background: white;
+    border: none;
+
+    &.opacity {
+      opacity: 0.6;
+    }
+
+    &:active {
+      background: $noti-bg-blue;
+    }
+  }
+}
+
+.dropdown {
+  display: inline-block;
+  padding: 0;
+  position: relative;
+
+  .btn {
+    @extend .btn;
+  }
+
+  &.show {
+    .menu {
+      display: block;
+    }
+  }
+
+  .menu {
+    background-color: $white;
+    border-radius: 4px;
+    box-shadow: 0px 2px 10px $shadow;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    display: none;
+    z-index: 999;
+
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 10px 16px;
+      border: none;
+      background-color: transparent;
+      font-weight: normal;
+      white-space: nowrap;
+      font-size: 15px;
+      width: 100%;
+      color: $dark;
+      line-height: 140%;
+
+      &:hover {
+        background-color: $bg-textbox;
+        text-decoration: none;
+      }
+    }
+  }
+}

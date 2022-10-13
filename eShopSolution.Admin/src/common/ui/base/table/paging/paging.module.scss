@@ -1,0 +1,60 @@
+@import "../../../assets/colors.scss";
+@import "../../../assets/fonts.scss";
+
+.paging {
+  display: inline-block;
+
+  .content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .item {
+      @extend .table-header-text;
+      background: transparent;
+      margin-left: 4px;
+      margin-right: 4px;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+
+      &.number {
+        color: $add-gadget-border;
+        border: 1px solid $add-gadget-border;
+      }
+
+      &.active {
+        color: $white;
+        background-color: $primary;
+        border: none;
+
+        .next,
+        .prev {
+          filter: none !important;
+          cursor: pointer;
+        }
+      }
+
+      &.prevNext {
+        background: transparent;
+      }
+
+      .next {
+        filter: invert(86%) sepia(0%) saturate(29%) hue-rotate(180deg)
+          brightness(91%) contrast(92%);
+        cursor: not-allowed;
+      }
+
+      .prev {
+        filter: invert(86%) sepia(0%) saturate(29%) hue-rotate(180deg)
+          brightness(91%) contrast(92%);
+        cursor: not-allowed;
+      }
+    }
+  }
+}
