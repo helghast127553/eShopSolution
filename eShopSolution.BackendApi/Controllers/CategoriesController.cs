@@ -5,11 +5,11 @@ namespace eShopSolution.BackendApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController:ControllerBase
+    public class CategoriesController:ControllerBase
     {
         private readonly ICategoryService _categoryService;
 
-        public CategoryController(
+        public CategoriesController(
             ICategoryService categoryService)
         {
             _categoryService = categoryService;
