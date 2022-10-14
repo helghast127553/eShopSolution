@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import style from "./footer.module.scss";
 
