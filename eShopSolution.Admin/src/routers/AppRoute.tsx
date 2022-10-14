@@ -1,4 +1,4 @@
-import react, { FC } from "react";
+import { FC } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { PageURL } from "../models/enum";
 import Login from "../app/login";
@@ -24,33 +24,33 @@ const AppRoute: FC<Props> = (props: Props) => {
         />
         <Route
           element={
-            <PublicRoute>
+            <PrivateRoute>
               <Product />
-            </PublicRoute>
+            </PrivateRoute>
           }
           path={PageURL.ADMIN}
         />
         <Route
           element={
-            <PublicRoute>
+            <PrivateRoute>
               <Product />
-            </PublicRoute>
+            </PrivateRoute>
           }
           path={PageURL.ADMIN_PRODUCT}
         />
         <Route
           element={
-            <PublicRoute>
+            <PrivateRoute>
               <Category />
-            </PublicRoute>
+            </PrivateRoute>
           }
           path={PageURL.ADMIN_CATEGORY}
         />
         <Route
           element={
-            <PublicRoute>
+            <PrivateRoute>
               <User />
-            </PublicRoute>
+            </PrivateRoute>
           }
           path={PageURL.ADMIN_USER}
         />

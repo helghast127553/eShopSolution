@@ -42,7 +42,9 @@ namespace eShopSolution.BackendApi.Controllers
             {
                 return BadRequest(result);
             }
-            return Ok(new { access_token = result.ResultObj });
+
+            var data = new { access_token = result.ResultObj };
+            return Ok(new { data });
         }
 
         [HttpPost("auth/register")]
@@ -62,9 +64,13 @@ namespace eShopSolution.BackendApi.Controllers
         [Authorize]
         public async Task<IActionResult> GetUserInfo()
         {
-            return Ok(new { UserName = User.FindFirstValue(ClaimTypes.Name), 
-                Email = User.FindFirstValue(ClaimTypes.Email), 
-                Role = User.FindFirstValue(ClaimTypes.Role) });
+            var data = new
+            {
+                username = User.FindFirstValue(ClaimTypes.Name),
+                email = User.FindFirstValue(ClaimTypes.Email),
+                roles = User.FindFirstValue(ClaimTypes.Role)
+            };
+            return Ok(new { data });
         }
     }
 }

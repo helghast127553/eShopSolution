@@ -1,6 +1,4 @@
-import React, { FC, ReactElement, ReactNode } from "react";
-import { Route } from "react-router-dom";
-import { PageURL } from "../models/enum";
+import { FC, ReactElement } from "react";
 
 interface Props {
   children: ReactElement

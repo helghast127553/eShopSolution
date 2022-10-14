@@ -1,0 +1,85 @@
+@import "../../common/ui/assets/_mixins.scss";
+@import "../../common/ui/assets/_colors.scss";
+
+.templateLogin {
+  @include flex(center, center);
+  width: 100%;
+  min-height: 100vh;
+
+  background-color: $bg-white;
+
+  padding: 100px 0;
+
+  .login {
+    padding: 90px 75px;
+    width: 100%;
+    max-width: 600px;
+
+    border-radius: 30px;
+
+    background-color: $white;
+
+    .loginHeading {
+      font-size: 40px;
+      font-weight: bold;
+      text-align: center;
+
+      color: $dark-blue;
+
+      margin-bottom: 35px;
+    }
+
+    .loginForm {
+      .loginLabel {
+        display: inline-block;
+        margin-bottom: 10px;
+        
+        font-size: 16px;
+        font-weight: 500;
+
+        color: $shuttle-grey;
+
+        cursor: pointer;
+      }
+      .loginInput {
+        font-family: "Poppins", sans-serif;
+        font-size: 18px;
+
+        display: block;
+        width: 100%;
+        padding: 25px;
+    
+        background-color: $bg-white;
+
+        border-radius: 14px;
+        border: 0;
+        outline: none;
+
+        margin-bottom: 30px;
+      }
+      .signUpSubmit{
+        font-family: "Poppins", sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        text-align: center;
+
+        display: inline-block;
+        width: 100%;
+        padding: 25px;
+
+        background-color: rgb(130, 201, 30);
+        color: $white;
+        box-shadow: 0 5px 10px 0 rgba(130, 201, 30, 0.5);
+
+        margin-top: 25px;
+        margin-bottom: 25px;
+
+        border-radius: 14px;
+        border: 0;
+        outline: none;
+
+        cursor: pointer;
+      }
+    }
+  }
+}

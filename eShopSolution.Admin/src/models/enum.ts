@@ -18,10 +18,15 @@ export enum ButtonSize {
   SMALL,
 }
 
+export enum Roles {
+  ADMIN = "admin"
+}
+
 export enum ScopeKey {
   IS_AUTHENTICATED = "8Wo8lm11M2UBtWSfU3J7",
   IS_ADMIN = "OOzdFNC8Xb7KZrbEXQd9",
   LANG = "RlUJt971uBVOaBwMRTam",
+  
   AUTOMATE_AUTH = "tMQYihMUVfimkeb5hIKK",
   ACCESS_TOKEN = "5EsS8VCz8GELPSDaPQXP",
 }

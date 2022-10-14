@@ -1,6 +1,5 @@
-import React, { FC } from "react";
-import { Container, Image, Nav, Navbar } from "react-bootstrap";
-import MainLogo from "../../../assets/ic/logo.svg";
+import { FC } from "react";
+import { Container, Nav, Navbar } from "react-bootstrap";
 import style from "./header.module.scss";
 import { PageName } from "../../../../../models/enum";
 import PageShortcut from "../content/PageShortcut";
