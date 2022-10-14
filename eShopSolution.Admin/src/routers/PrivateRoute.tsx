@@ -1,4 +1,4 @@
-import React, { FC, ReactElement, ReactNode } from "react";
+import { FC, ReactElement } from "react";
 import Login from "../app/login";
 import { ScopeKey, ScopeValue } from "../models/enum";
 
@@ -8,14 +8,14 @@ interface Props {
 
 const PrivateRoute: FC<Props> = (props: Props) => {
   let isAuthenticated = localStorage.getItem(ScopeKey.IS_AUTHENTICATED);
+  let isAdmin = localStorage.getItem(ScopeKey.IS_ADMIN);
 
-  return (isAuthenticated as ScopeValue) === ScopeValue.TRUE ? (
+  return (isAdmin as ScopeValue) === ScopeValue.TRUE &&
+    (isAuthenticated as ScopeValue) === ScopeValue.TRUE ? (
     props.children
   ) : (
-    <Login/>
+    <Login />
   );
-
-  // return props.children;
 };
 
 export default PrivateRoute;
