@@ -7,5 +7,5 @@ export const doLogin = (loginData: LoginFormInputs): AxiosPromise<any> => {
 };
 
 export const getProfile = (): AxiosPromise<any> => {
-  return doGet("api/auth/user-info");
+  return doGet("api/auth/user-info/");
 };

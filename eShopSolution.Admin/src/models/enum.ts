@@ -5,7 +5,7 @@ export enum PageName {
 }
 
 export enum PageURL {
-  ADMIN = "/admin",
+  ADMIN = "/",
   ADMIN_LOGIN = "/admin/login",
   ADMIN_PRODUCT = "/admin/product",
   ADMIN_CATEGORY = "/admin/category",

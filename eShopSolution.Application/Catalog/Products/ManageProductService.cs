@@ -109,8 +109,8 @@ namespace eShopSolution.Application.Catalog.Products
             //3.Paging
             var totalRow = await query.CountAsync();
             var data = await query
-                .Skip((request.PageIndex - 1) * request.PageSize)
-                .Take(request.PageSize)
+                .Skip((request.PageIndex - 1) * request.PageSize.Value)
+                .Take(request.PageSize.Value)
                 .Select(x => new ProductViewModel
                 {
                     Id = x.p.Id,
@@ -129,7 +129,7 @@ namespace eShopSolution.Application.Catalog.Products
             //4. Select and projection
             var pagedResult = new PagedResult<ProductViewModel>
             {
-                TotalRecord = totalRow,
+                TotalRecords = totalRow,
                 items = data
             };
 
