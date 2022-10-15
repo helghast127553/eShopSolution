@@ -22,15 +22,7 @@ namespace eShopSolution.BackendApi.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        //http://localhost/api/users/paging?pageIndex=1&pageSize=10&keyword=
-        //[HttpGet("paging")]
-        //public async Task<IActionResult> GetAllPaging([FromQuery] GetUserPagingRequest request)
-        //{
-        //    var products = await _userService.GetUsersPaging(request);
-        //    return Ok(products);
-        //}
-
-        [HttpPost("auth/token")]
+        [HttpPost("auth/token/")]
         public async Task<IActionResult> Authenticate([FromBody] LoginRequest request)
         {
             if (!ModelState.IsValid)
@@ -47,7 +39,7 @@ namespace eShopSolution.BackendApi.Controllers
             return Ok(new { data });
         }
 
-        [HttpPost("auth/register")]
+        [HttpPost("auth/register/")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             if (!ModelState.IsValid)
@@ -60,7 +52,7 @@ namespace eShopSolution.BackendApi.Controllers
             return Ok(result);
         }
 
-        [HttpGet("auth/user-info")]
+        [HttpGet("auth/user-info/")]
         [Authorize]
         public async Task<IActionResult> GetUserInfo()
         {
@@ -70,6 +62,14 @@ namespace eShopSolution.BackendApi.Controllers
                 email = User.FindFirstValue(ClaimTypes.Email),
                 roles = User.FindFirstValue(ClaimTypes.Role)
             };
+            return Ok(new { data });
+        }
+
+        [HttpGet("auth/users/")]
+        [Authorize]
+        public async Task<IActionResult> GetUsers([FromQuery]GetUserPagingRequest request)
+        {
+            var data = await _userService.GetUsers(request);
             return Ok(new { data });
         }
     }

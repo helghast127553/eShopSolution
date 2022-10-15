@@ -117,5 +117,34 @@ namespace eShopSolution.Application.System
             }
             return new ApiErrorResult<bool>("Đăng ký không thành công");
         }
+
+        public async Task<ApiResult<PagedResult<UserViewModel>>> GetUsers(GetUserPagingRequest request)
+        {
+            var query = _userManager.Users;
+
+            int totalRow = await query.CountAsync();
+
+            var data = await query
+                .Skip((request.PageIndex - 1) * request.PageSize.Value)
+                .Take(request.PageSize.Value)
+                .Select(x => new UserViewModel
+                {
+                    Email = x.Email,
+                    PhoneNumber = x.PhoneNumber,
+                    UserName = x.UserName,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                }).ToListAsync();
+
+            var pagedResult = new PagedResult<UserViewModel> 
+            { 
+                TotalRecords = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize.Value,
+                items = data
+            };
+
+            return new ApiSuccessResult<PagedResult<UserViewModel>>(pagedResult);
+        }
     }
 }
