@@ -30,7 +30,7 @@ const Login: FC<Props> = (props: Props) => {
             const roles = res.data.roles;
             if (roles.includes(Roles.ADMIN)) {
               localStorage.setItem(ScopeKey.IS_ADMIN, ScopeValue.TRUE);
-              navigate(PageURL.ADMIN);
+              navigate(PageURL.ADMIN_PRODUCT);
             }
           })
           .catch((error) => console.log(error));
