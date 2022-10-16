@@ -60,15 +60,19 @@ namespace eShopSolution.Application.System
             return new JwtSecurityTokenHandler().WriteToken(tokenOptions); 
         }
 
-        private Claim[] GetClaims(AppUser user, string username, IList<string> roles) 
+        private IList<Claim> GetClaims(AppUser user, string username, IList<string> roles) 
         {
-            var claims = new[]
+            var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email,user.Email),
                 new Claim(ClaimTypes.GivenName,user.FirstName),
-                new Claim(ClaimTypes.Role, string.Join(";",roles)),
                 new Claim(ClaimTypes.Name, username),
             };
+
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
 
             return claims;
         }

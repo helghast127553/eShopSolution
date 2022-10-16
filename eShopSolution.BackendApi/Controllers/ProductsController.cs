@@ -2,6 +2,7 @@
 using eShopSolution.Data.Entities;
 using eShopSolution.ViewModels.Catalog.Products.Manage;
 using eShopSolution.ViewModels.Catalog.Products.Public;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eShopSolution.BackendApi.Controllers
@@ -48,6 +49,7 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         [HttpPost("/product/")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create([FromForm]ProductCreateRequest request)
         {
             var productId = await _manageProductService.Create(request);
@@ -62,6 +64,7 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         [HttpPut("/product/")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Update([FromForm] ProductUpdateRequest request)
         {
             var result = await _manageProductService.Update(request);
@@ -74,6 +77,7 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         [HttpDelete("product/{id}/")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var productId = await _manageProductService.Delete(id);

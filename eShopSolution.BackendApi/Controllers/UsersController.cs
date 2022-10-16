@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using eShopSolution.Utilities.Constants;
 
 namespace eShopSolution.BackendApi.Controllers
 {
@@ -53,14 +54,14 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         [HttpGet("auth/user-info/")]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public IActionResult GetUserInfo()
         {
             var data = new
             {
                 username = User.FindFirstValue(ClaimTypes.Name),
                 email = User.FindFirstValue(ClaimTypes.Email),
-                roles = User.FindFirstValue(ClaimTypes.Role)
+                roles = User.FindFirstValue(ClaimTypes.Role),
             };
             return Ok(new { data });
         }
