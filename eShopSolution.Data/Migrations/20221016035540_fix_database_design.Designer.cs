@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eShopSolution.Data.EF;
 
@@ -11,9 +12,10 @@ using eShopSolution.Data.EF;
 namespace eShopSolution.Data.Migrations
 {
     [DbContext(typeof(EShopDbContext))]
-    partial class EShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221016035540_fix_database_design")]
+    partial class fix_database_design
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,7 +66,7 @@ namespace eShopSolution.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "97215833-8846-4ce1-b2bf-d1fcb666d8ae",
+                            ConcurrencyStamp = "88dc07b2-728c-4c39-895c-39ee4d3eaedd",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -141,7 +143,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2f7262d7-7eda-4324-af4d-5c4b556b9b4f",
+                            ConcurrencyStamp = "6ba7e10d-6240-4b6e-9010-2262c038d07b",
                             Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tedu.international@gmail.com",
                             EmailConfirmed = true,
@@ -150,7 +152,7 @@ namespace eShopSolution.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "tedu.international@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOLZDWZtcIflEbPzC/EI2AM0Dg0GM/4VeUXfqhud3JCWeWhK+dA90vMkPfL8093SJA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENjDq+gtMEVo3j9EccRPSey3ZYo1QvNiBVB1dctdOA2lLZzLN+ZBLYi3GwZnRNyi1Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -200,7 +202,7 @@ namespace eShopSolution.Data.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("ntext");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -330,7 +332,7 @@ namespace eShopSolution.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -392,53 +394,6 @@ namespace eShopSolution.Data.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductImages", (string)null);
-                });
-
-            modelBuilder.Entity("eShopSolution.Data.Entities.ProductInCategory", b =>
-                {
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoryId", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductInCategories", (string)null);
-                });
-
-            modelBuilder.Entity("eShopSolution.Data.Entities.ProductRating", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<float>("Rating")
-                        .HasColumnType("real");
-
-                    b.Property<string>("Review")
-                        .HasColumnType("ntext");
-
-                    b.Property<DateTime>("Time_Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ProductRating", (string)null);
                 });
 
             modelBuilder.Entity("eShopSolution.Data.Entities.Promotion", b =>
@@ -685,9 +640,13 @@ namespace eShopSolution.Data.Migrations
 
             modelBuilder.Entity("eShopSolution.Data.Entities.Product", b =>
                 {
-                    b.HasOne("eShopSolution.Data.Entities.Category", null)
+                    b.HasOne("eShopSolution.Data.Entities.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("eShopSolution.Data.Entities.ProductImage", b =>
@@ -697,44 +656,6 @@ namespace eShopSolution.Data.Migrations
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("eShopSolution.Data.Entities.ProductInCategory", b =>
-                {
-                    b.HasOne("eShopSolution.Data.Entities.Category", "Category")
-                        .WithMany("ProductInCategories")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eShopSolution.Data.Entities.Product", "Product")
-                        .WithMany("ProductInCategories")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("eShopSolution.Data.Entities.ProductRating", b =>
-                {
-                    b.HasOne("eShopSolution.Data.Entities.Product", "Product")
-                        .WithMany("ProductRatings")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("eShopSolution.Data.Entities.AppUser", "AppUser")
-                        .WithMany("ProductRatings")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AppUser");
 
                     b.Navigation("Product");
                 });
@@ -756,15 +677,11 @@ namespace eShopSolution.Data.Migrations
 
                     b.Navigation("Orders");
 
-                    b.Navigation("ProductRatings");
-
                     b.Navigation("Transactions");
                 });
 
             modelBuilder.Entity("eShopSolution.Data.Entities.Category", b =>
                 {
-                    b.Navigation("ProductInCategories");
-
                     b.Navigation("Products");
                 });
 
@@ -780,10 +697,6 @@ namespace eShopSolution.Data.Migrations
                     b.Navigation("OrderDetails");
 
                     b.Navigation("ProductImages");
-
-                    b.Navigation("ProductInCategories");
-
-                    b.Navigation("ProductRatings");
                 });
 #pragma warning restore 612, 618
         }

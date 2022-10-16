@@ -20,6 +20,6 @@ namespace eShopSolution.Application.Catalog.Products
 
         Task<ProductViewModel> GetById(int productId);
 
-        Task<PagedResult<ProductViewModel>> GetAllPaging(GetManageProductPagingRequest request);
+        Task<ApiResult<PagedResult<ProductViewModel>>> GetAllPaging(GetManageProductPagingRequest request);
     }
 }

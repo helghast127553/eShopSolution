@@ -1,12 +1,13 @@
-﻿using System;
+﻿using eShopSolution.ViewModels.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eShopSolution.ViewModels.Catalog.Categories
+namespace eShopSolution.ViewModels.Catalog.Categories.Manage
 {
-    public class CategoryViewModel
+    public class CategoryUpdateRequest: PagingRequestBase
     {
         public int Id { get; set; }
 
@@ -14,7 +15,7 @@ namespace eShopSolution.ViewModels.Catalog.Categories
 
         public string Description { get; set; }
 
-        public DateTime? Time_Created { get; set; }
+        public int? ParentId { get; set; }
 
         public DateTime? Time_Updated { get; set; }
     }

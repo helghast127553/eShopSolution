@@ -10,27 +10,17 @@ namespace eShopSolution.ViewModels.Catalog.Products
     {
         public int Id { get; set; }
 
-        public decimal Price { get; set; }
-
-        public decimal OriginalPrice { get; set; }
-
-        public int Stock { get; set; }
-
-        public int ViewCount { get; set; }
-
-        public DateTime DateCreated { get; set; }
-
         public string Name { set; get; }
+
+        public string CategoryName { set; get; }
 
         public string Description { set; get; }
 
-        public string Details { set; get; }
+        public decimal Price { get; set; }
 
-        public string SeoDescription { set; get; }
+        public DateTime Time_Created { get; set; }
 
-        public string SeoTitle { set; get; }
-
-        public string SeoAlias { get; set; }
+        public DateTime Time_Updated { get; set; }
 
         public string ImageUrl { get; set; }
     }

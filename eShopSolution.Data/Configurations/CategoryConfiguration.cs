@@ -21,14 +21,6 @@ namespace eShopSolution.Data.Configurations
             builder.Property(x => x.Id).UseIdentityColumn();
 
             builder.Property(x => x.Name).IsRequired().HasMaxLength(200);
-
-            builder.Property(x => x.Description).HasColumnType("ntext");
-
-            builder.Property(x => x.SeoAlias).HasMaxLength(200).IsRequired(false);
-
-            builder.Property(x => x.SeoDescription).HasColumnType("ntext").IsRequired(false);
-
-            builder.Property(x => x.SeoTitle).HasMaxLength(200).IsRequired(false);
         }
     }
 }

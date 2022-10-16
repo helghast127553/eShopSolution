@@ -24,25 +24,18 @@ namespace eShopSolution.Application.Catalog.Products
         public async Task<IList<ProductViewModel>> GetAll()
         {
             var query = from p in _dbContext.Products
-                        join c in _dbContext.Categories on p.CategoryId equals c.Id
                         join i in _dbContext.ProductImages on p.Id equals i.ProductId
                         select new { p, i };
 
             var data = await query.Select(x => new ProductViewModel()
             {
                 Id = x.p.Id,
+                ImageUrl = $"https://localhost:7064/image/{x.i.ImagePath}",
                 Name = x.p.Name,
-                DateCreated = x.p.DateCreated.Value,
                 Description = x.p.Description,
-                Details = x.p.Details,
-                OriginalPrice = x.p.OriginalPrice,
                 Price = x.p.Price,
-                SeoAlias = x.p.SeoAlias,
-                SeoDescription = x.p.SeoDescription,
-                SeoTitle = x.p.SeoTitle,
-                Stock = x.p.Stock,
-                ViewCount = x.p.ViewCount,
-                ImageUrl = $"https://localhost:7064/image/{x.i.ImagePath}"
+                Time_Created = x.p.Time_Created.Value,
+                Time_Updated = x.p.Time_Updated.Value
             }).ToListAsync();
 
             return data;
@@ -52,13 +45,14 @@ namespace eShopSolution.Application.Catalog.Products
         {
             //1.select join
             var query = from p in _dbContext.Products
-                        join c in _dbContext.Categories on p.CategoryId equals c.Id
-                        select new { p };
+                        join pic in _dbContext.ProductInCategories on p.Id equals pic.ProductId
+                        join i in _dbContext.ProductImages on p.Id equals i.ProductId
+                        select new { p, i, pic };
 
             //2.filter
-            if (request.CategoryId.HasValue && request.CategoryId.Value > 0)
+            if (request.CategoryId != null && request.CategoryId != 0)
             {
-                query = query.Where(p => p.p.CategoryId == request.CategoryId);
+                query = query.Where(p => p.pic.CategoryId == request.CategoryId);
             }
 
             //3.Paging
@@ -70,17 +64,10 @@ namespace eShopSolution.Application.Catalog.Products
                 .Select(x => new ProductViewModel
                 {
                     Id = x.p.Id,
+                    ImageUrl = $"https://localhost:7064/image/{x.i.ImagePath}",
                     Name = x.p.Name,
-                    DateCreated = x.p.DateCreated.Value,
                     Description = x.p.Description,
-                    Details = x.p.Details,
-                    OriginalPrice = x.p.OriginalPrice,
                     Price = x.p.Price,
-                    SeoAlias = x.p.SeoAlias,
-                    SeoDescription = x.p.SeoDescription,
-                    SeoTitle = x.p.SeoTitle,
-                    Stock = x.p.Stock,
-                    ViewCount = x.p.ViewCount
                 }).ToListAsync();
 
             //4. Select and projection

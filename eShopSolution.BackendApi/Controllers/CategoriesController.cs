@@ -1,4 +1,4 @@
-﻿using eShopSolution.Application.Catalog.Category;
+﻿using eShopSolution.Application.Catalog.Categories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eShopSolution.BackendApi.Controllers
@@ -7,10 +7,10 @@ namespace eShopSolution.BackendApi.Controllers
     [ApiController]
     public class CategoriesController:ControllerBase
     {
-        private readonly ICategoryService _categoryService;
+        private readonly IPublicCategoryService _categoryService;
 
         public CategoriesController(
-            ICategoryService categoryService)
+            IPublicCategoryService categoryService)
         {
             _categoryService = categoryService;
         }

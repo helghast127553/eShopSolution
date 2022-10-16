@@ -54,7 +54,7 @@ namespace eShopSolution.BackendApi.Controllers
 
         [HttpGet("auth/user-info/")]
         [Authorize]
-        public async Task<IActionResult> GetUserInfo()
+        public IActionResult GetUserInfo()
         {
             var data = new
             {

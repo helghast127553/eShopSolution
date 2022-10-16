@@ -13,19 +13,15 @@ namespace eShopSolution.Data.Entities
 
         public string Name { get; set; }
 
-        public string? SeoDescription { set; get; }
-
-        public string? SeoTitle { set; get; }
-
-        public string? SeoAlias { set; get; }
-
         public string Description { get; set; }
 
-        public DateTime? DateCreated { get; set; }
+        public DateTime? Time_Created { get; set; }
 
-        public DateTime? UpdatedAt { get; set; }
+        public DateTime? Time_Updated { get; set; }
 
         public int? ParentId { get; set; }
+
+        public List<ProductInCategory> ProductInCategories { get; set; }
 
         public List<Product> Products { get; set; }
     }

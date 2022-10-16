@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
 using eShopSolution.Application.Common;
 using eShopSolution.ViewModels.Catalog.Products.Public;
+using eShopSolution.ViewModels.System.Users;
+using System.Security.Cryptography;
 
 namespace eShopSolution.Application.Catalog.Products
 {
@@ -33,17 +35,13 @@ namespace eShopSolution.Application.Catalog.Products
             var product = new Product
             {
                 Price = request.Price,
-                OriginalPrice = request.OriginalPrice,
-                Stock = request.Stock,
-                ViewCount = 0,
-                DateCreated = DateTime.Now,
+                Time_Created = DateTime.Now,
                 Name = request.Name,
                 Description = request.Description,
-                Details = request.Details,
-                SeoDescription = request.SeoDescription,
-                SeoAlias = request.SeoAlias,
-                SeoTitle = request.SeoTitle,
-                CategoryId = request.CategoryId
+                ProductInCategories = new List<ProductInCategory>
+                {
+                    new ProductInCategory { CategoryId = request.CategoryId }
+                }
             };
 
             if (request.ThumbnailImage != null)
@@ -52,17 +50,17 @@ namespace eShopSolution.Application.Catalog.Products
                 {
                     new ProductImage
                     {
-                        Caption = request.Name,
-                        DateCreated = DateTime.Now,
+
                         ImageFileSize = request.ThumbnailImage.Length,
                         ImagePath = await this.SaveFile(request.ThumbnailImage),
-                        IsDefault = true,
-                        SortOrder = 1
+                        Caption = request.Name,
+                        Time_Created = DateTime.Now,
                     }
                 };
             }
 
             _dbContext.Products.Add(product);
+          
             await _dbContext.SaveChangesAsync();
             return product.Id;
         }
@@ -88,23 +86,13 @@ namespace eShopSolution.Application.Catalog.Products
             return await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<PagedResult<ProductViewModel>> GetAllPaging(GetManageProductPagingRequest request)
+        public async Task<ApiResult<PagedResult<ProductViewModel>>> GetAllPaging(GetManageProductPagingRequest request)
         {
             //1.select join
             var query = from p in _dbContext.Products
-                        join c in _dbContext.Categories on p.CategoryId equals c.Id
-                        select new { p };
-
-            //2.filter
-            if (!string.IsNullOrEmpty(request.Keyword))
-            {
-                query = query.Where(x => x.p.Name.Contains(request.Keyword));
-            }
-
-            if (request.CategoryIds.Count > 0)
-            {
-                query = query.Where(p => request.CategoryIds.Contains(p.p.CategoryId));
-            }
+                        join pic in _dbContext.ProductInCategories on p.Id equals pic.ProductId
+                        join c in _dbContext.Categories on pic.CategoryId equals c.Id
+                        select new { p, pic, c };
 
             //3.Paging
             var totalRow = await query.CountAsync();
@@ -115,25 +103,23 @@ namespace eShopSolution.Application.Catalog.Products
                 {
                     Id = x.p.Id,
                     Name = x.p.Name,
+                    CategoryName = x.c.Name,
                     Description = x.p.Description,
-                    Details = x.p.Details,
-                    OriginalPrice = x.p.OriginalPrice,
-                    Price = x.p.Price,  
-                    SeoAlias = x.p.SeoAlias,
-                    SeoDescription = x.p.SeoDescription,
-                    SeoTitle = x.p.SeoTitle,
-                    Stock = x.p.Stock,
-                    ViewCount = x.p.ViewCount
+                    Price = x.p.Price,
+                    Time_Created = x.p.Time_Created.Value,
+                    Time_Updated = x.p.Time_Updated.Value
                 }).ToListAsync();
 
             //4. Select and projection
             var pagedResult = new PagedResult<ProductViewModel>
             {
                 TotalRecords = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize.Value,
                 items = data
             };
 
-            return pagedResult;
+            return new ApiSuccessResult<PagedResult<ProductViewModel>>(pagedResult);
         }
 
 
@@ -144,16 +130,9 @@ namespace eShopSolution.Application.Catalog.Products
             var productViewModel = new ProductViewModel 
             {
                 Id = product.Id,
-                Description = product != null ? product.Description : null,
-                Details = product != null ? product.Details : null,
-                Name = product != null ? product.Name : null,
-                OriginalPrice = product.OriginalPrice,
+                Description = product.Description,
+                Name = product.Name,
                 Price = product.Price,
-                SeoAlias = product != null ? product.SeoAlias : null,
-                SeoDescription = product != null ? product.SeoDescription : null,
-                SeoTitle = product != null ? product.SeoTitle : null,
-                Stock = product.Stock,
-                ViewCount = product.ViewCount
             };
 
             return productViewModel;
@@ -169,27 +148,27 @@ namespace eShopSolution.Application.Catalog.Products
             }
 
             product.Name = request.Name;
-            product.OriginalPrice = request.OriginalPrice;
             product.Price = request.Price;
-            product.SeoAlias = request.SeoAlias;
-            product.SeoDescription = request.SeoDescription;
-            product.SeoTitle = request.SeoTitle;
             product.Description = request.Description;
-            product.Details = request.Details;
+            product.Time_Updated = DateTime.Now;
 
             if (request.ThumbnailImage != null)
             {
                 var thumbnailImage = await _dbContext.ProductImages
-                    .FirstOrDefaultAsync(i => i.IsDefault == true && i.ProductId == request.Id);
+                    .FirstOrDefaultAsync(i => i.ProductId == request.Id);
 
                 if (thumbnailImage != null)
                 {
                     thumbnailImage.ImageFileSize = request.ThumbnailImage.Length;
                     thumbnailImage.ImagePath = await this.SaveFile(request.ThumbnailImage);
                     thumbnailImage.Caption = request.Name;
+                    thumbnailImage.Time_Updated = DateTime.Now;
                     _dbContext.ProductImages.Update(thumbnailImage);
                 }
             }
+
+            var productInCategories = _dbContext.ProductInCategories.SingleOrDefault(x => x.ProductId == request.Id);
+            productInCategories.CategoryId = request.CategoryId;
 
             return await _dbContext.SaveChangesAsync();
         }

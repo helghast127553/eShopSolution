@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace eShopSolution.BackendApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     [ApiController]
     public class ProductsController: ControllerBase
     {
@@ -28,7 +28,7 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         //http://localhost:port/product/public-paging
-        [HttpGet("public-paging")]
+        [HttpGet("/public-paging/")]
         public async Task<IActionResult> Get([FromQuery]GetPublicProductPagingRequest request)
         {
             var products = await _publicProductService.GetAllByCategoryId(request);
@@ -36,7 +36,7 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         //http://localhost:port/product/:id
-        [HttpGet("{id}")]
+        [HttpGet("product/{id}/")]
         public async Task<IActionResult> GetById(int productId)
         {
             var product = await _manageProductService.GetById(productId);
@@ -47,7 +47,7 @@ namespace eShopSolution.BackendApi.Controllers
             return Ok(product);
         }
 
-        [HttpPost]
+        [HttpPost("/product/")]
         public async Task<IActionResult> Create([FromForm]ProductCreateRequest request)
         {
             var productId = await _manageProductService.Create(request);
@@ -61,7 +61,7 @@ namespace eShopSolution.BackendApi.Controllers
             return CreatedAtAction(nameof(GetById), new { id = productId }, product);
         }
 
-        [HttpPut]
+        [HttpPut("/product/")]
         public async Task<IActionResult> Update([FromForm] ProductUpdateRequest request)
         {
             var result = await _manageProductService.Update(request);
@@ -73,7 +73,7 @@ namespace eShopSolution.BackendApi.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("product/{id}/")]
         public async Task<IActionResult> Delete(int id)
         {
             var productId = await _manageProductService.Delete(id);
