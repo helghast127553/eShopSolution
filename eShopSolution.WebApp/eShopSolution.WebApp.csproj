@@ -6,4 +6,15 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\image\catalog\themevolty\advanceblock\" />
+    <Folder Include="wwwroot\image\catalog\themevolty\applicationphoto\" />
+    <Folder Include="wwwroot\image\catalog\themevolty\customerservices\" />
+    <Folder Include="wwwroot\image\catalog\themevolty\customsetting\" />
+    <Folder Include="wwwroot\image\catalog\themevolty\footerlogo\" />
+    <Folder Include="wwwroot\image\catalog\themevolty\leftbanner\" />
+    <Folder Include="wwwroot\image\catalog\themevolty\singleblock\" />
+    <Folder Include="wwwroot\image\catalog\themevolty\twobannar\" />
+  </ItemGroup>
+
 </Project>
