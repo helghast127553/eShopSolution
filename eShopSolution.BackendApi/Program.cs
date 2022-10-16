@@ -1,4 +1,4 @@
-using eShopSolution.Application.Catalog.Category;
+using eShopSolution.Application.Catalog.Categories;
 using eShopSolution.Application.Catalog.Products;
 using eShopSolution.Application.Common;
 using eShopSolution.Application.System;
@@ -32,7 +32,7 @@ builder.Services.AddTransient<IStorageService, FileStorageService>();
 
 builder.Services.AddTransient<IPublicProductService, PublicProductService>();
 builder.Services.AddTransient<IManageProductService, ManageProductService>();
-builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddTransient<IPublicCategoryService, PublicCategoryService>();
 
 builder.Services.AddTransient<IUserService, UserService>();
 

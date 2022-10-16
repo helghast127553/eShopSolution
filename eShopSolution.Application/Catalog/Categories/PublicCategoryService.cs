@@ -8,13 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eShopSolution.Application.Catalog.Category
+namespace eShopSolution.Application.Catalog.Categories
 {
-    public class CategoryService : ICategoryService
+    public class PublicCategoryService : IPublicCategoryService
     {
         private readonly EShopDbContext _context;
 
-        public CategoryService(EShopDbContext context)
+        public PublicCategoryService(EShopDbContext context)
         {
             _context = context;
         }

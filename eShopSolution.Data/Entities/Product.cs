@@ -15,25 +15,11 @@ namespace eShopSolution.Data.Entities
 
         public string Description { set; get; }
 
-        public string? Details { set; get; }
-
-        public string? SeoDescription { set; get; }
-
-        public string? SeoTitle { set; get; }
-
-        public string? SeoAlias { get; set; }
-
         public decimal Price { get; set; }
 
-        public decimal OriginalPrice { get; set; }
+        public DateTime? Time_Created { get; set; }
 
-        public int Stock { get; set; }
-
-        public int ViewCount { get; set; }
-
-        public DateTime? DateCreated { get; set; }
-
-        public DateTime? UpdatedAt { get; set; }
+        public DateTime? Time_Updated { get; set; }
 
         public List<OrderDetail> OrderDetails { get; set; }
 
@@ -41,8 +27,8 @@ namespace eShopSolution.Data.Entities
 
         public List<ProductImage> ProductImages { get; set; }
 
-        public int CategoryId { get; set; }
+        public List<ProductRating> ProductRatings { get; set; }
 
-        public Category Category { get; set; }
+        public List<ProductInCategory> ProductInCategories { get; set; }
     }
 }

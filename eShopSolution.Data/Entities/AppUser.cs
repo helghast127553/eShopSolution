@@ -19,6 +19,8 @@ namespace eShopSolution.Data.Entities
 
         public List<Order> Orders { get; set; }
 
+        public List<ProductRating> ProductRatings { get; set; }
+
         public List<Transaction> Transactions { get; set; }
     }
 }

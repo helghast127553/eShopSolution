@@ -9,23 +9,11 @@ namespace eShopSolution.ViewModels.Catalog.Products.Manage
 {
     public class ProductCreateRequest
     {
-        public decimal Price { get; set; }
-
-        public decimal OriginalPrice { get; set; }
-
-        public int Stock { get; set; }
-
         public string Name { set; get; }
 
+        public decimal Price { get; set; }
+
         public string Description { set; get; }
-
-        public string Details { set; get; }
-
-        public string SeoDescription { set; get; }
-
-        public string SeoTitle { set; get; }
-
-        public string SeoAlias { get; set; }
 
         public int CategoryId { get; set; }
 
