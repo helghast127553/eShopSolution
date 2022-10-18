@@ -9,8 +9,6 @@ namespace eShopSolution.ViewModels.Catalog.Categories.Manage
 {
     public class CategoryUpdateRequest: PagingRequestBase
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
         public string Description { get; set; }

@@ -21,7 +21,7 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         //http://localhost:port/product
-        [HttpGet()]
+        [HttpGet("product/")]
         public async Task<IActionResult> Get()
         {
             var products = await _publicProductService.GetAll();
@@ -29,7 +29,7 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         //http://localhost:port/product/public-paging
-        [HttpGet("/public-paging/")]
+        [HttpGet("public-paging/")]
         public async Task<IActionResult> Get([FromQuery]GetPublicProductPagingRequest request)
         {
             var products = await _publicProductService.GetAllByCategoryId(request);
@@ -48,26 +48,35 @@ namespace eShopSolution.BackendApi.Controllers
             return Ok(product);
         }
 
-        [HttpPost("/product/")]
+
+        [HttpGet("manage/product/")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> Get([FromQuery] GetManageProductPagingRequest request)
+        {
+            var data = await _manageProductService.GetAllPaging(request); ;
+            return Ok(new { data });
+        }
+
+        [HttpPost("product/")]
+        [Consumes("multipart/form-data")]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create([FromForm]ProductCreateRequest request)
         {
-            var productId = await _manageProductService.Create(request);
-            if (productId == 0)
+            var result = await _manageProductService.Create(request);
+            if (result == 0)
             {
                 return BadRequest();
             }
 
-            var product = await _manageProductService.GetById(productId);
-
-            return CreatedAtAction(nameof(GetById), new { id = productId }, product);
+            return Ok();
         }
 
-        [HttpPut("/product/")]
+        [HttpPut("product/{id}")]
+        [Consumes("multipart/form-data")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Update([FromForm] ProductUpdateRequest request)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromForm] ProductUpdateRequest request)
         {
-            var result = await _manageProductService.Update(request);
+            var result = await _manageProductService.Update(id, request);
             if (result == 0)
             {
                 return BadRequest();

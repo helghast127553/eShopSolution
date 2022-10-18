@@ -18,9 +18,9 @@ namespace eShopSolution.ViewModels.Catalog.Products
 
         public decimal Price { get; set; }
 
-        public DateTime Time_Created { get; set; }
+        public DateTime? Time_Created { get; set; }
 
-        public DateTime Time_Updated { get; set; }
+        public DateTime? Time_Updated { get; set; }
 
         public string ImageUrl { get; set; }
     }

@@ -12,10 +12,7 @@ const Footer: FC<Props> = (props: Props) => {
           <Col
             className={`${style.bottomRow} d-flex justify-content-center align-items-center`}
           >
-            © TMA Solutions 2020 All Rights Reserved
-            {process.env.REACT_APP_BUILD_NUMBER
-              ? ` - BUILD:${process.env.REACT_APP_BUILD_NUMBER}`
-              : null}
+            2020 All Rights Reserved
           </Col>
         </Row>
       </Container>

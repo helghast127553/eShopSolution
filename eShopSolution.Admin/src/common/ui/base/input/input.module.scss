@@ -1,0 +1,44 @@
+@import "../../assets/colors.scss";
+@import "../../assets";
+
+.inputContainer {
+  display: inline-block;
+  padding: 8px;
+  border: 1px solid $textbox-border;
+  background: $white;
+  @extend input;
+  color: $dark;
+  border-radius: 2px;
+  width: 100%;
+
+  &:focus {
+    border: 1px solid $primary;
+    background: $white;
+    outline: none;
+  }
+
+  &::placeholder {
+    color: $text-disable;
+  }
+
+  &.disable {
+    border: 1px solid $textbox-border;
+    background: $bg-textbox !important;
+    color: $text-disable;
+  }
+}
+
+.valueContainer {
+  padding: 8px;
+  background: $white;
+  border: 1px solid $textbox-border;
+  border-radius: 2px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.disabled {
+  background: $bg-textbox;
+}

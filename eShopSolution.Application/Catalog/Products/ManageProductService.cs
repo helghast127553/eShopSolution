@@ -61,20 +61,19 @@ namespace eShopSolution.Application.Catalog.Products
 
             _dbContext.Products.Add(product);
           
-            await _dbContext.SaveChangesAsync();
-            return product.Id;
+            return await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<int> Delete(int productId)
+        public async Task<int> Delete(int id)
         {
-            var product = await _dbContext.Products.FindAsync(productId);
+            var product = await _dbContext.Products.FindAsync(id);
 
             if (product == null)
             {
-                throw new EShopException($"Cannot find a product: {productId}");
+                throw new EShopException($"Cannot find a product: {id}");
             }
 
-            var images = _dbContext.ProductImages.Where(x => x.ProductId == productId);
+            var images = _dbContext.ProductImages.Where(x => x.ProductId == id);
 
             foreach (var image in images)
             {
@@ -92,9 +91,10 @@ namespace eShopSolution.Application.Catalog.Products
             var query = from p in _dbContext.Products
                         join pic in _dbContext.ProductInCategories on p.Id equals pic.ProductId
                         join c in _dbContext.Categories on pic.CategoryId equals c.Id
-                        select new { p, pic, c };
+                        join pi in _dbContext.ProductImages on p.Id equals pi.ProductId
+                        select new { p, pic, c, pi };
 
-            //3.Paging
+            //2.Paging
             var totalRow = await query.CountAsync();
             var data = await query
                 .Skip((request.PageIndex - 1) * request.PageSize.Value)
@@ -106,11 +106,12 @@ namespace eShopSolution.Application.Catalog.Products
                     CategoryName = x.c.Name,
                     Description = x.p.Description,
                     Price = x.p.Price,
-                    Time_Created = x.p.Time_Created.Value,
-                    Time_Updated = x.p.Time_Updated.Value
+                    ImageUrl = $"https://localhost:7064/image/{x.pi.ImagePath}",
+                    Time_Created = x.p.Time_Created != null ? x.p.Time_Created.Value : null,
+                    Time_Updated = x.p.Time_Updated != null ? x.p.Time_Updated.Value : null
                 }).ToListAsync();
 
-            //4. Select and projection
+            //3. Select and projection
             var pagedResult = new PagedResult<ProductViewModel>
             {
                 TotalRecords = totalRow,
@@ -138,13 +139,13 @@ namespace eShopSolution.Application.Catalog.Products
             return productViewModel;
         }
 
-        public async Task<int> Update(ProductUpdateRequest request)
+        public async Task<int> Update(int id, ProductUpdateRequest request)
         {
-            var product = await _dbContext.Products.FindAsync(request.Id);
+            var product = await _dbContext.Products.FindAsync(id);
 
             if (product == null)
             {
-                throw new EShopException($"Cannot find a product with id: {request.Id}");
+                throw new EShopException($"Cannot find a product with id: {id}");
             }
 
             product.Name = request.Name;
@@ -155,7 +156,7 @@ namespace eShopSolution.Application.Catalog.Products
             if (request.ThumbnailImage != null)
             {
                 var thumbnailImage = await _dbContext.ProductImages
-                    .FirstOrDefaultAsync(i => i.ProductId == request.Id);
+                    .FirstOrDefaultAsync(i => i.ProductId == id);
 
                 if (thumbnailImage != null)
                 {
@@ -167,7 +168,7 @@ namespace eShopSolution.Application.Catalog.Products
                 }
             }
 
-            var productInCategories = _dbContext.ProductInCategories.SingleOrDefault(x => x.ProductId == request.Id);
+            var productInCategories = _dbContext.ProductInCategories.SingleOrDefault(x => x.ProductId == id);
             productInCategories.CategoryId = request.CategoryId;
 
             return await _dbContext.SaveChangesAsync();

@@ -15,12 +15,12 @@ namespace eShopSolution.Application.Catalog.Categories
     {
         Task<int> Create(CategoryCreateRequest request);
 
-        Task<int> Update(CategoryUpdateRequest request);
+        Task<int> Update(int id, CategoryUpdateRequest request);
 
         Task<int> Delete(int productId);
 
         Task<CategoryViewModel> GetById(int productId);
 
-        Task<ApiResult<PagedResult<CategoryViewModel>>> GetAllPaging(GetCategoryManagePagingRequest request);
+        Task<ApiResult<PagedResult<CategoryViewModel>>> GetAllCategoryPaging(GetCategoryManagePagingRequest request);
     }
 }

@@ -4,9 +4,9 @@ import { PageURL } from "../models/enum";
 import Login from "../app/login";
 import PublicRoute from "./PublicRoute";
 import PrivateRoute from "./PrivateRoute";
-import Product from "../app/product/product";
-import Category from "../app/category/category";
-import User from "../app/user/user";
+import Product from "../app/product";
+import Category from "../app/category";
+import User from "../app/user";
 
 interface Props {}
 

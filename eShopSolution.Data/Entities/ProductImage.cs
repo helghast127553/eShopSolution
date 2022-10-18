@@ -16,9 +16,9 @@ namespace eShopSolution.Data.Entities
 
         public string Caption { get; set; }
 
-        public DateTime Time_Created { get; set; }
+        public DateTime? Time_Created { get; set; }
 
-        public DateTime Time_Updated { get; set; }
+        public DateTime? Time_Updated { get; set; }
 
         public long ImageFileSize { get; set; }
 
