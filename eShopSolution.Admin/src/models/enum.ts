@@ -39,3 +39,10 @@ export enum ScopeValue {
   AUTOMATE = "dHJ1ZQ==",
   NO_AUTOMATE = "ZmFsc2U=",
 }
+
+export enum FormAction {
+  CREATE = "create",
+  UPDATE = "update",
+  DELETE = "delete",
+}
+

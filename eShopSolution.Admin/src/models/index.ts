@@ -28,3 +28,23 @@ export interface UserProfile {
   firstName: string;
   lastName: string;
 }
+
+export interface ProductData {
+  id: number;
+  name: string;
+  categoryName: string;
+  description: string;
+  price: string;
+  imageUrl: string;
+  time_Created: string;
+  time_Updated: string;
+}
+
+export interface CategoryData {
+  id: number;
+  name: string;
+  description: string;
+  time_Created: string;
+  time_Updated: string;
+}
+

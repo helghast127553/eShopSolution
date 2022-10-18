@@ -59,10 +59,10 @@ const Login: FC<Props> = (props: Props) => {
             <input
               autoComplete="off"
               type="text"
-              id="username"
+              name="username"
               className={style.loginInput}
               placeholder="Eg: helghast127553"
-              {...register("username", { required: true })}
+              ref={register({})}
             />
           </Form.Group>
           <Form.Group>
@@ -75,9 +75,9 @@ const Login: FC<Props> = (props: Props) => {
             <input
               autoComplete="off"
               type="password"
-              id="password"
+              name="password"
               className={style.loginInput}
-              {...register("password", { required: true })}
+              ref={register({})}
             />
           </Form.Group>
           <div className={style.btnGroups}>

@@ -14,9 +14,9 @@ namespace eShopSolution.Application.Catalog.Products
     {
         Task<int> Create(ProductCreateRequest request);
 
-        Task<int> Update(ProductUpdateRequest request);
+        Task<int> Update(int id, ProductUpdateRequest request);
 
-        Task<int> Delete(int productId);
+        Task<int> Delete(int id);
 
         Task<ProductViewModel> GetById(int productId);
 

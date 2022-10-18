@@ -6,6 +6,8 @@ using eShopSolution.ViewModels.Catalog.Categories;
 using eShopSolution.ViewModels.Catalog.Categories.Manage;
 using eShopSolution.ViewModels.Catalog.Products;
 using eShopSolution.ViewModels.Common;
+using eShopSolution.ViewModels.System.Users;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -53,9 +55,33 @@ namespace eShopSolution.Application.Catalog.Categories
             return await _dbContext.SaveChangesAsync();
         }
 
-        public Task<ApiResult<PagedResult<CategoryViewModel>>> GetAllPaging(GetCategoryManagePagingRequest request)
+        public async Task<ApiResult<PagedResult<CategoryViewModel>>> GetAllCategoryPaging(GetCategoryManagePagingRequest request)
         {
-            throw new NotImplementedException();
+            var query = _dbContext.Categories;
+
+            int totalRow = await query.CountAsync();
+
+            var data = await query
+                .Skip((request.PageIndex - 1) * request.PageSize.Value)
+                .Take(request.PageSize.Value)
+                .Select(x => new CategoryViewModel
+                {
+                   Id = x.Id,
+                   Name = x.Name,
+                   Description = x.Description,
+                   Time_Created = x.Time_Created,
+                   Time_Updated = x.Time_Updated,
+                }).ToListAsync();
+
+            var pagedResult = new PagedResult<CategoryViewModel>
+            {
+                TotalRecords = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize.Value,
+                items = data
+            };
+
+            return new ApiSuccessResult<PagedResult<CategoryViewModel>>(pagedResult);
         }
 
         public async Task<CategoryViewModel> GetById(int categoryId)
@@ -72,13 +98,13 @@ namespace eShopSolution.Application.Catalog.Categories
             return categoryViewModel;
         }
 
-        public async Task<int> Update(CategoryUpdateRequest request)
+        public async Task<int> Update(int id, CategoryUpdateRequest request)
         {
-            var category = await _dbContext.Categories.FindAsync(request.Id);
+            var category = await _dbContext.Categories.FindAsync(id);
 
             if (category == null)
             {
-                throw new EShopException($"Cannot find a category with id: {request.Id}");
+                throw new EShopException($"Cannot find a category with id: {id}");
             }
 
             category.Name = request.Name;

@@ -23,7 +23,6 @@ const User: FC<Props> = (props: Props) => {
   const getUsers = (PageIndex: number): void => {
     doGetUsers(PageIndex)
       .then((response) => {
-        console.log(response);
         const data: APIResponse<UserProfile> = response.data;
         setUserProfiles(data.resultObj.items);
         setCurrentPage(data.resultObj.pageIndex);

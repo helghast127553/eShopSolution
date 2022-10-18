@@ -33,6 +33,7 @@ builder.Services.AddTransient<IStorageService, FileStorageService>();
 builder.Services.AddTransient<IPublicProductService, PublicProductService>();
 builder.Services.AddTransient<IManageProductService, ManageProductService>();
 builder.Services.AddTransient<IPublicCategoryService, PublicCategoryService>();
+builder.Services.AddTransient<IManageCategoryService, ManageCategoryService>();
 
 builder.Services.AddTransient<IUserService, UserService>();
 

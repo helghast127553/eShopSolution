@@ -15,12 +15,10 @@ namespace eShopSolution.BackendApi.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public UsersController(IUserService userService, IHttpContextAccessor httpContextAccessor)
         {
             _userService = userService;
-            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpPost("auth/token/")]
@@ -67,7 +65,7 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         [HttpGet("auth/users/")]
-        [Authorize]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> GetUsers([FromQuery]GetUserPagingRequest request)
         {
             var data = await _userService.GetUsers(request);
