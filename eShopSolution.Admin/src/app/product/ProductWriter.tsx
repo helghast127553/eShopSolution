@@ -2,7 +2,7 @@ import React, { FC, useState, useEffect, BaseSyntheticEvent } from "react";
 import { Form } from "react-bootstrap";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { CButton, CInput, CModal, CTextArea } from "../../common/ui/base";
-import { AddCategoryFormInputs } from "../../models/form";
+import { CategoryFormInputs } from "../../models/form";
 import { FormAction } from "../../models/enum";
 import style from "./category.module.scss";
 import { AxiosError } from "axios";
@@ -19,7 +19,7 @@ interface Props {
 const ProductWriter: FC<Props> = (props: Props) => {
   const { isOpen, toggle, onAddSucess, action, initialData } = props;
   const { register, handleSubmit, reset } =
-    useForm<AddCategoryFormInputs>();
+    useForm<CategoryFormInputs>();
   const [isSubmit, setSubmit] = useState<boolean>(false);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const ProductWriter: FC<Props> = (props: Props) => {
     
   };
 
-  const onAddInvalid: SubmitErrorHandler<AddCategoryFormInputs> = (
+  const onAddInvalid: SubmitErrorHandler<CategoryFormInputs> = (
     _,
     event
   ) => {
