@@ -21,6 +21,8 @@ namespace eShopSolution.Application.Catalog.Categories
 
         Task<CategoryViewModel> GetById(int productId);
 
-        Task<ApiResult<PagedResult<CategoryViewModel>>> GetAllCategoryPaging(GetCategoryManagePagingRequest request);
+        Task<ApiResult<PagedResult<CategoryViewModel>>> GetAllSubCategoryPaging(GetCategoryManagePagingRequest request);
+
+        Task<IList<CategoryViewModel>> GetAllParentCategory();
     }
 }

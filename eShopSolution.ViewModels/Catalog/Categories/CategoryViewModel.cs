@@ -14,6 +14,8 @@ namespace eShopSolution.ViewModels.Catalog.Categories
 
         public string Description { get; set; }
 
+        public int? ParentId { get; set; }
+
         public DateTime? Time_Created { get; set; }
 
         public DateTime? Time_Updated { get; set; }

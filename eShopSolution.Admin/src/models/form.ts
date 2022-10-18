@@ -3,14 +3,10 @@ export interface LoginFormInputs {
     password: string;
 }
 
-export interface AddCategoryFormInputs {
+export interface CategoryFormInputs {
   name: string;
   description: string
-}
-
-export interface AddCategoryFormInputs {
-  name: string;
-  description: string
+  parentId: number;
 }
   
   

@@ -37,8 +37,7 @@ namespace eShopSolution.Application.Catalog.Categories
             };
 
             _dbContext.Categories.Add(category);
-            await _dbContext.SaveChangesAsync();
-            return category.Id;
+            return await _dbContext.SaveChangesAsync();
         }
 
         public async Task<int> Delete(int categoryId)
@@ -55,9 +54,9 @@ namespace eShopSolution.Application.Catalog.Categories
             return await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<ApiResult<PagedResult<CategoryViewModel>>> GetAllCategoryPaging(GetCategoryManagePagingRequest request)
+        public async Task<ApiResult<PagedResult<CategoryViewModel>>> GetAllSubCategoryPaging(GetCategoryManagePagingRequest request)
         {
-            var query = _dbContext.Categories;
+            var query = _dbContext.Categories.Where(x => x.ParentId != null);
 
             int totalRow = await query.CountAsync();
 
@@ -69,6 +68,7 @@ namespace eShopSolution.Application.Catalog.Categories
                    Id = x.Id,
                    Name = x.Name,
                    Description = x.Description,
+                   ParentId = x.ParentId,
                    Time_Created = x.Time_Created,
                    Time_Updated = x.Time_Updated,
                 }).ToListAsync();
@@ -82,6 +82,14 @@ namespace eShopSolution.Application.Catalog.Categories
             };
 
             return new ApiSuccessResult<PagedResult<CategoryViewModel>>(pagedResult);
+        }
+
+        public async Task<IList<CategoryViewModel>> GetAllParentCategory()
+        {
+            return await _dbContext.Categories
+                .Where(x => x.ParentId == null)
+                .Select(x => new CategoryViewModel { Id = x.Id, Name = x.Name, Description = x.Description })
+                .ToListAsync();
         }
 
         public async Task<CategoryViewModel> GetById(int categoryId)

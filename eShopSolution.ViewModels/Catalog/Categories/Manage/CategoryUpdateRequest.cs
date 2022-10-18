@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace eShopSolution.ViewModels.Catalog.Categories.Manage
 {
-    public class CategoryUpdateRequest: PagingRequestBase
+    public class CategoryUpdateRequest
     {
         public string Name { get; set; }
 
         public string Description { get; set; }
 
-        public int? ParentId { get; set; }
+        public int ParentId { get; set; }
 
         public DateTime? Time_Updated { get; set; }
     }

@@ -7,6 +7,7 @@ import CTPaging from "./table/paging";
 import CModal from "./modal";
 import CInput from "./input/CInput";
 import CTextArea from "./input/CTextArea";
+import CSelect from "./select";
 
 export {
   CInput,
@@ -17,5 +18,6 @@ export {
   CTable,
   CTRow,
   CTPaging,
-  CModal
+  CModal,
+  CSelect
 };

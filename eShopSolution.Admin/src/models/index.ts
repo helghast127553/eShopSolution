@@ -44,7 +44,12 @@ export interface CategoryData {
   id: number;
   name: string;
   description: string;
+  parentId: number;
   time_Created: string;
   time_Updated: string;
 }
 
+export interface SelectedItem {
+  title: string;
+  value: string;
+}

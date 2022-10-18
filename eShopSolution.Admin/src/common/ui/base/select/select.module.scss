@@ -1,0 +1,137 @@
+@import "../../assets/colors.scss";
+@import "../../assets/fonts.scss";
+@import "../../assets";
+
+.cselect {
+  display: inline-block;
+  width: 100%;
+  position: relative;
+
+  .display {
+    position: relative;
+    cursor: pointer;
+    padding: 0;
+
+    .item {
+      @extend .input-text;
+      display: inline-block;
+      margin: 3px;
+    }
+
+    .selectedItem {
+      @extend .item;
+      padding: 4px 12px;
+      background-color: $primary;
+      color: $white;
+      border-radius: 24px;
+      cursor: default;
+
+      .cancel {
+        margin-left: 8px;
+        cursor: pointer;
+      }
+    }
+
+    .singleSelected {
+      @extend .item;
+      padding: 8px 12px;
+      color: $dark;
+      margin: 0px;
+    }
+
+    .hint {
+      padding: 8px 12px;
+      opacity: 0.6;
+    }
+
+    &::after {
+      content: "";
+      display: block;
+      width: 16px;
+      height: 16px;
+      background-image: url("../../assets/ic/enable.svg");
+      background-repeat: no-repeat;
+      background-size: 16px 16px;
+      position: absolute;
+      right: 6px;
+      top: 8px;
+      filter: invert(86%) sepia(0%) saturate(29%) hue-rotate(180deg)
+        brightness(91%) contrast(92%);
+    }
+  }
+
+  .top {
+    position: absolute;
+    top: 36px;
+    left: 0;
+    background-color: $white;
+    border: 1px solid $textbox-border;
+    border-radius: 4px;
+    width: 100%;
+    z-index: 9999;
+  }
+
+  .bottom {
+    position: absolute;
+    bottom: 36px;
+    left: 0;
+    background-color: $white;
+    border: 1px solid $textbox-border;
+    border-radius: 4px;
+    width: 100%;
+    z-index: 9999;
+  }
+
+  .dropdown {
+    .dropdownHeader {
+      padding: 8px 8px 10px;
+      border-bottom: 1px solid $textbox-border;
+
+      .search {
+        margin-bottom: 12px;
+      }
+
+      .checkAll {
+        margin-left: 2px;
+      }
+    }
+
+    .dropdownContent {
+      max-height: 255px;
+      overflow-x: hidden;
+      overflow-y: auto;
+
+      .optionItem {
+        display: flex;
+        align-items: center;
+        padding: 4px 10px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: $bg-drop-gadget;
+        }
+      }
+    }
+  }
+
+  select {
+    display: none;
+  }
+}
+
+.disabled {
+  background: $bg-textbox !important;
+  color: $text-disable;
+  cursor: default !important;
+  background-image: transparent !important;
+
+  &::after {
+    content: "";
+    display: block;
+    background-image: none !important;
+  }
+
+  .childDisabled {
+    color: $text-disable !important;
+  }
+}

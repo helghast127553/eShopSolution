@@ -28,6 +28,7 @@ namespace eShopSolution.BackendApi.Controllers
             return Ok(new { data });
         }
 
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -35,18 +36,26 @@ namespace eShopSolution.BackendApi.Controllers
             return Ok(category);
         }
 
-        [HttpGet("category/")]
+        [HttpGet("parentcategory/")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Create([FromQuery] GetCategoryManagePagingRequest request)
+        public async Task<IActionResult> GetAllParentCategory()
         {
-            var data = await _categoryManageService.GetAllCategoryPaging(request);
+            var data = await _categoryManageService.GetAllParentCategory();
+            return Ok(new { data });
+        }
+
+        [HttpGet("subCategory/")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> GetSubCategory([FromQuery] GetCategoryManagePagingRequest request)
+        {
+            var data = await _categoryManageService.GetAllSubCategoryPaging(request);
             return Ok(new { data });
         }
 
 
         [HttpPost("category/")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Create([FromForm] CategoryCreateRequest request)
+        public async Task<IActionResult> Create([FromBody] CategoryCreateRequest request)
         {
             var result = await _categoryManageService.Create(request);
             if (result == 0)
@@ -59,7 +68,7 @@ namespace eShopSolution.BackendApi.Controllers
 
         [HttpPut("category/{id}")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromForm] CategoryUpdateRequest request)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] CategoryUpdateRequest request)
         {
             var result = await _categoryManageService.Update(id, request);
             if (result == 0)
