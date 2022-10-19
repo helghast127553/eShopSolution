@@ -36,17 +36,25 @@ namespace eShopSolution.BackendApi.Controllers
             return Ok(category);
         }
 
-        [HttpGet("parentcategory/")]
+        [HttpGet("parentCategory")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> GetAllParentCategory()
+        public async Task<IActionResult> GetAllParentCategoryPaging()
         {
             var data = await _categoryManageService.GetAllParentCategory();
             return Ok(new { data });
         }
 
-        [HttpGet("subCategory/")]
+        [HttpGet("subCategory")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> GetSubCategory([FromQuery] GetCategoryManagePagingRequest request)
+        public async Task<IActionResult> GetAllSubCategory()
+        {
+            var data = await _categoryManageService.GetAllSubCategory(); ;
+            return Ok(new { data });
+        }
+
+        [HttpGet("subCategory/paging")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> GetAllSubCategoryPaging([FromQuery] GetCategoryManagePagingRequest request)
         {
             var data = await _categoryManageService.GetAllSubCategoryPaging(request);
             return Ok(new { data });

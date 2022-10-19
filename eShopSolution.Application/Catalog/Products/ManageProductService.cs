@@ -38,11 +38,10 @@ namespace eShopSolution.Application.Catalog.Products
                 Time_Created = DateTime.Now,
                 Name = request.Name,
                 Description = request.Description,
-                ProductInCategories = new List<ProductInCategory>
-                {
-                    new ProductInCategory { CategoryId = request.CategoryId }
-                }
             };
+            var category = await _dbContext.Categories.FindAsync(request.CategoryId);
+
+            product.ProductInCategories = new List<ProductInCategory> { new ProductInCategory { Product = product, Category = category } };
 
             if (request.ThumbnailImage != null)
             {
@@ -85,7 +84,7 @@ namespace eShopSolution.Application.Catalog.Products
             return await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<ApiResult<PagedResult<ProductViewModel>>> GetAllPaging(GetManageProductPagingRequest request)
+        public async Task<ApiResult<PagedResult<ProductViewModel>>> GetAllProductPaging(GetManageProductPagingRequest request)
         {
             //1.select join
             var query = from p in _dbContext.Products
@@ -104,6 +103,7 @@ namespace eShopSolution.Application.Catalog.Products
                     Id = x.p.Id,
                     Name = x.p.Name,
                     CategoryName = x.c.Name,
+                    CategoryId = x.c.Id,
                     Description = x.p.Description,
                     Price = x.p.Price,
                     ImageUrl = $"https://localhost:7064/image/{x.pi.ImagePath}",
@@ -149,7 +149,7 @@ namespace eShopSolution.Application.Catalog.Products
             }
 
             product.Name = request.Name;
-            product.Price = request.Price;
+            product.Price = request.Price.Value;
             product.Description = request.Description;
             product.Time_Updated = DateTime.Now;
 
@@ -168,8 +168,9 @@ namespace eShopSolution.Application.Catalog.Products
                 }
             }
 
-            var productInCategories = _dbContext.ProductInCategories.SingleOrDefault(x => x.ProductId == id);
-            productInCategories.CategoryId = request.CategoryId;
+            var productInCategory = await _dbContext.ProductInCategories.FirstOrDefaultAsync(x => x.ProductId == id);
+            productInCategory.CategoryId = request.CategoryId.Value;
+            _dbContext.ProductInCategories.Update(productInCategory);
 
             return await _dbContext.SaveChangesAsync();
         }

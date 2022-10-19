@@ -1,12 +1,19 @@
-import React, { FC, useState, useEffect, BaseSyntheticEvent } from "react";
+import { FC, useState, useEffect } from "react";
 import { Form } from "react-bootstrap";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
-import { CButton, CInput, CModal, CTextArea } from "../../common/ui/base";
-import { CategoryFormInputs } from "../../models/form";
+import {
+  CButton,
+  CInput,
+  CModal,
+  CSelect,
+  CTextArea,
+} from "../../common/ui/base";
+import { ProductFormInputs } from "../../models/form";
 import { FormAction } from "../../models/enum";
-import style from "./category.module.scss";
-import { AxiosError } from "axios";
+import style from "./product.module.scss";
 import { CategoryData, ProductData } from "../../models";
+import { doGetSubCategories } from "../category/api";
+import { doPostProduct, doPutProduct } from "./api";
 
 interface Props {
   initialData?: ProductData;
@@ -18,24 +25,65 @@ interface Props {
 
 const ProductWriter: FC<Props> = (props: Props) => {
   const { isOpen, toggle, onAddSucess, action, initialData } = props;
-  const { register, handleSubmit, reset } =
-    useForm<CategoryFormInputs>();
-  const [isSubmit, setSubmit] = useState<boolean>(false);
+  const { register, handleSubmit, reset } = useForm<ProductFormInputs>();
+  const [subCategories, setSubCategories] = useState<Array<CategoryData>>([]);
 
   useEffect(() => {
-    if (initialData !== undefined) {
-      reset({ name: initialData.name, description: initialData.description})
+    if (FormAction.UPDATE === action) {
+      if (initialData !== undefined) {
+        reset({
+          name: initialData.name,
+          description: initialData.description,
+          price: initialData.price,
+          categoryId: initialData.categoryId,
+        });
+      }
+    } else {
+      reset({
+        name: undefined,
+        description: undefined,
+        price: undefined,
+        categoryId: undefined,
+      });
     }
-  }, [initialData])
+  }, [initialData, action]);
 
-  const onAddValid: SubmitHandler<any> = (data, event) => {
-    
+  useEffect(() => {
+    doGetSubCategories()
+      .then((response) => {
+        setSubCategories(response.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  const onAddValid: SubmitHandler<any | FormData> = (data, event) => {
+    const dataForm = new FormData();
+    dataForm.append("thumbnailImage", data.thumbnailImage[0]);
+    dataForm.append("name", data.name);
+    dataForm.append("description", data.description);
+    dataForm.append("price", data.price);
+    dataForm.append("categoryId", data.categoryId);
+    if (FormAction.CREATE === action) {
+      doPostProduct(dataForm)
+      .then((response) => {
+        onAddSucess();
+        toggle();
+      })
+      .catch((error) => console.log(error)); 
+    } 
+    else {
+      if (initialData) {
+        doPutProduct(initialData.id, dataForm)
+        .then((response) => {
+          onAddSucess();
+          toggle();
+        })
+        .catch((error) => console.log(error));  
+      }
+    }
   };
 
-  const onAddInvalid: SubmitErrorHandler<CategoryFormInputs> = (
-    _,
-    event
-  ) => {
+  const onAddInvalid: SubmitErrorHandler<any | FormData> = (_, event) => {
     event?.target.classList.add("wasvalidated");
   };
 
@@ -62,13 +110,52 @@ const ProductWriter: FC<Props> = (props: Props) => {
         onSubmit={handleSubmit(onAddValid, onAddInvalid)}
       >
         <Form.Group className={style.inputGroup}>
-          <Form.Label className="required">Tên loại sản phẩm</Form.Label>
+          <Form.Label className="required">Hình ảnh</Form.Label>
+          <div className="custom-file">
+            <input
+              type="file"
+              name="thumbnailImage"
+              className="custom-file-input"
+              accept="image/*"
+              id="customFile"
+              ref={register({})}
+            />
+            <label className="custom-file-label text-left" htmlFor="customFile">
+              Chọn file hình ảnh
+            </label>
+          </div>
+        </Form.Group>
+        <Form.Group className={style.inputGroup}>
+          <Form.Label className="required">Tên sản phẩm</Form.Label>
           <CInput
             name="name"
             type="text"
-            placeholder="Nhập tên loại sản phẩm"
+            placeholder="Nhập tên sản phẩm"
             iref={register({})}
           />
+        </Form.Group>
+        <Form.Group className={style.inputGroup}>
+          <Form.Label className="required">Giá sản phẩm</Form.Label>
+          <CInput
+            name="price"
+            type="text"
+            placeholder="Nhập giá sản phẩm"
+            iref={register({})}
+          />
+          <Form.Group>
+            <Form.Label>Loại sản phẩm</Form.Label>
+            <CSelect
+              iref={register({})}
+              name="categoryId"
+              placeholder="Chọn loại sản phẩm"
+            >
+              {subCategories.map((item) => (
+                <option title={item.name} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+            </CSelect>
+          </Form.Group>
         </Form.Group>
         <Form.Group className={style.inputGroup}>
           <Form.Label className="required">Mô tả</Form.Label>
@@ -78,20 +165,11 @@ const ProductWriter: FC<Props> = (props: Props) => {
             iref={register({})}
           />
         </Form.Group>
-        <Form.Group className={style.inputGroup}>
-          <Form.Label className="required">Mô tả</Form.Label>
-          <CInput
-            type="text"
-            name="price"
-            placeholder="Nhập giá cả"
-            iref={register({})}
-          />
-        </Form.Group>
         <div className={`d-flex justify-content-end ${style.buttonGroup}`}>
           <CButton type="button" outline onClick={cancel}>
             Hủy
           </CButton>
-          <CButton type="submit" className="ms-2">
+          <CButton type="submit" className="ml-3">
             Lưu
           </CButton>
         </div>

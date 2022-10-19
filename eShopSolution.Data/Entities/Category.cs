@@ -22,7 +22,5 @@ namespace eShopSolution.Data.Entities
         public int? ParentId { get; set; }
 
         public List<ProductInCategory> ProductInCategories { get; set; }
-
-        public List<Product> Products { get; set; }
     }
 }

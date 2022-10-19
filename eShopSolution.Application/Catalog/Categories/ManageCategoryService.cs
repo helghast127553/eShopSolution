@@ -54,6 +54,21 @@ namespace eShopSolution.Application.Catalog.Categories
             return await _dbContext.SaveChangesAsync();
         }
 
+        public async Task<IList<CategoryViewModel>> GetAllSubCategory()
+        {
+            return await _dbContext.Categories
+                .Where(x => x.ParentId != null)
+                .Select(x => new CategoryViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    ParentId = x.ParentId,
+                    Time_Created = x.Time_Created,
+                    Time_Updated = x.Time_Updated,
+                }).ToListAsync();
+        }
+
         public async Task<ApiResult<PagedResult<CategoryViewModel>>> GetAllSubCategoryPaging(GetCategoryManagePagingRequest request)
         {
             var query = _dbContext.Categories.Where(x => x.ParentId != null);
@@ -65,12 +80,12 @@ namespace eShopSolution.Application.Catalog.Categories
                 .Take(request.PageSize.Value)
                 .Select(x => new CategoryViewModel
                 {
-                   Id = x.Id,
-                   Name = x.Name,
-                   Description = x.Description,
-                   ParentId = x.ParentId,
-                   Time_Created = x.Time_Created,
-                   Time_Updated = x.Time_Updated,
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    ParentId = x.ParentId,
+                    Time_Created = x.Time_Created,
+                    Time_Updated = x.Time_Updated,
                 }).ToListAsync();
 
             var pagedResult = new PagedResult<CategoryViewModel>

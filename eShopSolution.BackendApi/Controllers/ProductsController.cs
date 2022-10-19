@@ -53,11 +53,11 @@ namespace eShopSolution.BackendApi.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Get([FromQuery] GetManageProductPagingRequest request)
         {
-            var data = await _manageProductService.GetAllPaging(request); ;
+            var data = await _manageProductService.GetAllProductPaging(request); ;
             return Ok(new { data });
         }
 
-        [HttpPost("product/")]
+        [HttpPost("product")]
         [Consumes("multipart/form-data")]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create([FromForm]ProductCreateRequest request)

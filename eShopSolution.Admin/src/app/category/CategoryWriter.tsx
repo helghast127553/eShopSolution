@@ -24,18 +24,24 @@ interface Props {
 
 const CategoryWriter: FC<Props> = (props: Props) => {
   const { isOpen, toggle, onAddSucess, action, initialData } = props;
-  const [parentCategories, setParentCategories] = useState<Array<CategoryData>>([]);
+  const [parentCategories, setParentCategories] = useState<Array<CategoryData>>(
+    []
+  );
   const { register, handleSubmit, reset } = useForm<CategoryFormInputs>();
 
   useEffect(() => {
     if (FormAction.UPDATE === action) {
       if (initialData !== undefined) {
-        reset({ name: initialData.name, description: initialData.description, parentId: initialData.parentId });
+        reset({
+          name: initialData.name,
+          description: initialData.description,
+          parentId: initialData.parentId,
+        });
       }
     } else {
       reset({ name: undefined, description: undefined, parentId: undefined });
     }
-     // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [initialData, action]);
 
   useEffect(() => {
@@ -47,25 +53,26 @@ const CategoryWriter: FC<Props> = (props: Props) => {
   }, []);
 
   const onAddValid: SubmitHandler<CategoryFormInputs> = (data, event) => {
-    if(FormAction.CREATE === action) {
-      doPostCategory(data).then(response => {
-        onAddSucess();
-        toggle();
-      }).catch((error) => console.log(error));
-    } else {
-      if (initialData) {
-        doPutCategory(initialData.id, data).then(response => {
+    if (FormAction.CREATE === action) {
+      doPostCategory(data)
+        .then((response) => {
           onAddSucess();
           toggle();
-        }).catch((error) => console.log(error)); 
+        })
+        .catch((error) => console.log(error));
+    } else {
+      if (initialData) {
+        doPutCategory(initialData.id, data)
+          .then((response) => {
+            onAddSucess();
+            toggle();
+          })
+          .catch((error) => console.log(error));
       }
     }
   };
 
-  const onAddInvalid: SubmitErrorHandler<CategoryFormInputs> = (
-    _,
-    event
-  ) => {
+  const onAddInvalid: SubmitErrorHandler<CategoryFormInputs> = (_, event) => {
     event?.target.classList.add("wasvalidated");
   };
 
