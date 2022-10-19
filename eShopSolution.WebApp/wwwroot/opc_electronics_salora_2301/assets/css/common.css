@@ -4,8 +4,8 @@
     z-index: 99;
     background: #ffffff;
     width: 100%;
-    border-bottom: 1px solid #eeeeee;
-    margin-bottom: 30px;
+    border-bottom: 1px solid #eeeeee !important; 
+    margin-bottom: 30px !important;
 }
 #header a:hover {
     text-decoration: none;

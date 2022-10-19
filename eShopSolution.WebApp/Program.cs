@@ -1,7 +1,14 @@
+using eShopSolution.ApiIntegration.Abstraction;
+using eShopSolution.ApiIntegration;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient();
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddTransient<IUserApiClient, UserApiClient>();
 
 var app = builder.Build();
 
