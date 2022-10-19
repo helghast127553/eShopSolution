@@ -14,6 +14,8 @@ namespace eShopSolution.ViewModels.Catalog.Products
 
         public string CategoryName { set; get; }
 
+        public int CategoryId { set; get; }
+
         public string Description { set; get; }
 
         public decimal Price { get; set; }

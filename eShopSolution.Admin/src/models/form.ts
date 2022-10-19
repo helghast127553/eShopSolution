@@ -8,5 +8,12 @@ export interface CategoryFormInputs {
   description: string
   parentId: number;
 }
+
+export interface ProductFormInputs {
+  name: string;
+  description: string
+  price: string;
+  categoryId: number;
+}
   
   

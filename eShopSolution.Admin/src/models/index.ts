@@ -33,6 +33,7 @@ export interface ProductData {
   id: number;
   name: string;
   categoryName: string;
+  categoryId: number;
   description: string;
   price: string;
   imageUrl: string;

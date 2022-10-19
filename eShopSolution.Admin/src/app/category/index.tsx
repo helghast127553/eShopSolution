@@ -2,7 +2,7 @@ import { FC, useEffect, useState, MouseEvent } from "react";
 import { CButton, CTable, CTPaging, CTRow } from "../../common/ui/base";
 import { APIResponse, CategoryData } from "../../models";
 import { ButtonSize, FormAction, PageName } from "../../models/enum";
-import { doDeleteCategory, doGetSubCategories } from "./api";
+import { doDeleteCategory, doGetSubCategoriesPaging } from "./api";
 import { Image } from "react-bootstrap";
 import Plus from "../../common/ui/assets/ic/plus.svg";
 import AdminContentLayout from "../../common/ui/layout/admin-content-layout";
@@ -47,7 +47,7 @@ const Category: FC<Props> = (props: Props) => {
   };
 
   const getCategories = (PageIndex: number): void => {
-    doGetSubCategories(PageIndex)
+    doGetSubCategoriesPaging(PageIndex)
       .then((response) => {
         const data: APIResponse<CategoryData> = response.data;
         setCategories(data.resultObj.items);

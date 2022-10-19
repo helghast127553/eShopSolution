@@ -9,14 +9,14 @@ namespace eShopSolution.ViewModels.Catalog.Products.Manage
 {
     public class ProductUpdateRequest
     {
-        public string Name { set; get; }
+        public string? Name { set; get; }
 
-        public string Description { set; get; }
+        public string? Description { set; get; }
 
-        public decimal Price { get; set; }
+        public decimal? Price { get; set; }
 
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
 
-        public IFormFile ThumbnailImage { get; set; }
+        public IFormFile? ThumbnailImage { get; set; }
     }
 }
