@@ -1,12 +1,8 @@
 ﻿using eShopSolution.Application.System;
 using eShopSolution.ViewModels.System.Users;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using eShopSolution.Utilities.Constants;
 
 namespace eShopSolution.BackendApi.Controllers
 {
@@ -25,7 +21,9 @@ namespace eShopSolution.BackendApi.Controllers
         public async Task<IActionResult> Authenticate([FromBody] LoginRequest request)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
 
             var result = await _userService.Authencate(request);
 
@@ -35,6 +33,7 @@ namespace eShopSolution.BackendApi.Controllers
             }
 
             var data = new { access_token = result.ResultObj };
+
             return Ok(new { data });
         }
 
@@ -42,12 +41,17 @@ namespace eShopSolution.BackendApi.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
+            }
+
             var result = await _userService.Register(request);
+
             if (!result.IsSuccessed)
             {
                 return BadRequest(result);
             }
+
             return Ok(result);
         }
 
@@ -61,6 +65,7 @@ namespace eShopSolution.BackendApi.Controllers
                 email = User.FindFirstValue(ClaimTypes.Email),
                 roles = User.FindFirstValue(ClaimTypes.Role),
             };
+
             return Ok(new { data });
         }
 

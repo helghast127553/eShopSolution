@@ -97,13 +97,15 @@ namespace eShopSolution.Application.System
         public async Task<ApiResult<bool>> Register(RegisterRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
+
             if (user != null)
             {
-                return new ApiErrorResult<bool>("Tài khoản đã tồn tại");
+                return new ApiErrorResult<bool>("Username is already registered!");
             }
+
             if (await _userManager.FindByEmailAsync(request.Email) != null)
             {
-                return new ApiErrorResult<bool>("Emai đã tồn tại");
+                return new ApiErrorResult<bool>("E-Mail Address is already registered!");
             }
 
             user = new AppUser()
@@ -114,11 +116,14 @@ namespace eShopSolution.Application.System
                 UserName = request.UserName,
                 PhoneNumber = request.PhoneNumber
             };
+
             var result = await _userManager.CreateAsync(user, request.Password);
+
             if (result.Succeeded)
             {
                 return new ApiSuccessResult<bool>();
             }
+
             return new ApiErrorResult<bool>("Đăng ký không thành công");
         }
 

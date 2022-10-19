@@ -1,0 +1,23 @@
+﻿<div class="row">
+    <aside id="column-left" class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-xs-12">
+        @await Component.InvokeAsync("SideBarAccount")
+    </aside>
+    <div id="content" class="col-sm-9">
+        <div id="main">
+            <div class="ttvpage-header-title-wrapper"><h1 class="ttvpage-header-title">Information</h1></div>
+            <div class="ttv-sub-pages-inner-content">
+                <p>Thank you for registering with Your Store!</p>
+                <p>You will be notified by e-mail once your account has been activated by the store owner.</p>
+                <p>
+                    If you have ANY questions about the operation of this online shop, please
+                    <a href="#">contact the store owner</a>.
+                </p>
+                <div class="buttons">
+                    <div class="pull-right">
+                        <a asp-controller="account" asp-action="login" class="btn btn-primary">Continue</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
