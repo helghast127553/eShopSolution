@@ -299,7 +299,7 @@ $(document).ready(function() {
 		$('.ttvmain-menu-dropdown').removeClass('open');
 	});
 
-	function DesktopMenu(ttv){
+	function DesktopMenu(ttv) {
 		if (document.body.clientWidth > mobileViewSize) 
 		{
 			// console.log(ttv);
