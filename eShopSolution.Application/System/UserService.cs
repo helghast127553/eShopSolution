@@ -38,12 +38,12 @@ namespace eShopSolution.Application.System
         public async Task<ApiResult<string>> Authencate(LoginRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
-            if (user == null) return new ApiErrorResult<string>("Tài khoản không tồn tại");
+            if (user == null) return new ApiErrorResult<string>("Account does not exist.");
 
             var result = await _userManager.CheckPasswordAsync(user, request.Password);
             if (!result)
             {
-                return new ApiErrorResult<string>("Đăng nhập không đúng");
+                return new ApiErrorResult<string>("No match for E-Mail Address and/or Password.");
             }
 
             var roles = await _userManager.GetRolesAsync(user);
@@ -127,7 +127,7 @@ namespace eShopSolution.Application.System
             return new ApiErrorResult<bool>("Đăng ký không thành công");
         }
 
-        public async Task<ApiResult<PagedResult<UserViewModel>>> GetUsers(GetUserPagingRequest request)
+        public async Task<ApiResult<PagedResult<UserViewModel>>> GetUsersPaging(GetUserPagingRequest request)
         {
             var query = _userManager.Users;
 
