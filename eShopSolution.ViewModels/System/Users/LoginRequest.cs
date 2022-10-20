@@ -9,10 +9,10 @@ namespace eShopSolution.ViewModels.System.Users
 {
     public class LoginRequest
     {
-        [Display(Name = "Tài khoản")]
+        [Required(ErrorMessage = "Please enter username")]
         public string UserName { get; set; }
 
-        [Display(Name = "Mật khẩu")]
+        [Required(ErrorMessage = "Please enter password")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
     }

@@ -9,7 +9,7 @@ namespace eShopSolution.Utilities.Constants
     public class SystemConstants
     {
         public const string MAIN_CONNECTION_STRING = "eShopSolution";
-        public const string Token = "Token";
+        public const string Token = "access_token";
         public const string BaseAddress = "BaseAddress";
         public const int NumberOfFeaturedProducts = 4;
     }

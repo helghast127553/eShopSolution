@@ -17,12 +17,14 @@ const Login: FC<Props> = (props: Props) => {
   const onLoginValid: SubmitHandler<LoginFormInputs> = (data, event) => {
     setOnLoad(true);
     doLogin(data)
-      .then((response) => {
+      .then((response: any) => {
         setOnLoad(false);
-        sessionStorage.setItem(
-          ScopeKey.ACCESS_TOKEN,
-          window.btoa(response.data["access_token"])
-        );
+        if (response.isSuccessed) {
+          sessionStorage.setItem(
+            ScopeKey.ACCESS_TOKEN,
+            window.btoa(response.resultObj)
+          ); 
+        }
         localStorage.setItem(ScopeKey.IS_AUTHENTICATED, ScopeValue.TRUE);
 
         getProfile()

@@ -22,17 +22,31 @@ namespace eShopSolution.ApiIntegration
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public Task<ApiResult<string>> Authenticate(LoginRequest request)
+        public async Task<ApiResult<string>> Authenticate(LoginRequest request)
         {
-            throw new NotImplementedException();
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync("api/auth/token/", httpContent);
+            var result = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<ApiSuccessResult<string>>(result);
+            }
+
+            return JsonConvert.DeserializeObject<ApiErrorResult<string>>(result);
         }
 
-        public async Task<ApiResult<bool>> RegisterUser(RegisterRequest registerRequest)
+        public async Task<ApiResult<bool>> RegisterUser(RegisterRequest request)
         {
-           var client = _httpClientFactory.CreateClient();
-           client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
 
-            var json = JsonConvert.SerializeObject(registerRequest);
+            var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await client.PostAsync("api/auth/register/", httpContent);

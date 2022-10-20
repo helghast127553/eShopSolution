@@ -3,32 +3,60 @@ using eShopSolution.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using eShopSolution.Utilities.Constants;
+using System.Security.Claims;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace eShopSolution.WebApp.Controllers
 {
     public class AccountController : Controller
     {
         private readonly IUserApiClient _userApiClient;
-        public AccountController(IUserApiClient userApiClient)
+        private readonly IConfiguration _configuration;
+        public AccountController(IUserApiClient userApiClient, IConfiguration configuration)
         {
             _userApiClient = userApiClient;
+            _configuration = configuration;
         }
 
         [HttpGet]
         public IActionResult Login()
-        {
+        { 
             return View();
         }
 
         [HttpPost]
-        public IActionResult Login(LoginRequest request)
+        public async Task<IActionResult> Login(LoginRequest request)
         {
-            return View();
+            if (!ModelState.IsValid)
+            {
+                return View(request);
+            }
+
+            var result = await _userApiClient.Authenticate(request);
+            if (!result.IsSuccessed)
+            {
+                ViewBag.errorMessage = result.Message;
+                return View();
+            }
+
+            HttpContext.Session.SetString(SystemConstants.Token, result.ResultObj);
+            var userPrincipal = ValidateToken(result.ResultObj);
+            await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                        userPrincipal,
+                        new AuthenticationProperties() { IsPersistent = false});
+
+            return RedirectToAction("Index", "Home");
         }
 
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
+            HttpContext.Session.Clear();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }
 
@@ -61,6 +89,22 @@ namespace eShopSolution.WebApp.Controllers
         public IActionResult Confirmation()
         {
             return View();
+        }
+
+        private ClaimsPrincipal ValidateToken(string jwtToken)
+        {
+            SecurityToken validatedToken;
+            TokenValidationParameters validationParameters = new TokenValidationParameters();
+
+            validationParameters.ValidateLifetime = true;
+
+            validationParameters.ValidAudience = _configuration["JwtSettings:validIssuer"];
+            validationParameters.ValidIssuer = _configuration["JwtSettings:validIssuer"];
+            validationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:key"]));
+
+            ClaimsPrincipal principal = new JwtSecurityTokenHandler().ValidateToken(jwtToken, validationParameters, out validatedToken);
+
+            return principal;
         }
     }
 }

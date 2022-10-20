@@ -2,6 +2,7 @@
 @model RegisterRequest
 
 <div id="account-register" class="container">
+    @await Component.InvokeAsync("NavAccountLinks", new { link = "register" })
     @if (ViewBag.errorMessage != null)
     {
         <div class="alert alert-danger alert-dismissible">
@@ -36,22 +37,28 @@
                                 <label class="col-sm-2 control-label ttvpage-sub-label" asp-for="FirstName">First Name</label>
                                 <div class="col-sm-10">
                                     <input type="text" asp-for="FirstName" value="" placeholder="First Name" class="form-control">
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="form-group required">
                                 <label class="col-sm-2 control-label ttvpage-sub-label" asp-for="LastName">Last Name</label>
-                                <div class="col-sm-10"><input type="text" asp-for="LastName" placeholder="Last Name" class="form-control"></div>
+                                <div class="col-sm-10">
+                                    <input type="text" asp-for="LastName" placeholder="Last Name" class="form-control">
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
                             </div>
                             <div class="form-group required">
                                 <label class="col-sm-2 control-label ttvpage-sub-label" asp-for="Email">E-Mail</label>
                                 <div class="col-sm-10">
-                                    <input type="email" asp-for="Email" placeholder="E-Mail" class="form-control">
+                                    <input type="text" asp-for="Email" placeholder="E-Mail" class="form-control">
+                                    <span asp-validation-for="Email" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="form-group required">
                                 <label class="col-sm-2 control-label ttvpage-sub-label" asp-for="PhoneNumber">Telephone</label>
                                 <div class="col-sm-10">
-                                    <input type="tel" asp-for="PhoneNumber" placeholder="Telephone" class="form-control">
+                                    <input type="text" asp-for="PhoneNumber" placeholder="Telephone" class="form-control">
+                                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                                 </div>
                             </div>
                             <legend class="ttvpage-sub-title">Your Account</legend>
@@ -59,12 +66,14 @@
                                 <label class="col-sm-2 control-label ttvpage-sub-label" asp-for="UserName">Username</label>
                                 <div class="col-sm-10">
                                     <input type="text" asp-for="UserName" placeholder="Username" class="form-control">
+                                    <span asp-validation-for="UserName" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="form-group required">
                                 <label class="col-sm-2 control-label ttvpage-sub-label" asp-for="Password">Password</label>
                                 <div class="col-sm-10">
                                     <input type="password" asp-for="Password" placeholder="Password" class="form-control">
+                                    <span asp-validation-for="Password" class="text-danger"></span>
                                 </div>
                             </div>
                             <div class="form-group required">

@@ -32,9 +32,7 @@ namespace eShopSolution.BackendApi.Controllers
                 return BadRequest(result);
             }
 
-            var data = new { access_token = result.ResultObj };
-
-            return Ok(new { data });
+            return Ok(result);
         }
 
         [HttpPost("auth/register/")]
@@ -58,7 +56,7 @@ namespace eShopSolution.BackendApi.Controllers
         [HttpGet("auth/user-info/")]
         [Authorize(Roles = "admin")]
         public IActionResult GetUserInfo()
-        {
+        { 
             var data = new
             {
                 username = User.FindFirstValue(ClaimTypes.Name),
@@ -73,7 +71,7 @@ namespace eShopSolution.BackendApi.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> GetUsers([FromQuery]GetUserPagingRequest request)
         {
-            var data = await _userService.GetUsers(request);
+            var data = await _userService.GetUsersPaging(request);
             return Ok(new { data });
         }
     }
