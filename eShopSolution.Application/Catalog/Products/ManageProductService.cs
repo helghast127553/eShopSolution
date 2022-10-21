@@ -69,7 +69,7 @@ namespace eShopSolution.Application.Catalog.Products
 
             if (product == null)
             {
-                throw new EShopException($"Cannot find a product: {id}");
+                return -1;
             }
 
             var images = _dbContext.ProductImages.Where(x => x.ProductId == id);
@@ -145,11 +145,11 @@ namespace eShopSolution.Application.Catalog.Products
 
             if (product == null)
             {
-                throw new EShopException($"Cannot find a product with id: {id}");
+                return -1;
             }
 
             product.Name = request.Name;
-            product.Price = request.Price.Value;
+            product.Price = request.Price;
             product.Description = request.Description;
             product.Time_Updated = DateTime.Now;
 
@@ -169,7 +169,7 @@ namespace eShopSolution.Application.Catalog.Products
             }
 
             var productInCategory = await _dbContext.ProductInCategories.FirstOrDefaultAsync(x => x.ProductId == id);
-            productInCategory.CategoryId = request.CategoryId.Value;
+            productInCategory.CategoryId = request.CategoryId;
             _dbContext.ProductInCategories.Update(productInCategory);
 
             return await _dbContext.SaveChangesAsync();

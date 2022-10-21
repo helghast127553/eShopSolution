@@ -38,7 +38,7 @@ namespace eShopSolution.BackendApi.Controllers
 
         [HttpGet("parentCategory")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> GetAllParentCategoryPaging()
+        public async Task<IActionResult> GetAllParentCategory()
         {
             var data = await _categoryManageService.GetAllParentCategory();
             return Ok(new { data });
@@ -65,7 +65,13 @@ namespace eShopSolution.BackendApi.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create([FromBody] CategoryCreateRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var result = await _categoryManageService.Create(request);
+
             if (result == 0)
             {
                 return BadRequest();
@@ -78,7 +84,18 @@ namespace eShopSolution.BackendApi.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] CategoryUpdateRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var result = await _categoryManageService.Update(id, request);
+
+            if (result == -1)
+            {
+                return NotFound();
+            }
+
             if (result == 0)
             {
                 return BadRequest();
@@ -92,6 +109,12 @@ namespace eShopSolution.BackendApi.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _categoryManageService.Delete(id);
+
+            if (result == -1)
+            {
+                return NotFound();
+            }
+
             if (result == 0)
             {
                 return BadRequest();

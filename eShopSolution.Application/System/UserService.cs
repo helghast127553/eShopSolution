@@ -2,36 +2,24 @@
 using eShopSolution.ViewModels.Common;
 using eShopSolution.ViewModels.System.Users;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace eShopSolution.Application.System
 {
     public class UserService : IUserService
     {
         private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
-        private readonly RoleManager<AppRole> _roleManager;
         private readonly IConfiguration _config;
 
-        public UserService(UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager,
-            RoleManager<AppRole> roleManager,
-            IConfiguration config)
+        public UserService(UserManager<AppUser> userManager, IConfiguration config)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
-            _roleManager = roleManager;
             _config = config;
         }
 
@@ -51,16 +39,16 @@ namespace eShopSolution.Application.System
             return new ApiSuccessResult<string>(CreateToken(user, request.UserName, roles));
         }
 
-        private string CreateToken(AppUser user, string username, IList<string> roles) 
-        { 
-            var signingCredentials = GetSigningCredentials(); 
+        private string CreateToken(AppUser user, string username, IList<string> roles)
+        {
+            var signingCredentials = GetSigningCredentials();
             var claims = GetClaims(user, username, roles);
             var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
 
-            return new JwtSecurityTokenHandler().WriteToken(tokenOptions); 
+            return new JwtSecurityTokenHandler().WriteToken(tokenOptions);
         }
 
-        private IList<Claim> GetClaims(AppUser user, string username, IList<string> roles) 
+        private IList<Claim> GetClaims(AppUser user, string username, IList<string> roles)
         {
             var claims = new List<Claim>
             {
@@ -77,21 +65,21 @@ namespace eShopSolution.Application.System
             return claims;
         }
 
-        private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, IList<Claim> claims) 
-        { 
+        private JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, IList<Claim> claims)
+        {
             var tokenOptions = new JwtSecurityToken
-                (issuer: _config["JwtSettings:validIssuer"], 
-                audience: _config["JwtSettings:validIssuer"], 
-                claims: claims, 
-                expires: DateTime.Now.AddHours(int.Parse(_config["JwtSettings:expires"])), 
-                signingCredentials: signingCredentials); 
-            return tokenOptions; 
+                (issuer: _config["JwtSettings:validIssuer"],
+                audience: _config["JwtSettings:validIssuer"],
+                claims: claims,
+                expires: DateTime.Now.AddHours(int.Parse(_config["JwtSettings:expires"])),
+                signingCredentials: signingCredentials);
+            return tokenOptions;
         }
 
-        private SigningCredentials GetSigningCredentials() 
+        private SigningCredentials GetSigningCredentials()
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JwtSettings:Key"]));
-            return new SigningCredentials(key, SecurityAlgorithms.HmacSha256); 
+            return new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         }
 
         public async Task<ApiResult<bool>> Register(RegisterRequest request)
@@ -145,8 +133,8 @@ namespace eShopSolution.Application.System
                     LastName = x.LastName,
                 }).ToListAsync();
 
-            var pagedResult = new PagedResult<UserViewModel> 
-            { 
+            var pagedResult = new PagedResult<UserViewModel>
+            {
                 TotalRecords = totalRow,
                 PageIndex = request.PageIndex,
                 PageSize = request.PageSize.Value,

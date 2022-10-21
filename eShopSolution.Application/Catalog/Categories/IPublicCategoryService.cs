@@ -10,7 +10,7 @@ namespace eShopSolution.Application.Catalog.Categories
 {
     public interface IPublicCategoryService
     {
-        Task<List<CategoryViewModel>> GetAll();
+        Task<IList<CategoryViewModel>> GetAll();
 
         Task<CategoryViewModel> GetById(int id);
     }

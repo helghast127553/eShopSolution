@@ -20,7 +20,6 @@ namespace eShopSolution.BackendApi.Controllers
             _manageProductService = manageProductService;
         }
 
-        //http://localhost:port/product
         [HttpGet("product/")]
         public async Task<IActionResult> Get()
         {
@@ -28,7 +27,6 @@ namespace eShopSolution.BackendApi.Controllers
             return Ok(products);
         }
 
-        //http://localhost:port/product/public-paging
         [HttpGet("public-paging/")]
         public async Task<IActionResult> Get([FromQuery]GetPublicProductPagingRequest request)
         {
@@ -36,7 +34,6 @@ namespace eShopSolution.BackendApi.Controllers
             return Ok(products);
         }
 
-        //http://localhost:port/product/:id
         [HttpGet("product/{id}/")]
         public async Task<IActionResult> GetById(int productId)
         {
@@ -51,7 +48,7 @@ namespace eShopSolution.BackendApi.Controllers
 
         [HttpGet("manage/product/")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Get([FromQuery] GetManageProductPagingRequest request)
+        public async Task<IActionResult> GetAllProductPaging([FromQuery] GetManageProductPagingRequest request)
         {
             var data = await _manageProductService.GetAllProductPaging(request); ;
             return Ok(new { data });
@@ -62,7 +59,13 @@ namespace eShopSolution.BackendApi.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create([FromForm]ProductCreateRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var result = await _manageProductService.Create(request);
+
             if (result == 0)
             {
                 return BadRequest();
@@ -76,7 +79,18 @@ namespace eShopSolution.BackendApi.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromForm] ProductUpdateRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var result = await _manageProductService.Update(id, request);
+
+            if (result == -1)
+            {
+                return NotFound();
+            }
+
             if (result == 0)
             {
                 return BadRequest();
@@ -89,13 +103,19 @@ namespace eShopSolution.BackendApi.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
         {
-            var productId = await _manageProductService.Delete(id);
-            if (productId == 0)
+            var result = await _manageProductService.Delete(id);
+
+            if (result == -1)
+            {
+                return NotFound();
+            }
+
+            if (result == 0)
             {
                 return BadRequest();
             }
 
-            return Ok();
+            return NoContent();
         }
     }
 }

@@ -46,7 +46,7 @@ namespace eShopSolution.Application.Catalog.Categories
 
             if (category == null)
             {
-                throw new EShopException($"Cannot find category data: {categoryId}");
+                return -1;
             }
 
             _dbContext.Remove(category);
@@ -127,7 +127,7 @@ namespace eShopSolution.Application.Catalog.Categories
 
             if (category == null)
             {
-                throw new EShopException($"Cannot find a category with id: {id}");
+                return -1;
             }
 
             category.Name = request.Name;

@@ -19,7 +19,7 @@ namespace eShopSolution.Application.Catalog.Categories
             _context = context;
         }
 
-        public async Task<List<CategoryViewModel>> GetAll()
+        public async Task<IList<CategoryViewModel>> GetAll()
         {
             return await _context.Categories
                 .Select(x => new CategoryViewModel { Id = x.Id, Name = x.Name })
