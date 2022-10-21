@@ -12,7 +12,7 @@ namespace eShopSolution.BackendApi.Controllers
     {
         private readonly IUserService _userService;
 
-        public UsersController(IUserService userService, IHttpContextAccessor httpContextAccessor)
+        public UsersController(IUserService userService)
         {
             _userService = userService;
         }
@@ -56,7 +56,7 @@ namespace eShopSolution.BackendApi.Controllers
         [HttpGet("auth/user-info/")]
         [Authorize(Roles = "admin")]
         public IActionResult GetUserInfo()
-        { 
+        {
             var data = new
             {
                 username = User.FindFirstValue(ClaimTypes.Name),

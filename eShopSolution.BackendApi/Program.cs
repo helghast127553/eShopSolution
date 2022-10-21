@@ -25,8 +25,6 @@ builder.Services.AddIdentity<AppUser, AppRole>()
                .AddDefaultTokenProviders();
 
 builder.Services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
-builder.Services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
-builder.Services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
 
 builder.Services.AddTransient<IStorageService, FileStorageService>();
 

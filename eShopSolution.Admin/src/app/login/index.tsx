@@ -18,6 +18,7 @@ const Login: FC<Props> = (props: Props) => {
     setOnLoad(true);
     doLogin(data)
       .then((response: any) => {
+        debugger;
         setOnLoad(false);
         if (response.isSuccessed) {
           sessionStorage.setItem(
