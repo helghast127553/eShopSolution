@@ -2,6 +2,7 @@ using eShopSolution.Application.Catalog.Categories;
 using eShopSolution.Application.Catalog.Products;
 using eShopSolution.Application.Common;
 using eShopSolution.Application.System;
+using eShopSolution.BackendApi.ActionFilters;
 using eShopSolution.Data.EF;
 using eShopSolution.Data.Entities;
 using eShopSolution.Utilities.Constants;
@@ -24,6 +25,7 @@ builder.Services.AddIdentity<AppUser, AppRole>()
                .AddEntityFrameworkStores<EShopDbContext>()
                .AddDefaultTokenProviders();
 
+builder.Services.AddScoped<ModelValidationAttribute>();
 builder.Services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
 
 builder.Services.AddTransient<IStorageService, FileStorageService>();

@@ -1,4 +1,5 @@
 ﻿using eShopSolution.Application.Catalog.Products;
+using eShopSolution.BackendApi.ActionFilters;
 using eShopSolution.Data.Entities;
 using eShopSolution.ViewModels.Catalog.Products.Manage;
 using eShopSolution.ViewModels.Catalog.Products.Public;
@@ -57,13 +58,9 @@ namespace eShopSolution.BackendApi.Controllers
         [HttpPost("product")]
         [Consumes("multipart/form-data")]
         [Authorize(Roles = "admin")]
+        [ServiceFilter(typeof(ModelValidationAttribute))]
         public async Task<IActionResult> Create([FromForm]ProductCreateRequest request)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var result = await _manageProductService.Create(request);
 
             if (result == 0)
@@ -77,13 +74,9 @@ namespace eShopSolution.BackendApi.Controllers
         [HttpPut("product/{id}")]
         [Consumes("multipart/form-data")]
         [Authorize(Roles = "admin")]
+        [ServiceFilter(typeof(ModelValidationAttribute))]
         public async Task<IActionResult> Update([FromRoute] int id, [FromForm] ProductUpdateRequest request)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var result = await _manageProductService.Update(id, request);
 
             if (result == -1)
