@@ -1,5 +1,4 @@
 ﻿using eShopSolution.Application.Catalog.Categories;
-using eShopSolution.BackendApi.ActionFilters;
 using eShopSolution.ViewModels.Catalog.Categories.Manage;
 using eShopSolution.ViewModels.Catalog.Products.Manage;
 using Microsoft.AspNetCore.Authorization;
@@ -22,11 +21,11 @@ namespace eShopSolution.BackendApi.Controllers
             _categoryManageService = categoryManageService;
         }
 
-        [HttpGet]
+        [HttpGet("category")]
         public async Task<IActionResult> GetAll()
         {
             var data = await _categoryPublicService.GetAll();
-            return Ok(new { data });
+            return Ok(data);
         }
 
 
@@ -64,9 +63,13 @@ namespace eShopSolution.BackendApi.Controllers
 
         [HttpPost("category/")]
         [Authorize(Roles = "admin")]
-        [ServiceFilter(typeof(ModelValidationAttribute))]
         public async Task<IActionResult> Create([FromBody] CategoryCreateRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var result = await _categoryManageService.Create(request);
 
             if (result == 0)
@@ -79,9 +82,13 @@ namespace eShopSolution.BackendApi.Controllers
 
         [HttpPut("category/{id}")]
         [Authorize(Roles = "admin")]
-        [ServiceFilter(typeof(ModelValidationAttribute))]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] CategoryUpdateRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var result = await _categoryManageService.Update(id, request);
 
             if (result == -1)

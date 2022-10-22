@@ -11,6 +11,22 @@ namespace eShopSolution.BackendApi.Tests
     public class CategoriesControllerTest
     {
         [Fact]
+        public async Task GetAllCategory_WhenCalled_ReturnsOkResult()
+        {
+            // Arrange
+            var manageCategoryService = new Mock<IManageCategoryService>();
+            var publicProductService = new Mock<IPublicCategoryService>();
+
+            var controller = new CategoriesController(publicProductService.Object, manageCategoryService.Object);
+
+            // Act
+            var okResult = await controller.GetAll();
+
+            // Assert
+            Assert.IsType<OkObjectResult>(okResult);
+        }
+
+        [Fact]
         public async Task GetAllSubCategoryPaging_WhenCalled_ReturnsOkResult()
         {
             // Arrange
