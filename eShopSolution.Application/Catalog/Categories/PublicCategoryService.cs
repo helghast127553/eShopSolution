@@ -22,7 +22,7 @@ namespace eShopSolution.Application.Catalog.Categories
         public async Task<List<CategoryViewModel>> GetAll()
         {
             return await _context.Categories
-                .Select(x => new CategoryViewModel { Id = x.Id, Name = x.Name })
+                .Select(x => new CategoryViewModel { Id = x.Id, Name = x.Name, ParentId = x.ParentId })
                 .ToListAsync();
         }
 

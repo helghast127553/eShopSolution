@@ -2,6 +2,25 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+<<<<<<< Updated upstream
+=======
+builder.Services.AddHttpClient();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromHours(5);
+});
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+          .AddCookie(options =>
+          {
+              options.LoginPath = "/Account/Login";
+              options.AccessDeniedPath = "/User/Forbidden/";
+          });
+
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddTransient<IUserApiClient, UserApiClient>();
+builder.Services.AddTransient<ICategoryApiClient, CategoryApiClient>();
+>>>>>>> Stashed changes
 
 var app = builder.Build();
 

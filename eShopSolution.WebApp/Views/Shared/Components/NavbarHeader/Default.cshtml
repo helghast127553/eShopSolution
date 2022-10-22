@@ -1,0 +1,277 @@
+﻿@using eShopSolution.ViewModels.Catalog.Categories
+@model List<CategoryViewModel>
+
+<header id="header" class="sticky">
+    <div class="ttvcmsheader-banner"></div>
+    <div class="ttvcmsdesktop-top-header-wrapper">
+        <div class="ttvcmsdesktop-navbar-wrapper">
+            <div class="container">
+                <div class="row ttvcmsdesktop-headrer-nav-outer">
+                    <div class="col-xs-12 col-md-12 col-lg-4 ttvcmsdesktop-navright-wrapper">
+                        <div class="ttvcms-header-myaccount">
+                            <div class="ttv-header-account">
+                                <div class="ttv-account-wrapper">
+                                    <button class="btn-unstyle ttv-myaccount-btn">
+                                        <span>My Account</span>
+                                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                    </button>
+                                    <div class="dropdown-menu ttv-account-dropdown ttv-dropdown open" style="display: block;">
+                                        <div id="ttvcmsdesktop-user-info" class="ttvcms-header-sign">
+                                            <div class="user-info ttvheader-sign">
+                                                @if (User.Identity.IsAuthenticated)
+                                                {
+                                                    <a href="#" class="ttvhedaer-sign-btn" title="Log in to your customer account">
+                                                        <span class="ttvhedaer-sign-span">@User.Identity.Name</span>
+                                                    </a>
+                                                }
+                                                else
+                                                {
+                                                    <a asp-controller="account" asp-action="login" class="ttvhedaer-sign-btn" title="Log in to your customer account">
+                                                        <span class="ttvhedaer-sign-span">Login</span>
+                                                    </a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ttvcmsmyaccount-wrapper">
+                            <div id="ttvcmsdesktop-language-selector" class="ttvcms-header-language">
+                                <div class="ttvheader-language-wrapper">
+                                    <form action="{{ action }}" method="post" enctype="multipart/form-data" id="tvcmsform-language">
+                                        <div class="ttvheader-language-btn-wrapper">
+                                            <button class="btn-unstyle ttv-language-btn" data-toggle="dropdown">
+                                                <span class="ttv-language-span">English</span><i class="fa fa-angle-down expand-more" aria-hidden="true"></i>
+                                            </button>
+                                            <ul class="ttv-language-dropdown ttv-dropdown">
+                                                <li><a class="language-select" title="en-gb">English</a></li>
+                                                <li><a class="language-select" title="ar">Arabic</a></li>
+                                            </ul>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div id="ttvcmsdesktop-currency-selector" class="ttvcms-header-currency">
+                                <form action="{{ action }}" method="post" enctype="multipart/form-data" id="tvcmsform-currency">
+                                    <div class="ttvheader-currency-wrapper">
+                                        <button class="btn-unstyle ttv-currency-btn" data-toggle="dropdown">
+                                            <span class="ttv-currency-span">USD</span><i class="fa fa-angle-down expand-more" aria-hidden="true"></i>
+                                        </button>
+                                        <ul class="ttv-currency-dropdown ttv-dropdown">
+                                            <li>
+                                                <a class="currency-select" title="EUR">EUR</a>
+                                            </li>
+                                            <li>
+                                                <a class="currency-select" title="GBP">GBP</a>
+                                            </li>
+                                            <li>
+                                                <a class="currency-select" title="USD">USD</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <input type="hidden" name="code" value="" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 ttvcmsoffer-wrapper">
+                        <div class="ttvheader-nav-offer-text">
+                            <!-- change this class name -->
+                            <div class="tvdisplay-offer-text">
+                                <div class="ttvheader-nav-offer-text">
+                                    <span>Hello dear visitor! Glad to see you in our store. Good luck with shopping</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 ttvcmsdesktop-wrapper-call">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ttvcmsdesktop-wrapper-navbar">
+            <div class="container">
+                <div class="row ttvcmsdesktop-wrapper-box">
+                    <div class="col-md-4 col-lg-4 col-xl-4 hidden-sm-down ttvcms-header-logo" id="ttvcmsdesktop-logo">
+                        <div class="ttv-header-logo">
+                            <a asp-controller="home" asp-action="index" class="ttvheader-top-logo-wrapper">
+                                <img class="logo img-responsive" src="~/image/catalog/themevolty/logo/demo_img_1.png" title="Your store" alt="Your store">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4">
+                        <div class="ttvcmssearch-wrapper" id="_desktop_search">
+                            <div id="ttvsearch" class="search-widget ttvcmsheader-search">
+                                <div class="ttvsearch-top-wrapper">
+                                    <div class="ttvheader-sarch-display">
+                                        <div class="ttvheader-search-display-icon">
+                                            <div class="ttvsearch-open"></div>
+                                            <div class="ttvsearch-close" style="display: none;"></div>
+                                        </div>
+                                        <span class="ttvserach-name-wrapper">Search</span>
+                                    </div>
+                                    <div class="ttvsearch-header-display-wrappper">
+                                        <div class="ttvheader-search-main">
+                                            <div class="ttvheader-top-search">
+                                                <div class="ttvheader-top-search-wrapper-info-box">
+                                                    <input type="text" name="search" value="" placeholder="Search our catalog" class="ttvcmssearch-words">
+                                                </div>
+                                            </div>
+                                            <div class="ttvheader-top-search-wrapper">
+                                                <button type="submit" class="ttvheader-search-btn" id="searchclick">
+                                                    <i class="fa fa-search" aria-hidden="true"></i><span class="ttvserach-name">Search</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="ttvsearch-result">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 ttvcmsheader-nav-right">
+                        <div class="ttv-search-account-cart-wrapper">
+                            <div class="ttvcms-header-sign" id="ttvcmsdesktop-user-info">
+                                <div class="user-info ttvheader-sign">
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <a asp-action="Logout" asp-controller="Account" class="ttvhedaer-sign-btn" title="Log in to your customer account" rel="nofollow">
+                                            <i class="material-icons"></i>
+                                            <span class="ttvhedaer-sign-span">Logout</span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="Login" asp-controller="Account" class="ttvhedaer-sign-btn" title="Log in to your customer account" rel="nofollow">
+                                            <i class="material-icons"></i>
+                                            <span class="ttvhedaer-sign-span">Sign / Register</span>
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                            <div id="_desktop_cart" class="ttvcms-header-cart">
+                                <div class="blockcart cart-preview inactive ttv-header-cart">
+                                    <div id="cartdropdwon" class="ttvheader-cart-wrapper">
+                                        <div class="ttvheader-cart-btn-wrapper">
+                                            <a href="JavaScript:void(0);" title="Cart">
+                                                <div class="ttv-cart-icon">
+                                                    <i class="fa fa-shopping-cart shopping-cart" aria-hidden="true">
+                                                    </i>
+                                                </div>
+                                                <div class="ttv-cart-cart-outer">
+                                                    <div class="ttv-cart-cart-inner">
+                                                        <span class="ttv-cart-title">my cart</span>
+                                                    </div>
+                                                    <div class="ttvcart-count-products-count">
+                                                        <span class="cart-total cart-products-count">(0)</span><span class="ttvshopping-cart-name">Items</span>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <ul>
+                                            <li>
+                                                <div class="ttvcmscart-show-dropdown">
+                                                    <div class="ttvcart-no-product">
+                                                        <div class="ttvcart-no-product-label">
+                                                            Your shopping cart is empty!
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="position-static ttvcms-header-menu pl-0 pr-0">
+            <div class="ttvcmsmain-menu-wrap container">
+                <div id="ttvcmsdesktop-main-menu">
+                    <div class="ttvcmsmain-menu-wrapper">
+                        <ul class="ttv-header-menu" id="ttv-top-menu" data-depth="0">
+                            <li class="category ttvmain-menu-wrapper current">
+                                <div class="ttvmenu-link-wrapper">
+                                    <a asp-controller="home" asp-action="index" data-depth="0" class="ttvmenu-link">
+                                        <span class="ttvmain-menu-text-box">Home</span>
+                                    </a>
+                                </div>
+                            </li>
+                            @{
+                                var parents = Model.Where(x => x.ParentId == null);
+                            }
+
+                            @for (int i = 0; i < parents.Count(); i++)
+                            {
+                                var parent = parents.ElementAt(i);
+                                var children = Model.Where(x => x.ParentId == parent.Id);
+                                if (children.Any())
+                                {
+                                    <li class="category ttvmain-menu-wrapper ttv-has-child ">
+                                        <div class="ttvmenu-link-wrapper">
+                                            <a asp-controller="product" asp-action="category" asp-route-parentId="@parent.Id" class="ttvmenu-link" data-depth="0">
+                                                <span class="ttvmain-menu-text-box">@parent.Name</span>
+                                            </a>
+                                            <span class="ttvmenu-toggle-icon">
+                                                <i class="fa fa-caret-down ttvhorizontal-menu-drop-down-icon" aria-hidden="true"></i>
+                                            </span>
+                                        </div>
+                                        <div class="ttvmain-menu-dropdown ttvmain-menu-sub-menu">
+                                            <ul class="ttv-header-menu clearfix" data-depth="1">
+                                                @foreach (var item in children)
+                                                {
+                                                    <li class="category ttvmain-menu-wrapper">
+                                                        <div class="ttvmenu-link-wrapper">
+                                                            <a asp-controller="product" asp-action="category" asp-route-id="@item.Id" asp-route-parentId="@item.ParentId" data-depth="1">
+                                                                <span class="ttvmain-menu-text-box">@item.Name</span>
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="category ttvmain-menu-wrapper ">
+                                        <div class="ttvmenu-link-wrapper">
+                                            <a asp-controller="product" asp-action="category" asp-route-parentId="@parent.Id" class="ttvmenu-link" data-depth="0">
+                                                <span class="ttvmain-menu-text-box">@parent.Name</span>
+                                            </a>
+                                        </div>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                        <div class="clearfix"></div>
+                        <div class="ttvmenu-button-wrapper">
+                            <div class="ttvmenu-button"><span>Menu</span><i class="fa fa-bars" aria-hidden="true"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="ttvcms-mobile-view-header" class="hidden-lg-up">
+        <div class="ttvcmsmobile-header-top">
+            <div class="ttvcmsmobile-header-left">
+                <div id="ttvcmsmobile-horizontal-menu"></div>
+            </div>
+            <div class="ttvcmsmobile-header-center">
+                <div id="ttvcmsmobile-header-logo"></div>
+            </div>
+            <div class="ttvcmsmobile-header-right">
+                <div id="ttvcmsmobile-horizontal-menu-left"></div>
+                <div id="ttvcmsmobile-header-right"></div>
+            </div>
+        </div>
+        <div class="ttvcmsmobile-header-bottom">
+            <div id="ttvmobile_search"></div>
+        </div>
+    </div>
+</header>

@@ -62,6 +62,11 @@ namespace eShopSolution.BackendApi.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Create([FromForm]ProductCreateRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var result = await _manageProductService.Create(request);
             if (result == 0)
             {
@@ -76,6 +81,11 @@ namespace eShopSolution.BackendApi.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromForm] ProductUpdateRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var result = await _manageProductService.Update(id, request);
             if (result == 0)
             {
