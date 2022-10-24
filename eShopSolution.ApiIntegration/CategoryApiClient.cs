@@ -21,7 +21,7 @@ namespace eShopSolution.ApiIntegration
             _configuration = configuration;
         }
 
-        public async Task<List<CategoryViewModel>> GetAll()
+        public async Task<IList<CategoryViewModel>> GetAll()
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);

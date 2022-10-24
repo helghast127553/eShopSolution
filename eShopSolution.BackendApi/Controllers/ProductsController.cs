@@ -9,11 +9,11 @@ namespace eShopSolution.BackendApi.Controllers
 {
     [Route("api")]
     [ApiController]
-    public class ProductsController: ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly IPublicProductService _publicProductService;
         private readonly IManageProductService _manageProductService;
-        
+
         public ProductsController(IPublicProductService publicProductService, IManageProductService manageProductService)
         {
             _publicProductService = publicProductService;
@@ -27,8 +27,15 @@ namespace eShopSolution.BackendApi.Controllers
             return Ok(products);
         }
 
+        [HttpGet("product/detail/{id}/")]
+        public async Task<IActionResult> GetProductDetailById([FromRoute] int id)
+        {
+            var productDetail = await _publicProductService.GetProductDetailById(id);
+            return Ok(productDetail);
+        }
+
         [HttpGet("public-paging/")]
-        public async Task<IActionResult> Get([FromQuery]GetPublicProductPagingRequest request)
+        public async Task<IActionResult> GetAllByCategoryId([FromQuery]GetPublicProductPagingRequest request)
         {
             var products = await _publicProductService.GetAllByCategoryId(request);
             return Ok(products);

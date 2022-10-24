@@ -19,4 +19,5 @@ namespace eShopSolution.WebApp.Controllers
         {
             return View(await _productApiClient.GetAll());
         }
+    }
 }
