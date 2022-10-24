@@ -20,7 +20,7 @@ namespace eShopSolution.BackendApi.Controllers
             _manageProductService = manageProductService;
         }
 
-        [HttpGet("product/")]
+        [HttpGet("product")]
         public async Task<IActionResult> Get()
         {
             var products = await _publicProductService.GetAll();
