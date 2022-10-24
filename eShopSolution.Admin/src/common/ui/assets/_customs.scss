@@ -55,6 +55,10 @@
 }
 
 /** Define input state style */
+.cihint {
+  color: $red !important;
+}
+
 .cinput {
   input {
     border: none;
@@ -66,6 +70,10 @@
   }
 }
 
+.cihint {
+  color: $red;
+}
+
 .wasvalidated {
   .cinput,
   .ctext-area {
@@ -75,10 +83,6 @@
       background-repeat: no-repeat;
       background-position: right;
       background-origin: content-box;
-
-      & ~ .cihint {
-        color: $green;
-      }
     }
 
     &:invalid,
