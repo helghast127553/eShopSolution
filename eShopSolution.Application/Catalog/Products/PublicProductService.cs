@@ -27,6 +27,7 @@ namespace eShopSolution.Application.Catalog.Products
                         join i in _dbContext.ProductImages on p.Id equals i.ProductId
                         select new { p, i };
 
+
             var data = await query.Select(x => new ProductViewModel()
             {
                 Id = x.p.Id,
@@ -36,7 +37,9 @@ namespace eShopSolution.Application.Catalog.Products
                 Price = x.p.Price,
                 Time_Created = x.p.Time_Created.Value,
                 Time_Updated = x.p.Time_Updated.Value
-            }).ToListAsync();
+            })
+                .Take(10)
+                .ToListAsync();
 
             return data;
         }

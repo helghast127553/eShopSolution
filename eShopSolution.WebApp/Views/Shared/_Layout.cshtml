@@ -193,5 +193,86 @@
             });
         });
     </script>
+    <script type="text/javascript">
+        /*******************************tabproduct*******************************/
+        var mobileViewSize = 991;
+
+        $(document).ready(function () {
+            /********************** Start Tab js *****************************/
+            $('.tab-index').click(function (e) {
+                $id = $(this).attr('data-tab-data');
+                $paging = $(this).attr('data-tab-paging');
+                $('.tab-index').removeClass('active');
+
+                $('.ttvcmstab-product').removeClass('active');
+                $('.ttvtab-pagination').removeClass('active');
+
+                $('.ttvcmstab-product').hide();
+                $('.ttvtab-pagination').hide();
+
+                $(this).addClass('active');
+                $('#' + $id).addClass('active').fadeIn('500');
+                $('.' + $paging + '-pagination').addClass('active').show();
+            });
+
+            $('.ttvcmstab-product.active').fadeIn();
+            $('.ttvtab-pagination.active').fadeIn();
+
+            $('.ttvcmstab-title-product .ttvtab-pagination-wrapper').insertAfter('.ttvcmstab-title-product .ttvtab-title-wrapper .ttvtab-title');
+
+            /********************** End Tab js *****************************/
+
+            /****************** Start Tab Product Slider Js *******************************************/
+            var owlClass = [
+                //['slider className','navigation nextClass','navigation prevClass']
+                ['.ttvtab-featured-product .ttvproduct-wrapper-content-box', '.ttvtab-featured-product-next', '.ttvtab-featured-product-prev'], ['.ttvtab-new-product .ttvproduct-wrapper-content-box', '.ttvtab-new-product-next', '.ttvtab-new-product-prev'], ['.ttvtab-special-product .ttvproduct-wrapper-content-box', '.ttvtab-special-product-next', '.ttvtab-special-product-prev'], ['.ttvtab-best-seller-product .ttvproduct-wrapper-content-box', '.ttvtab-best-seller-product-next', '.ttvtab-best-seller-product-prev'],];
+
+            for (var i = 0; i < owlClass.length; i++) {
+                var owl = $(owlClass[i][0]).owlCarousel({
+                    loop: false, dots: false, nav: false, responsive: {
+                        0: { items: 1 }, 320: { items: 1, slideBy: 1 }, 576: { items: 2, slideBy: 1 }, 768: { items: 2, slideBy: 1 }, 992: { items: 3, slideBy: 1 }, 1200: { items: 4, slideBy: 1 }, 1600: { items: 5, slideBy: 1 }, 1800: { items: 5, slideBy: 1 }
+                    }
+                });
+
+                $(owlClass[i][1]).on('click', function (e) {
+                    e.preventDefault();
+                    $('#' + $(this).attr('data-parent') + ' .owl-nav .owl-next').trigger('click');
+                });
+                $(owlClass[i][2]).on('click', function (e) {
+                    e.preventDefault();
+                    $('#' + $(this).attr('data-parent') + ' .owl-nav .owl-prev').trigger('click');
+                });
+                // $('#featuredid').insertAfter('#ttvcmstab-featured-product .ttvtab-featured-product');
+                // $('#newid').insertAfter('#ttvcmstab-new-product .ttvtab-new-product');
+                // $('#bestid').insertAfter('#ttvcmstab-best-seller-product .ttvtab-best-seller-product');
+                // $('#specialid').insertAfter('#ttvcmstab-special-product .ttvtab-special-product');
+            }
+            /****************** End Tab Product Slider Js *******************************************/
+            /****************** Start Single Products Slider Js *******************************************/
+            var swiperClass = [
+                //['slider className','navigation nextClass','navigation prevClass','paging className']
+                ['.ttvcmsfeatured-product .ttvfeatured-product-wrapper', '.ttvcmsfeatured-next', '.ttvcmsfeatured-prev', '.ttvcmsfeatured-product'], ['.ttvcmsnew-product .ttvnew-product-wrapper', '.ttvcmsnew-next', '.ttvcmsnew-prev', '.ttvcmsnew-product'], ['.ttvcmsspecial-product .ttvspecial-product-wrapper', '.ttvcmsspecial-next', '.ttvcmsspecial-prev', '.ttvcmsspecial-product'], ['.ttvcmsbest-seller-product .ttvbest-seller-product-wrapper', '.ttvcmsbest-seller-next', '.ttvcmsbest-seller-prev', '.ttvcmsbest-seller-product'],];
+
+            for (var i = 0; i < swiperClass.length; i++) {
+                $(swiperClass[i][0]).owlCarousel({
+                    loop: false, dots: false, nav: false, responsive: {
+                        0: { items: 1 }, 320: { items: 1, slideBy: 1 }, 576: { items: 2, slideBy: 1 }, 768: { items: 2, slideBy: 1 }, 992: { items: 3, slideBy: 1 }, 1200: { items: 4, slideBy: 1 }, 1600: { items: 5, slideBy: 1 }, 1800: { items: 5, slideBy: 1 }
+                    },
+                });
+
+                $(swiperClass[i][1]).on('click', function (e) {
+                    e.preventDefault();
+                    $('.' + $(this).attr('data-parent') + ' .owl-nav .owl-next').trigger('click');
+                });
+                $(swiperClass[i][2]).on('click', function (e) {
+                    e.preventDefault();
+                    $('.' + $(this).attr('data-parent') + ' .owl-nav .owl-prev').trigger('click');
+                });
+                // $(swiperClass[i][3]+' .ttv-pagination-wrapper').insertAfter(swiperClass[i][3]+' .ttvproduct-wrapper-content-box');
+            }
+            /****************** End Single Product Sliders Js *******************************************/
+
+        });
+    </script>
 </body>
 </html>

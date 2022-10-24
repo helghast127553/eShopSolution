@@ -4,13 +4,14 @@ namespace eShopSolution.WebApp.Controllers
 {
     public class ProductController : Controller
     {
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpGet]
-        public IActionResult Detail()
+        public IActionResult Detail(int id)
         {
             return View();
         }
