@@ -14,5 +14,7 @@ namespace eShopSolution.Application.Catalog.Products
         Task<PagedResult<ProductViewModel>> GetAllByCategoryId(GetPublicProductPagingRequest request);
 
         Task<IList<ProductViewModel>> GetAll();
+
+        Task<ProductViewModel> GetProductDetailById(int id);
     }
 }

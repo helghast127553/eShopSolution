@@ -10,6 +10,7 @@ namespace eShopSolution.ApiIntegration.Abstraction
 {
     public interface IProductApiClient
     {
-        Task<List<ProductViewModel>> GetAll();
+        Task<IList<ProductViewModel>> GetAll();
+        Task<ProductViewModel> GetProductDetail(int id);
     }
 }

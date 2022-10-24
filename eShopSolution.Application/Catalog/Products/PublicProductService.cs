@@ -82,5 +82,19 @@ namespace eShopSolution.Application.Catalog.Products
 
             return pagedResult;
         }
+
+        public async Task<ProductViewModel> GetProductDetailById(int id)
+        {
+            var productDetail = await _dbContext.Products.FindAsync(id);
+            var productImages = await _dbContext.ProductImages.SingleOrDefaultAsync(x => x.ProductId == productDetail.Id);
+
+            return new ProductViewModel
+            {
+                Id = productDetail.Id,
+                Description = productDetail.Description,
+                Price = productDetail.Price,
+                ImageUrl = $"https://localhost:7064/image/{productImages.ImagePath}"
+,           };
+        }
     }
 }

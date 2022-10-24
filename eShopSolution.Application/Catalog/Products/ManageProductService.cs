@@ -3,19 +3,10 @@ using eShopSolution.ViewModels.Catalog.Products.Manage;
 using eShopSolution.ViewModels.Common;
 using eShopSolution.Data.EF;
 using eShopSolution.Data.Entities;
-using eShopSolution.Utilities.Exceptions;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
 using eShopSolution.Application.Common;
-using eShopSolution.ViewModels.Catalog.Products.Public;
-using eShopSolution.ViewModels.System.Users;
-using System.Security.Cryptography;
 
 namespace eShopSolution.Application.Catalog.Products
 {

@@ -1,9 +1,13 @@
-﻿<div class="">
+﻿@using System.Globalization
+@using eShopSolution.ViewModels.Catalog.Products
+@model ProductViewModel
+
+<div class="">
     <div id="product-product" class="container">
         <nav class="breadcrumb">
             <ol>
                 <li><a href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/index.php?route=common/home"><span><i class="fa fa-home"></i></span></a></li>
-                <li><a href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/index.php?route=product/product&amp;product_id=28"><span>Exercitat Virginia</span></a></li>
+                <li><a href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/index.php?route=product/product&amp;product_id=28"><span>@Model.Name</span></a></li>
             </ol>
         </nav>
         <div class="row">
@@ -13,33 +17,36 @@
                         <div>
                             <div class="col-sm-6 ttvproduct-details-img-block">
                                 <div class="thumbnails">
-                                    <div><a class="thumbnail" href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-1-900x983.jpg">
-                                        <img id="img_zoom" src="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-1-900x983.jpg" alt="Exercitat Virginia" data-zoom-image="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-1-900x983.jpg"></a></div>
-                                    <div class="ttv-additional-image">
-                                        <div class="ttvsingimage-content-box owl-theme owl-carousel owl-loaded owl-drag">
-                                            <div class="owl-stage-outer">
-                                                <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 687px;">
-                                                    <div class="owl-item active" style="width: 137.333px;"><a class="thumbnail" href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-3-900x983.jpg" title="Exercitat Virginia"><img src="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-3-345x380.jpg" title="Exercitat Virginia" alt="Exercitat Virginia"></a></div>
-                                                    <div class="owl-item active" style="width: 137.333px;"><a class="thumbnail" href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-6-900x983.jpg" title="Exercitat Virginia"><img src="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-6-345x380.jpg" title="Exercitat Virginia" alt="Exercitat Virginia"></a></div>
-                                                    <div class="owl-item active" style="width: 137.333px;"><a class="thumbnail" href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-1-900x983.jpg" title="Exercitat Virginia"><img src="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-1-345x380.jpg" title="Exercitat Virginia" alt="Exercitat Virginia"></a></div>
-                                                    <div class="owl-item active" style="width: 137.333px;"><a class="thumbnail" href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-3-900x983.jpg" title="Exercitat Virginia"><img src="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-3-345x380.jpg" title="Exercitat Virginia" alt="Exercitat Virginia"></a></div>
-                                                    <div class="owl-item" style="width: 137.333px;"><a class="thumbnail" href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-2-900x983.jpg" title="Exercitat Virginia"><img src="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-2-345x380.jpg" title="Exercitat Virginia" alt="Exercitat Virginia"></a></div>
-                                                </div>
-                                            </div>
-                                            <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div>
-                                            <div class="owl-dots disabled"></div>
-                                        </div>
-                                        <div class="ttvcms-singleimage-pagination-wrapper">
-                                            <div class="ttvcms-singleimage-pagination-btn">
-                                                <div class="ttvsingleimage-prev"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
-                                                <div class="ttvsingleimage-next"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
-                                            </div>
-                                        </div>
+                                    <div>
+                                        <a class="thumbnail" href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-1-900x983.jpg">
+                                            <img id="img_zoom" src="@Model.ImageUrl" alt="Exercitat Virginia" data-zoom-image="@Model.ImageUrl">
+                                        </a>
                                     </div>
+                                    @*<div class="ttv-additional-image">
+                                    <div class="ttvsingimage-content-box owl-theme owl-carousel owl-loaded owl-drag">
+                                    <div class="owl-stage-outer">
+                                    <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 687px;">
+                                    <div class="owl-item active" style="width: 137.333px;"><a class="thumbnail" href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-3-900x983.jpg" title="Exercitat Virginia"><img src="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-3-345x380.jpg" title="Exercitat Virginia" alt="Exercitat Virginia"></a></div>
+                                    <div class="owl-item active" style="width: 137.333px;"><a class="thumbnail" href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-6-900x983.jpg" title="Exercitat Virginia"><img src="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-6-345x380.jpg" title="Exercitat Virginia" alt="Exercitat Virginia"></a></div>
+                                    <div class="owl-item active" style="width: 137.333px;"><a class="thumbnail" href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-1-900x983.jpg" title="Exercitat Virginia"><img src="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-1-345x380.jpg" title="Exercitat Virginia" alt="Exercitat Virginia"></a></div>
+                                    <div class="owl-item active" style="width: 137.333px;"><a class="thumbnail" href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-3-900x983.jpg" title="Exercitat Virginia"><img src="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-3-345x380.jpg" title="Exercitat Virginia" alt="Exercitat Virginia"></a></div>
+                                    <div class="owl-item" style="width: 137.333px;"><a class="thumbnail" href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-2-900x983.jpg" title="Exercitat Virginia"><img src="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/product/product-2-345x380.jpg" title="Exercitat Virginia" alt="Exercitat Virginia"></a></div>
+                                    </div>
+                                    </div>
+                                    <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div>
+                                    <div class="owl-dots disabled"></div>
+                                    </div>
+                                    <div class="ttvcms-singleimage-pagination-wrapper">
+                                    <div class="ttvcms-singleimage-pagination-btn">
+                                    <div class="ttvsingleimage-prev"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
+                                    <div class="ttvsingleimage-next"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
+                                    </div>
+                                    </div>
+                                    </div>*@
                                 </div>
                             </div>
                             <div class="col-sm-6 ttv-wrapper-info">
-                                <h1 class="ttvproduct-title">Exercitat Virginia</h1>
+                                <h1 class="ttvproduct-title">@Model.Name</h1>
                                 <div class="ttvall-product-star-icon">
                                     <div class="comments_note">
                                         <div class="star_content">
@@ -61,7 +68,7 @@
                                 <hr>
                                 <ul class="list-unstyled product-price-and-shipping">
                                     <li>
-                                        <h2 class="price">$310.00</h2>
+                                        <h2 class="price">@Model.Price.ToString("C3", CultureInfo.CurrentCulture)</h2>
                                     </li>
                                     <li class="ttv-tax">Ex Tax: $310.00</li>
                                     <li class="ttv-point">Price in reward points: 200</li>
@@ -95,74 +102,8 @@
                             <div class="tab-content ">
                                 <div class="tab-pane active" id="tab-description">
                                     <p>
-                                        HTC Touch - in High Definition. Watch music videos and streaming content in awe-inspiring high definition clarity for a mobile experience you never thought possible. Seductively sleek, the HTC Touch HD provides the next generation of mobile functionality, all at a simple touch. Fully integrated with Windows Mobile Professional 6.1, ultrafast 3.5G, GPS, 5MP camera, plus lots more - all delivered on a breathtakingly crisp 3.8" WVGA touchscreen - you can take control of your mobile world with the HTC Touch HD.
+                                        @Model.Description
                                     </p>
-                                    <p><strong>Features</strong></p>
-                                    <ul>
-                                        <li>
-                                            Processor Qualcomm® MSM 7201A™ 528 MHz
-                                        </li>
-                                        <li>
-                                            Windows Mobile® 6.1 Professional Operating System
-                                        </li>
-                                        <li>
-                                            Memory: 512 MB ROM, 288 MB RAM
-                                        </li>
-                                        <li>
-                                            Dimensions: 115 mm x 62.8 mm x 12 mm / 146.4 grams
-                                        </li>
-                                        <li>
-                                            3.8-inch TFT-LCD flat touch-sensitive screen with 480 x 800 WVGA resolution
-                                        </li>
-                                        <li>
-                                            HSDPA/WCDMA: Europe/Asia: 900/2100 MHz; Up to 2 Mbps up-link and 7.2 Mbps down-link speeds
-                                        </li>
-                                        <li>
-                                            Quad-band GSM/GPRS/EDGE: Europe/Asia: 850/900/1800/1900 MHz (Band frequency, HSUPA availability, and data speed are operator dependent.)
-                                        </li>
-                                        <li>
-                                            Device Control via HTC TouchFLO™ 3D &amp; Touch-sensitive front panel buttons
-                                        </li>
-                                        <li>
-                                            GPS and A-GPS ready
-                                        </li>
-                                        <li>
-                                            Bluetooth® 2.0 with Enhanced Data Rate and A2DP for wireless stereo headsets
-                                        </li>
-                                        <li>
-                                            Wi-Fi®: IEEE 802.11 b/g
-                                        </li>
-                                        <li>
-                                            HTC ExtUSB™ (11-pin mini-USB 2.0)
-                                        </li>
-                                        <li>
-                                            5 megapixel color camera with auto focus
-                                        </li>
-                                        <li>
-                                            VGA CMOS color camera
-                                        </li>
-                                        <li>
-                                            Built-in 3.5 mm audio jack, microphone, speaker, and FM radio
-                                        </li>
-                                        <li>
-                                            Ring tone formats: AAC, AAC+, eAAC+, AMR-NB, AMR-WB, QCP, MP3, WMA, WAV
-                                        </li>
-                                        <li>
-                                            40 polyphonic and standard MIDI format 0 and 1 (SMF)/SP MIDI
-                                        </li>
-                                        <li>
-                                            Rechargeable Lithium-ion or Lithium-ion polymer 1350 mAh battery
-                                        </li>
-                                        <li>
-                                            Expansion Slot: microSD™ memory card (SD 2.0 compatible)
-                                        </li>
-                                        <li>
-                                            AC Adapter Voltage range/frequency: 100 ~ 240V AC, 50/60 Hz DC output: 5V and 1A
-                                        </li>
-                                        <li>
-                                            Special Features: FM Radio, G-Sensor
-                                        </li>
-                                    </ul>
                                 </div>
                                 <div class="tab-pane" id="tab-review">
                                     <form class="form-horizontal" id="form-review">

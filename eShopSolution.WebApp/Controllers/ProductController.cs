@@ -1,9 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using eShopSolution.ApiIntegration.Abstraction;
+using Microsoft.AspNetCore.Mvc;
 
 namespace eShopSolution.WebApp.Controllers
 {
     public class ProductController : Controller
     {
+        private readonly IProductApiClient _productApiClient;
+        public ProductController(IProductApiClient productApiClient)
+        {
+            _productApiClient = productApiClient;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -11,9 +18,9 @@ namespace eShopSolution.WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int id)
         {
-            return View();
+            return View(await _productApiClient.GetProductDetail(id));
         }
 
         [HttpGet]
