@@ -5,26 +5,28 @@ import { LoginFormInputs } from "../../models/form";
 import { ScopeKey, ScopeValue, Roles, PageURL } from "../../models/enum";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import style from "./login.module.scss";
+import CInputHint from "../../common/ui/base/input/CInputHint";
 import { doLogin, getProfile } from "./api";
+import { AxiosError } from "axios";
 
 interface Props {}
 
 const Login: FC<Props> = (props: Props) => {
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm<LoginFormInputs>();
+  const { register, handleSubmit, errors } = useForm<LoginFormInputs>();
+  const [error, setError] = useState<string>();
   const [onLoad, setOnLoad] = useState<boolean>(false);
 
   const onLoginValid: SubmitHandler<LoginFormInputs> = (data, event) => {
     setOnLoad(true);
     doLogin(data)
       .then((response: any) => {
-        debugger;
         setOnLoad(false);
         if (response.isSuccessed) {
           sessionStorage.setItem(
             ScopeKey.ACCESS_TOKEN,
             window.btoa(response.resultObj)
-          ); 
+          );
         }
         localStorage.setItem(ScopeKey.IS_AUTHENTICATED, ScopeValue.TRUE);
 
@@ -36,9 +38,13 @@ const Login: FC<Props> = (props: Props) => {
               navigate(PageURL.ADMIN_PRODUCT);
             }
           })
-          .catch((error) => console.log(error));
+          .catch((error: AxiosError) => console.log(error));
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        if(error.response.data) {
+          setError(error.response.data.message);
+        }
+      });
   };
 
   const onLoginInvalid: SubmitErrorHandler<LoginFormInputs> = (_, event) => {};
@@ -47,6 +53,9 @@ const Login: FC<Props> = (props: Props) => {
     <div className={style.templateLogin}>
       <div className={style.login}>
         <h1 className={style.loginHeading}>Đăng nhập</h1>
+        <div className={style.error}>
+          {error}
+        </div>
         <Form
           className={style.loginForm}
           noValidate
@@ -63,10 +72,11 @@ const Login: FC<Props> = (props: Props) => {
               autoComplete="off"
               type="text"
               name="username"
-              className={style.loginInput}
+              className={`${style.loginInput}`}
               placeholder="Eg: helghast127553"
-              ref={register({})}
+              ref={register({ required: "Trường này là bắt buộc" })}
             />
+            {errors.username && <CInputHint>{errors.username.message}</CInputHint>}
           </Form.Group>
           <Form.Group>
             <Form.Label
@@ -80,8 +90,9 @@ const Login: FC<Props> = (props: Props) => {
               type="password"
               name="password"
               className={style.loginInput}
-              ref={register({})}
+              ref={register({ required: "Trường này là bắt buộc" })}
             />
+            {errors.password && <CInputHint>{errors.password.message}</CInputHint>}
           </Form.Group>
           <div className={style.btnGroups}>
             <button className={style.signUpSubmit}>

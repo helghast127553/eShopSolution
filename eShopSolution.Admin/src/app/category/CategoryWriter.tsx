@@ -13,6 +13,7 @@ import { FormAction } from "../../models/enum";
 import { CategoryData } from "../../models";
 import { doGetParentCategories, doPostCategory, doPutCategory } from "./api";
 import style from "./category.module.scss";
+import CInputHint from "../../common/ui/base/input/CInputHint";
 
 interface Props {
   initialData?: CategoryData;
@@ -27,7 +28,7 @@ const CategoryWriter: FC<Props> = (props: Props) => {
   const [parentCategories, setParentCategories] = useState<Array<CategoryData>>(
     []
   );
-  const { register, handleSubmit, reset } = useForm<CategoryFormInputs>();
+  const { register, handleSubmit, reset, errors } = useForm<CategoryFormInputs>();
 
   useEffect(() => {
     if (FormAction.UPDATE === action) {
@@ -104,23 +105,28 @@ const CategoryWriter: FC<Props> = (props: Props) => {
             name="name"
             type="text"
             placeholder="Nhập tên loại sản phẩm"
-            iref={register({})}
+            iref={register({ required: "Trường này là bắt buộc" })}
+            valid={!errors.name}
           />
+          {errors.name && <CInputHint>{errors.name.message}</CInputHint>}
         </Form.Group>
         <Form.Group className={style.inputGroup}>
           <Form.Label className="required">Mô tả</Form.Label>
           <CTextArea
             name="description"
             placeholder="Nhập mô tả"
-            iref={register({})}
+            iref={register({ required: "Trường này là bắt buộc" })}
+            valid={!errors.description}
           />
+          {errors.description && <CInputHint>{errors.description.message}</CInputHint>}
         </Form.Group>
         <Form.Group>
           <Form.Label>Loại sản phẩm cha</Form.Label>
           <CSelect
-            iref={register({})}
+            iref={register({ required: "Trường này là bắt buộc" })}
             name="parentId"
             placeholder="Chọn loại sản phẩm cha"
+            valid={!errors.parentId}
           >
             {parentCategories.map((item) => (
               <option title={item.name} value={item.id}>
@@ -128,6 +134,7 @@ const CategoryWriter: FC<Props> = (props: Props) => {
               </option>
             ))}
           </CSelect>
+          {errors.parentId && <CInputHint>{errors.parentId.message}</CInputHint>}
         </Form.Group>
         <div className={`d-flex justify-content-end ${style.buttonGroup}`}>
           <CButton type="button" outline onClick={cancel}>

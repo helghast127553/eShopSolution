@@ -19,6 +19,12 @@
 
     background-color: $white;
 
+    .error {
+      @include flex(center, center);
+      color: $red;
+      margin-bottom: 35px;
+    }
+
     .loginHeading {
       font-size: 40px;
       font-weight: bold;
@@ -27,6 +33,7 @@
       color: $dark-blue;
 
       margin-bottom: 35px;
+
     }
 
     .loginForm {

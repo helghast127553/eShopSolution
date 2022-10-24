@@ -14,6 +14,7 @@ import style from "./product.module.scss";
 import { CategoryData, ProductData } from "../../models";
 import { doGetSubCategories } from "../category/api";
 import { doPostProduct, doPutProduct } from "./api";
+import CInputHint from "../../common/ui/base/input/CInputHint";
 
 interface Props {
   initialData?: ProductData;
@@ -25,7 +26,7 @@ interface Props {
 
 const ProductWriter: FC<Props> = (props: Props) => {
   const { isOpen, toggle, onAddSucess, action, initialData } = props;
-  const { register, handleSubmit, reset } = useForm<ProductFormInputs>();
+  const { register, handleSubmit, reset, errors } = useForm<ProductFormInputs>();
   const [subCategories, setSubCategories] = useState<Array<CategoryData>>([]);
 
   useEffect(() => {
@@ -131,8 +132,10 @@ const ProductWriter: FC<Props> = (props: Props) => {
             name="name"
             type="text"
             placeholder="Nhập tên sản phẩm"
-            iref={register({})}
+            iref={register({ required: "Trường này là bắt buộc" })}
+            valid={!errors.name}
           />
+           {errors.name && <CInputHint>{errors.name.message}</CInputHint>}
         </Form.Group>
         <Form.Group className={style.inputGroup}>
           <Form.Label className="required">Giá sản phẩm</Form.Label>
@@ -140,14 +143,17 @@ const ProductWriter: FC<Props> = (props: Props) => {
             name="price"
             type="text"
             placeholder="Nhập giá sản phẩm"
-            iref={register({})}
+            iref={register({ required: "Trường này là bắt buộc" })}
+            valid={!errors.price}
           />
+           {errors.price && <CInputHint>{errors.price.message}</CInputHint>}
           <Form.Group>
             <Form.Label>Loại sản phẩm</Form.Label>
             <CSelect
-              iref={register({})}
+              iref={register({ required: "Trường này là bắt buộc" })}
               name="categoryId"
               placeholder="Chọn loại sản phẩm"
+              valid={!errors.categoryId}
             >
               {subCategories.map((item) => (
                 <option title={item.name} value={item.id}>
@@ -155,6 +161,7 @@ const ProductWriter: FC<Props> = (props: Props) => {
                 </option>
               ))}
             </CSelect>
+            {errors.categoryId && <CInputHint>{errors.categoryId.message}</CInputHint>}
           </Form.Group>
         </Form.Group>
         <Form.Group className={style.inputGroup}>
@@ -162,8 +169,10 @@ const ProductWriter: FC<Props> = (props: Props) => {
           <CTextArea
             name="description"
             placeholder="Nhập mô tả"
-            iref={register({})}
+            iref={register({ required: "Trường này là bắt buộc" })}
+            valid={!errors.description}
           />
+            {errors.description && <CInputHint>{errors.description.message}</CInputHint>}
         </Form.Group>
         <div className={`d-flex justify-content-end ${style.buttonGroup}`}>
           <CButton type="button" outline onClick={cancel}>
