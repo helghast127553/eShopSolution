@@ -274,5 +274,161 @@
 
         });
     </script>
+    <script type="text/javascript">
+        /****************** left testimonial Js *******************************************/
+        $(document).ready(function () {
+
+            var mobileViewSize = 991;
+
+            sidePanelTestimonialSlider();
+            leftRightTestimonialTitleToggle();
+            $(window).resize(function () {
+                sidePanelTestimonialSlider();
+                leftRightTestimonialTitleToggle();
+            });
+
+            function sidePanelTestimonialSlider() {
+                $('.ttvcms-left-testimonial .ttvtestimonial-content-box').owlCarousel({
+                    loop: false, dots: false, nav: false, responsive: {
+                        0: { items: 1 }, 320: { items: 1, slideBy: 1 }, 400: { items: 1, slideBy: 1 }, 768: { items: 1, slideBy: 1 }, 992: { items: 1, slideBy: 1 }, 1200: { items: 1, slideBy: 1 }, 1600: { items: 1, slideBy: 1 }, 1800: { items: 1, slideBy: 1 }
+                    },
+                });
+                $('.ttvcms-left-testimonial .ttvtestimonial-prev').on('click', function () {
+                    $('.ttvcms-left-testimonial .owl-nav .owl-prev').trigger('click');
+                });
+
+                $('.ttvcms-left-testimonial .ttvtestimonial-next').on('click', function () {
+                    $('.ttvcms-left-testimonial .owl-nav .owl-next').trigger('click');
+                });
+            }
+
+            function leftRightTestimonialTitleToggle() {
+                $('.ttvcms-left-testimonial .ttvleft-right-title-toggle').on('click', function (e) {
+                    e.preventDefault();
+                    if (document.body.clientWidth <= mobileViewSize) {
+                        if (!$(this).hasClass('open')) {
+                            $(this).removeClass('open');
+                            $(this).parent().parent().find('.ttvtestimonial-slider-button-wrapper').removeClass('open').stop(false).slideUp(500, "swing");
+                        } else {
+                            $(this).addClass('open');
+                            $(this).parent().parent().find('.ttvtestimonial-slider-button-wrapper').addClass('open').stop(false).slideDown(500, "swing");
+                        }
+                    }
+                    e.stopPropagation();
+                });
+            }
+
+
+        });
+
+        /****************** End left testimonial Js *******************************************/
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var mobileViewSize = 991;
+
+            /*************** Start left Right Product Toggle in Mobile Size ***************************************************/
+            leftRightProductTitleToggle();
+            $(window).resize(function () {
+                $('.ttvleft-right-penal-all-block .ttvleft-right-title-toggle, .ttvleft-right-penal-all-block .ttvleft-product-wrapper-info').removeClass('open');
+                leftRightProductTitleToggle();
+            });
+
+            function leftRightProductTitleToggle() {
+                $('.ttvleft-right-penal-all-block .ttvleft-right-title-toggle').on('click', function (e) {
+                    e.preventDefault();
+                    if (document.body.clientWidth <= mobileViewSize) {
+                        if (!$(this).hasClass('open')) {
+                            $(this).removeClass('open');
+                            $(this).parent().parent().find('.ttvleft-product-wrapper-info').removeClass('open').stop(false).slideUp(500, "swing");
+                        } else {
+                            $(this).addClass('open');
+                            $(this).parent().parent().find('.ttvleft-product-wrapper-info').addClass('open').stop(false).slideDown(500, "swing");
+                        }
+                    }
+                    e.stopPropagation();
+                });
+            }
+            /*************** End left Right Product Toggle in Mobile Size ***************************************************/
+        });
+    </script>
+    <script type="text/javascript">
+        /****************** left testimonial Js *******************************************/
+        $(document).ready(function () {
+
+            var mobileViewSize = 991;
+
+            sidePanelTestimonialSlider();
+            leftRightTestimonialTitleToggle();
+            $(window).resize(function () {
+                sidePanelTestimonialSlider();
+                leftRightTestimonialTitleToggle();
+            });
+
+            function sidePanelTestimonialSlider() {
+                $('.ttvcms-left-testimonial .ttvtestimonial-content-box').owlCarousel({
+                    loop: false, dots: false, nav: false, responsive: {
+                        0: { items: 1 }, 320: { items: 1, slideBy: 1 }, 400: { items: 1, slideBy: 1 }, 768: { items: 1, slideBy: 1 }, 992: { items: 1, slideBy: 1 }, 1200: { items: 1, slideBy: 1 }, 1600: { items: 1, slideBy: 1 }, 1800: { items: 1, slideBy: 1 }
+                    },
+                });
+                $('.ttvcms-left-testimonial .ttvtestimonial-prev').on('click', function () {
+                    $('.ttvcms-left-testimonial .owl-nav .owl-prev').trigger('click');
+                });
+
+                $('.ttvcms-left-testimonial .ttvtestimonial-next').on('click', function () {
+                    $('.ttvcms-left-testimonial .owl-nav .owl-next').trigger('click');
+                });
+            }
+
+            function leftRightTestimonialTitleToggle() {
+                $('.ttvcms-left-testimonial .ttvleft-right-title-toggle').on('click', function (e) {
+                    e.preventDefault();
+                    if (document.body.clientWidth <= mobileViewSize) {
+                        if (!$(this).hasClass('open')) {
+                            $(this).removeClass('open');
+                            $(this).parent().parent().find('.ttvtestimonial-slider-button-wrapper').removeClass('open').stop(false).slideUp(500, "swing");
+                        } else {
+                            $(this).addClass('open');
+                            $(this).parent().parent().find('.ttvtestimonial-slider-button-wrapper').addClass('open').stop(false).slideDown(500, "swing");
+                        }
+                    }
+                    e.stopPropagation();
+                });
+            }
+
+
+        });
+
+        /****************** End left testimonial Js *******************************************/
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var mobileViewSize = 991;
+
+            /*************** Start left Right Product Toggle in Mobile Size ***************************************************/
+            leftRightProductTitleToggle();
+            $(window).resize(function () {
+                $('.ttvleft-right-penal-all-block .ttvleft-right-title-toggle, .ttvleft-right-penal-all-block .ttvleft-product-wrapper-info').removeClass('open');
+                leftRightProductTitleToggle();
+            });
+
+            function leftRightProductTitleToggle() {
+                $('.ttvleft-right-penal-all-block .ttvleft-right-title-toggle').on('click', function (e) {
+                    e.preventDefault();
+                    if (document.body.clientWidth <= mobileViewSize) {
+                        if (!$(this).hasClass('open')) {
+                            $(this).removeClass('open');
+                            $(this).parent().parent().find('.ttvleft-product-wrapper-info').removeClass('open').stop(false).slideUp(500, "swing");
+                        } else {
+                            $(this).addClass('open');
+                            $(this).parent().parent().find('.ttvleft-product-wrapper-info').addClass('open').stop(false).slideDown(500, "swing");
+                        }
+                    }
+                    e.stopPropagation();
+                });
+            }
+            /*************** End left Right Product Toggle in Mobile Size ***************************************************/
+        });
+    </script>
 </body>
 </html>
