@@ -25,7 +25,7 @@ namespace eShopSolution.BackendApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = await _userService.Authencate(request);
+            var result = await _userService.Authenticate(request);
 
             if (string.IsNullOrEmpty(result.ResultObj))
             {

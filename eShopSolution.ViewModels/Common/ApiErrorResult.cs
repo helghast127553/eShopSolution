@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 namespace eShopSolution.ViewModels.Common
 {
     public class ApiErrorResult<T> : ApiResult<T>
-    {
-        public string[] ValidationErrors { get; set; }
-
+    { 
         public ApiErrorResult()
         {
         }
@@ -18,12 +16,6 @@ namespace eShopSolution.ViewModels.Common
         {
             IsSuccessed = false;
             Message = message;
-        }
-
-        public ApiErrorResult(string[] validationErrors)
-        {
-            IsSuccessed = false;
-            ValidationErrors = validationErrors;
         }
     }
 }
