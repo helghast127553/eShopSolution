@@ -91,6 +91,7 @@ namespace eShopSolution.Application.Catalog.Products
             return new ProductViewModel
             {
                 Id = productDetail.Id,
+                Name = productDetail.Name,
                 Description = productDetail.Description,
                 Price = productDetail.Price,
                 ImageUrl = $"https://localhost:7064/image/{productImages.ImagePath}"
