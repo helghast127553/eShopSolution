@@ -1,6 +1,9 @@
 ﻿using eShopSolution.ApiIntegration.Abstraction;
 using eShopSolution.ViewModels.Catalog.Categories;
 using eShopSolution.ViewModels.Catalog.Products;
+using eShopSolution.ViewModels.Catalog.Products.Public;
+using eShopSolution.ViewModels.Common;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
@@ -30,6 +33,25 @@ namespace eShopSolution.ApiIntegration
             var response = await client.GetAsync("api/product/");
             var body = await response.Content.ReadAsStringAsync();
             return JsonConvert.DeserializeObject(body, typeof(List<ProductViewModel>)) as List<ProductViewModel>;
+        }
+
+        public async Task<PagedResult<ProductViewModel>> GetAllProductsByCategory(int subCategoryId = 0, int parentCategoryId = 0, int pageIndex = 1)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+
+            var query = new Dictionary<string, string>()
+            {
+                ["SubCategoryId"] = subCategoryId.ToString(),
+                ["ParentCategoryId"] = parentCategoryId.ToString(),
+                ["PageIndex"] = pageIndex.ToString(),
+            };
+
+            var url =  QueryHelpers.AddQueryString("api/product/paging/", query);
+
+            var response = await client.GetAsync(url);
+            var body = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject(body, typeof(PagedResult<ProductViewModel>)) as PagedResult<ProductViewModel>;
         }
 
         public async Task<ProductViewModel> GetProductDetail(int id)

@@ -1,4 +1,7 @@
-﻿using eShopSolution.ApiIntegration.Abstraction;
+﻿using eShopSolution.ApiIntegration;
+using eShopSolution.ApiIntegration.Abstraction;
+using eShopSolution.ViewModels.Catalog.Products;
+using eShopSolution.ViewModels.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eShopSolution.WebApp.Controllers
@@ -6,9 +9,12 @@ namespace eShopSolution.WebApp.Controllers
     public class ProductController : Controller
     {
         private readonly IProductApiClient _productApiClient;
-        public ProductController(IProductApiClient productApiClient)
+        private readonly ICategoryApiClient _categoryApiClient;
+
+        public ProductController(IProductApiClient productApiClient, ICategoryApiClient categoryApiClient)
         {
             _productApiClient = productApiClient;
+            _categoryApiClient = categoryApiClient;
         }
 
         [HttpGet]
@@ -24,9 +30,26 @@ namespace eShopSolution.WebApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Category(int id, int parentId)
+        public async Task<IActionResult> Category(int subCategoryId, int parentCategoryId , int pageIndex = 0)
         {
-            return View();
+            ++pageIndex;
+            PagedResult<ProductViewModel> data = null;
+            ViewBag.categories = await _categoryApiClient.GetAll();
+
+            if (subCategoryId != 0)
+            {
+                data = await _productApiClient.GetAllProductsByCategory(subCategoryId, 0, pageIndex);
+                ViewBag.subCategoryId = subCategoryId;
+                ViewBag.parentCategoryId = null;
+            }
+            else
+            {
+                data = await _productApiClient.GetAllProductsByCategory(0, parentCategoryId, pageIndex);
+                ViewBag.parentCategoryId = parentCategoryId;
+                ViewBag.subCategoryId = null;
+            }
+
+            return View(data);
         }
     }
 }

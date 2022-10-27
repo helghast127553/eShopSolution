@@ -13,5 +13,7 @@ namespace eShopSolution.Application.Catalog.Categories
         Task<IList<CategoryViewModel>> GetAll();
 
         Task<CategoryViewModel> GetById(int id);
+
+
     }
 }

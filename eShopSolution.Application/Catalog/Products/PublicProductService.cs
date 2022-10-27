@@ -3,12 +3,7 @@ using eShopSolution.ViewModels.Catalog.Products.Public;
 using eShopSolution.ViewModels.Common;
 using eShopSolution.Data.EF;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using eShopSolution.Data.Configurations;
 
 namespace eShopSolution.Application.Catalog.Products
 {
@@ -44,26 +39,32 @@ namespace eShopSolution.Application.Catalog.Products
             return data;
         }
 
-        public async Task<PagedResult<ProductViewModel>> GetAllByCategoryId(GetPublicProductPagingRequest request)
+        public async Task<PagedResult<ProductViewModel>> GetAllByCategoryIdPaging(GetPublicProductPagingRequest request)
         {
             //1.select join
             var query = from p in _dbContext.Products
-                        join pic in _dbContext.ProductInCategories on p.Id equals pic.ProductId
                         join i in _dbContext.ProductImages on p.Id equals i.ProductId
-                        select new { p, i, pic };
+                        join pic in _dbContext.ProductInCategories on p.Id equals pic.ProductId
+                        join c in _dbContext.Categories on pic.CategoryId equals c.Id
+                        select new { p, i, pic, c };
+
+            request.PageSize = 15;
 
             //2.filter
-            if (request.CategoryId != null && request.CategoryId != 0)
+            if (request.SubCategoryId != null && request.SubCategoryId.Value != 0)
             {
-                query = query.Where(p => p.pic.CategoryId == request.CategoryId);
+                query = query.Where(p => p.pic.CategoryId == request.SubCategoryId.Value);
             }
 
-            //3.Paging
-            var totalRow = await query.CountAsync();
+            if (request.ParentCategoryId != null && request.ParentCategoryId.Value != 0)
+            {
+                query = query.Where(p => p.c.ParentId == request.ParentCategoryId.Value);
+            }
 
+            //paging
+            var totalRow = await query.CountAsync();
             var data = await query
-                .Skip((request.PageIndex - 1) * request.PageSize.Value)
-                .Take(request.PageSize.Value)
+                .Take(request.PageIndex * request.PageSize.Value)
                 .Select(x => new ProductViewModel
                 {
                     Id = x.p.Id,
@@ -73,11 +74,13 @@ namespace eShopSolution.Application.Catalog.Products
                     Price = x.p.Price,
                 }).ToListAsync();
 
-            //4. Select and projection
-            var pagedResult = new PagedResult<ProductViewModel>
+            //3. Select and projection
+            var pagedResult = new PagedResult<ProductViewModel>()
             {
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize.Value,
+                items = data,
                 TotalRecords = totalRow,
-                items = data
             };
 
             return pagedResult;
@@ -95,7 +98,8 @@ namespace eShopSolution.Application.Catalog.Products
                 Description = productDetail.Description,
                 Price = productDetail.Price,
                 ImageUrl = $"https://localhost:7064/image/{productImages.ImagePath}"
-,           };
+,
+            };
         }
     }
 }

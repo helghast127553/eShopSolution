@@ -52,7 +52,7 @@ namespace eShopSolution.BackendApi.Controllers
             return Ok(new { data });
         }
 
-        [HttpGet("subCategory/paging")]
+        [HttpGet("subCategory/paging/")]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> GetAllSubCategoryPaging([FromQuery] GetCategoryManagePagingRequest request)
         {
@@ -80,7 +80,7 @@ namespace eShopSolution.BackendApi.Controllers
             return Ok();
         }
 
-        [HttpPut("category/{id}")]
+        [HttpPut("category/{id}/")]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] CategoryUpdateRequest request)
         {
