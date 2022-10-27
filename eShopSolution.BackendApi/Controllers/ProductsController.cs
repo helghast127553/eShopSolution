@@ -1,5 +1,4 @@
 ﻿using eShopSolution.Application.Catalog.Products;
-using eShopSolution.Data.Entities;
 using eShopSolution.ViewModels.Catalog.Products.Manage;
 using eShopSolution.ViewModels.Catalog.Products.Public;
 using Microsoft.AspNetCore.Authorization;
@@ -33,11 +32,11 @@ namespace eShopSolution.BackendApi.Controllers
             var productDetail = await _publicProductService.GetProductDetailById(id);
             return Ok(productDetail);
         }
-
-        [HttpGet("public-paging/")]
+            
+        [HttpGet("product/paging/")]
         public async Task<IActionResult> GetAllByCategoryId([FromQuery]GetPublicProductPagingRequest request)
         {
-            var products = await _publicProductService.GetAllByCategoryId(request);
+            var products = await _publicProductService.GetAllByCategoryIdPaging(request);
             return Ok(products);
         }
 
@@ -81,7 +80,7 @@ namespace eShopSolution.BackendApi.Controllers
             return Ok();
         }
 
-        [HttpPut("product/{id}")]
+        [HttpPut("product/{id}/")]
         [Consumes("multipart/form-data")]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromForm] ProductUpdateRequest request)

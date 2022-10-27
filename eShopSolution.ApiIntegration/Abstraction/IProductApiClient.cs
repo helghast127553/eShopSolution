@@ -1,5 +1,7 @@
 ﻿using eShopSolution.ViewModels.Catalog.Categories;
 using eShopSolution.ViewModels.Catalog.Products;
+using eShopSolution.ViewModels.Catalog.Products.Public;
+using eShopSolution.ViewModels.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,9 @@ namespace eShopSolution.ApiIntegration.Abstraction
     public interface IProductApiClient
     {
         Task<IList<ProductViewModel>> GetAll();
+
         Task<ProductViewModel> GetProductDetail(int id);
+
+        Task<PagedResult<ProductViewModel>> GetAllProductsByCategory(int subCategoryId = 0, int parentCategoryId = 0, int pageIndex = 1);
     }
 }

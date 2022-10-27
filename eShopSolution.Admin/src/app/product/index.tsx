@@ -25,7 +25,7 @@ const Product: FC<Props> = (props: Props) => {
     "Loại sản phẩm",
     // "Mô tả",
     "Gía sản phẩm",
-    "Hình ảnh sản phẩm",
+    "Hình ảnh",
     "Time Created",
     "Time Updated",
     "Tác vụ",

@@ -213,7 +213,7 @@
                                 {
                                     <li class="category ttvmain-menu-wrapper ttv-has-child ">
                                         <div class="ttvmenu-link-wrapper">
-                                            <a asp-controller="product" asp-action="category" asp-route-parentId="@parent.Id" class="ttvmenu-link" data-depth="0">
+                                            <a asp-controller="product" asp-action="category" asp-route-parentCategoryId="@parent.Id" class="ttvmenu-link" data-depth="0">
                                                 <span class="ttvmain-menu-text-box">@parent.Name</span>
                                             </a>
                                             <span class="ttvmenu-toggle-icon">
@@ -226,7 +226,7 @@
                                                 {
                                                     <li class="category ttvmain-menu-wrapper">
                                                         <div class="ttvmenu-link-wrapper">
-                                                            <a asp-controller="product" asp-action="category" asp-route-id="@item.Id" asp-route-parentId="@item.ParentId" data-depth="1">
+                                                            <a asp-controller="product" asp-action="category" asp-route-subCategoryId="@item.Id" data-depth="1">
                                                                 <span class="ttvmain-menu-text-box">@item.Name</span>
                                                             </a>
                                                         </div>
