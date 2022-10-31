@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace eShopSolution.Data.Migrations
 {
-    public partial class changedatabaseversion1 : Migration
+    public partial class database_design : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -141,12 +141,9 @@ namespace eShopSolution.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    SeoDescription = table.Column<string>(type: "ntext", nullable: true),
-                    SeoTitle = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    SeoAlias = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Description = table.Column<string>(type: "ntext", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Time_Created = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Time_Updated = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ParentId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -252,16 +249,9 @@ namespace eShopSolution.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Description = table.Column<string>(type: "ntext", nullable: false),
-                    Details = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    SeoDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SeoTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SeoAlias = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    OriginalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Stock = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    ViewCount = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Time_Created = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Time_Updated = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -339,9 +329,8 @@ namespace eShopSolution.Data.Migrations
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     ImagePath = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Caption = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
-                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SortOrder = table.Column<int>(type: "int", nullable: false),
+                    Time_Created = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Time_Updated = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ImageFileSize = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
@@ -355,15 +344,44 @@ namespace eShopSolution.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ProductRating",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Rating = table.Column<float>(type: "real", nullable: false),
+                    Review = table.Column<string>(type: "ntext", nullable: true),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    Time_Created = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductRating", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductRating_AppUser_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AppUser",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductRating_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "AppRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Description", "Name", "NormalizedName" },
-                values: new object[] { new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"), "b92e5f5f-46e9-4ccd-aad1-34ce5fd6ef8e", "Administrator role", "admin", "admin" });
+                values: new object[] { new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"), "e7fde7e1-fd0d-439b-b5e8-b76b0a76f0c7", "Administrator role", "admin", "admin" });
 
             migrationBuilder.InsertData(
                 table: "AppUser",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Dob", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), 0, "0d45f53c-e09e-4149-8bbb-35ba14de8c00", new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "tedu.international@gmail.com", true, "Toan", "Bach", false, null, "tedu.international@gmail.com", "admin", "AQAAAAEAACcQAAAAEJHPVFpXY5yrr029T52euqh2zhSJivR/476+nYg0ME264ihvE39wOGsn/wXPSlNn0g==", null, false, "", false, "admin" });
+                values: new object[] { new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"), 0, "74118725-58f3-4c98-8c30-3648b523cdb6", new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified), "tedu.international@gmail.com", true, "Toan", "Bach", false, null, "tedu.international@gmail.com", "admin", "AQAAAAEAACcQAAAAEBjHSbPf5G+/NdXleskVVmv5jSDeXm33GSl5Hl/Jh60+ewMMX+LWOhBP4BGOWfPuNQ==", null, false, "", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "AppUserRoles",
@@ -394,6 +412,16 @@ namespace eShopSolution.Data.Migrations
                 name: "IX_ProductImages_ProductId",
                 table: "ProductImages",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductRating_ProductId",
+                table: "ProductRating",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductRating_UserId",
+                table: "ProductRating",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
@@ -440,6 +468,9 @@ namespace eShopSolution.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductImages");
+
+            migrationBuilder.DropTable(
+                name: "ProductRating");
 
             migrationBuilder.DropTable(
                 name: "Promotions");

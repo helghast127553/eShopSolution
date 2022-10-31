@@ -32,7 +32,6 @@ namespace eShopSolution.Data.EF
             modelBuilder.ApplyConfiguration(new AppRoleConfiguration());
             modelBuilder.ApplyConfiguration(new ProductImageConfiguration());
             modelBuilder.ApplyConfiguration(new ProductRatingConfiguration());
-            modelBuilder.ApplyConfiguration(new ProductInCategoryConfiguration());
 
             modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
             modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
@@ -48,8 +47,6 @@ namespace eShopSolution.Data.EF
         public DbSet<ProductRating> ProductRatings { get; set; }
 
         public DbSet<Category> Categories { get; set; }
-
-        public DbSet<ProductInCategory> ProductInCategories { get; set; }
 
         public DbSet<AppConfig> AppConfigs { get; set; }
 

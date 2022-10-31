@@ -21,6 +21,8 @@ namespace eShopSolution.Data.Entities
 
         public DateTime? Time_Updated { get; set; }
 
+        public int CategoryId { get; set; }
+
         public List<OrderDetail> OrderDetails { get; set; }
 
         public List<Cart> Carts { get; set; }
@@ -29,6 +31,6 @@ namespace eShopSolution.Data.Entities
 
         public List<ProductRating> ProductRatings { get; set; }
 
-        public List<ProductInCategory> ProductInCategories { get; set; }
+        public Category Category { get; set; }
     }
 }

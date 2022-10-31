@@ -29,10 +29,8 @@ namespace eShopSolution.Application.Catalog.Products
                 Time_Created = DateTime.Now,
                 Name = request.Name,
                 Description = request.Description,
+                CategoryId = request.CategoryId
             };
-            var category = await _dbContext.Categories.FindAsync(request.CategoryId);
-
-            product.ProductInCategories = new List<ProductInCategory> { new ProductInCategory { Product = product, Category = category } };
 
             if (request.ThumbnailImage != null)
             {
@@ -79,10 +77,9 @@ namespace eShopSolution.Application.Catalog.Products
         {
             //1.select join
             var query = from p in _dbContext.Products
-                        join pic in _dbContext.ProductInCategories on p.Id equals pic.ProductId
-                        join c in _dbContext.Categories on pic.CategoryId equals c.Id
+                        join c in _dbContext.Categories on p.CategoryId equals c.Id
                         join pi in _dbContext.ProductImages on p.Id equals pi.ProductId
-                        select new { p, pic, c, pi };
+                        select new { p, c, pi };
 
             //2.Paging
             var totalRow = await query.CountAsync();
@@ -143,6 +140,7 @@ namespace eShopSolution.Application.Catalog.Products
             product.Price = request.Price;
             product.Description = request.Description;
             product.Time_Updated = DateTime.Now;
+            product.CategoryId = request.CategoryId;
 
             if (request.ThumbnailImage != null)
             {
@@ -158,10 +156,6 @@ namespace eShopSolution.Application.Catalog.Products
                     _dbContext.ProductImages.Update(thumbnailImage);
                 }
             }
-
-            var productInCategory = await _dbContext.ProductInCategories.FirstOrDefaultAsync(x => x.ProductId == id);
-            productInCategory.CategoryId = request.CategoryId;
-            _dbContext.ProductInCategories.Update(productInCategory);
 
             return await _dbContext.SaveChangesAsync();
         }
