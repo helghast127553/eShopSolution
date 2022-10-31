@@ -22,6 +22,10 @@ namespace eShopSolution.Data.Configurations
             builder.Property(x => x.Name).IsRequired().HasMaxLength(200);
 
             builder.Property(x => x.Description).HasColumnType("ntext");
+
+            builder.HasOne(x => x.Category)
+                .WithMany(x => x.Products)
+                .HasForeignKey(x => x.CategoryId);
         }
     }
 }

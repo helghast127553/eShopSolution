@@ -44,16 +44,15 @@ namespace eShopSolution.Application.Catalog.Products
             //1.select join
             var query = from p in _dbContext.Products
                         join i in _dbContext.ProductImages on p.Id equals i.ProductId
-                        join pic in _dbContext.ProductInCategories on p.Id equals pic.ProductId
-                        join c in _dbContext.Categories on pic.CategoryId equals c.Id
-                        select new { p, i, pic, c };
+                        join c in _dbContext.Categories on p.CategoryId equals c.Id
+                        select new { p, i, c };
 
             request.PageSize = 15;
 
             //2.filter
             if (request.SubCategoryId != null && request.SubCategoryId.Value != 0)
             {
-                query = query.Where(p => p.pic.CategoryId == request.SubCategoryId.Value);
+                query = query.Where(p => p.p.CategoryId == request.SubCategoryId.Value);
             }
 
             if (request.ParentCategoryId != null && request.ParentCategoryId.Value != 0)
@@ -98,7 +97,6 @@ namespace eShopSolution.Application.Catalog.Products
                 Description = productDetail.Description,
                 Price = productDetail.Price,
                 ImageUrl = $"https://localhost:7064/image/{productImages.ImagePath}"
-,
             };
         }
     }
