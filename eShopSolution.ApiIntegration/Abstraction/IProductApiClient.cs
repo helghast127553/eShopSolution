@@ -16,6 +16,6 @@ namespace eShopSolution.ApiIntegration.Abstraction
 
         Task<ProductViewModel> GetProductDetail(int id);
 
-        Task<PagedResult<ProductViewModel>> GetAllProductsByCategory(int subCategoryId = 0, int parentCategoryId = 0, int pageIndex = 1);
+        Task<PagedResult<ProductViewModel>> GetAllProductsByCategory(int subCategoryId = 0, int parentCategoryId = 0, int pageIndex = 1, int pageSize = 15);
     }
 }

@@ -6,7 +6,6 @@ export const doGetSubCategories = (): AxiosPromise<any> => {
   return doGet("api/subCategory/");
 };
 
-
 export const doGetSubCategoriesPaging = (PageIndex: number): AxiosPromise<any> => {
   return doGet("api/subCategory/paging/", { PageIndex });
 };

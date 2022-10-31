@@ -68,6 +68,8 @@ namespace eShopSolution.BackendApi.Tests
             var tokenExpectation = resultObj.Value as ApiResult<string>;
 
             // Assert
+            Assert.NotNull(tokenExpectation.ResultObj);
+            Assert.IsType<string>(tokenExpectation.ResultObj);
             Assert.Equal(tokenExpectation.ResultObj, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");
         }
 
@@ -91,6 +93,8 @@ namespace eShopSolution.BackendApi.Tests
             var resultExpectation = resultObj.Value as ApiErrorResult<string>;
 
             // Assert
+            Assert.Null(resultExpectation.ResultObj);
+            Assert.IsType<ApiErrorResult<string>>(resultExpectation);
             Assert.Equal(resultExpectation.ResultObj, null);
         }
 
@@ -149,6 +153,8 @@ namespace eShopSolution.BackendApi.Tests
             var resultExpectation = resultObj.Value as ApiSuccessResult<bool>;
 
             // Assert
+            Assert.IsType<ApiSuccessResult<bool>>(resultExpectation);
+            Assert.NotNull(resultExpectation);
             Assert.Equal(resultExpectation.IsSuccessed, true);
         }
 

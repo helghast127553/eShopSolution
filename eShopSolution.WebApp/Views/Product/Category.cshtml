@@ -9,7 +9,7 @@
         <nav class="breadcrumb">
             <ol>
                 <li><a asp-controller="home" asp-action="index"><span><i class="fa fa-home"></i></span></a></li>
-                <li><a href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/index.php?route=product/category&amp;path=20"><span>Electronic</span></a></li>
+                <li><a href="#"><span>@ViewBag.categoryName</span></a></li>
             </ol>
         </nav>
         <div class="">
@@ -115,11 +115,11 @@
                     <div class="block-category card card-block clearfix ttv-category-block-wrapper">
                         <div class="ttv-category-cover"><img src="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/image/cache/catalog/themevolty/categorybanner/Category-Banner-1200x300.jpg" alt="Electronic" title="Electronic"></div>
                         <div class="ttv-all-page-main-title-wrapper">
-                            <div class="ttv-all-page-main-title">Electronic</div>
+                            <div class="ttv-all-page-main-title">@ViewBag.categoryName</div>
                         </div>
                     </div>
                     <div class="text-sm-center hidden-md-up">
-                        <div class="ttvmobile-view-category-title">Electronic</div>
+                        <div class="ttvmobile-view-category-title">@ViewBag.categoryName</div>
                     </div>
                     <div id="products" class="grid">
                         <div>
@@ -129,7 +129,7 @@
                                         <div class="ttvcms-left-column-wrapper">
                                             <div class="ttv-left-pannal-btn-wrapper" data-toggle="ttvtooltip" data-placement="top" data-html="true" title="" data-original-title="left panel"><i class="fa fa-th grid" aria-hidden="true"></i><span class="">View Left Column</span></div>
                                         </div>
-                                        <div class="ttv-total-product"><p class="ttv-total-product-number">There is @Model.TotalRecords product</p></div>
+                                        <div class="ttv-total-product"><p class="ttv-total-product-number">There is @Model.items.Count() product</p></div>
                                     </div>
 
                                     <div class="col-sm-6 col-md-6 col-lg-3 ttv-grid-list-all-wrapper">
@@ -145,7 +145,31 @@
                                             <span class="col-sm-3 col-md-3 hidden-sm-down sort-by">Show:</span>
                                             <div class="col-sm-9 col-xs-8 col-md-9 products-sort-order dropdown">
                                                 <button class="btn-unstyle select-title" rel="nofollow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><span id="selecttitleshowset">15</span><i class="fa fa-caret-down float-xs-right" aria-hidden="true"></i></button>
-                                                <div class="dropdown-menu"><a href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/index.php?route=product/category&amp;path=20&amp;limit=15" class="select-list current js-search-link" id="selecttitleshowget">15</a><a href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/index.php?route=product/category&amp;path=20&amp;limit=25" class="select-list current js-search-link">25</a><a href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/index.php?route=product/category&amp;path=20&amp;limit=50" class="select-list current js-search-link">50</a><a href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/index.php?route=product/category&amp;path=20&amp;limit=75" class="select-list current js-search-link">75</a><a href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/index.php?route=product/category&amp;path=20&amp;limit=100" class="select-list current js-search-link">100</a></div>
+                                                <div class="dropdown-menu">
+                                                    @if (ViewBag.subCategoryId != null)
+                                                    {
+                                                        @if (Model.PageIndex <= Model.PageCount)
+                                                        {
+                                                            <a asp-controller="product" asp-action="getProductsQuantity" asp-route-subCategoryId="@ViewBag.subCategoryId" asp-route-pageSize="15" class="select-list current js-search-link" id="selecttitleshowget">15</a>
+                                                            <a asp-controller="product" asp-action="getProductsQuantity" asp-route-subCategoryId="@ViewBag.subCategoryId" asp-route-pageSize="25" class="select-list current js-search-link">25</a>
+                                                            <a asp-controller="product" asp-action="getProductsQuantity" asp-route-subCategoryId="@ViewBag.subCategoryId" asp-route-pageSize="50" class="select-list current js-search-link">50</a>
+                                                            <a asp-controller="product" asp-action="getProductsQuantity" asp-route-subCategoryId="@ViewBag.subCategoryId" asp-route-pageSize="75" class="select-list current js-search-link">75</a>
+                                                            <a asp-controller="product" asp-action="getProductsQuantity" asp-route-subCategoryId="@ViewBag.subCategoryId" asp-route-pageSize="100" class="select-list current js-search-link">100</a>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        @if (Model.PageIndex <= Model.PageCount)
+                                                        {
+
+                                                            <a asp-controller="product" asp-action="getProductsQuantity" asp-route-parentCategoryId="@ViewBag.parentCategoryId" asp-route-pageSize="15" class="select-list current js-search-link" id="selecttitleshowget">15</a>
+                                                            <a asp-controller="product" asp-action="getProductsQuantity" asp-route-parentCategoryId="@ViewBag.parentCategoryId" asp-route-pageSize="25" class="select-list current js-search-link">25</a>
+                                                            <a asp-controller="product" asp-action="getProductsQuantity" asp-route-parentCategoryId="@ViewBag.parentCategoryId" asp-route-pageSize="50" class="select-list current js-search-link">50</a>
+                                                            <a asp-controller="product" asp-action="getProductsQuantity" asp-route-parentCategoryId="@ViewBag.parentCategoryId" asp-route-pageSize="75" class="select-list current js-search-link">75</a>
+                                                            <a asp-controller="product" asp-action="getProductsQuantity" asp-route-parentCategoryId="@ViewBag.parentCategoryId" asp-route-pageSize="100" class="select-list current js-search-link">100</a>
+                                                        }
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

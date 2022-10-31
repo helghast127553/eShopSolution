@@ -47,8 +47,6 @@ namespace eShopSolution.Application.Catalog.Products
                         join c in _dbContext.Categories on p.CategoryId equals c.Id
                         select new { p, i, c };
 
-            request.PageSize = 15;
-
             //2.filter
             if (request.SubCategoryId != null && request.SubCategoryId.Value != 0)
             {
@@ -62,8 +60,9 @@ namespace eShopSolution.Application.Catalog.Products
 
             //paging
             var totalRow = await query.CountAsync();
+
             var data = await query
-                .Take(request.PageIndex * request.PageSize.Value)
+                .Take(request.PageSize.Value * request.PageIndex)
                 .Select(x => new ProductViewModel
                 {
                     Id = x.p.Id,

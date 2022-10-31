@@ -48,8 +48,8 @@ const Category: FC<Props> = (props: Props) => {
 
   const getCategories = (PageIndex: number): void => {
     doGetSubCategoriesPaging(PageIndex)
-      .then((response) => {
-        const data: APIResponse<CategoryData> = response.data;
+      .then((response: any) => {
+        const data: APIResponse<CategoryData> = response;
         setCategories(data.resultObj.items);
         setCurrentPage(data.resultObj.pageIndex);
         setTotalPage(
