@@ -35,7 +35,7 @@ namespace eShopSolution.ApiIntegration
             return JsonConvert.DeserializeObject(body, typeof(List<ProductViewModel>)) as List<ProductViewModel>;
         }
 
-        public async Task<PagedResult<ProductViewModel>> GetAllProductsByCategory(int subCategoryId = 0, int parentCategoryId = 0, int pageIndex = 1)
+        public async Task<PagedResult<ProductViewModel>> GetAllProductsByCategory(int subCategoryId = 0, int parentCategoryId = 0, int pageIndex = 1, int pageSize = 15)
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
@@ -45,6 +45,7 @@ namespace eShopSolution.ApiIntegration
                 ["SubCategoryId"] = subCategoryId.ToString(),
                 ["ParentCategoryId"] = parentCategoryId.ToString(),
                 ["PageIndex"] = pageIndex.ToString(),
+                ["PageSize"] = pageSize.ToString()
             };
 
             var url =  QueryHelpers.AddQueryString("api/product/paging/", query);

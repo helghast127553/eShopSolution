@@ -47,8 +47,8 @@ const CategoryWriter: FC<Props> = (props: Props) => {
 
   useEffect(() => {
     doGetParentCategories()
-      .then((response) => {
-        setParentCategories(response.data);
+      .then((response: any) => {
+        setParentCategories(response);
       })
       .catch((error) => console.log(error));
   }, []);

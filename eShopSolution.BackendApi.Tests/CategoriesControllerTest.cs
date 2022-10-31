@@ -1,9 +1,13 @@
 ﻿using eShopSolution.Application.Catalog.Categories;
 using eShopSolution.Application.Catalog.Products;
 using eShopSolution.BackendApi.Controllers;
+using eShopSolution.ViewModels.Catalog.Categories;
 using eShopSolution.ViewModels.Catalog.Categories.Manage;
+using eShopSolution.ViewModels.Catalog.Products;
 using eShopSolution.ViewModels.Catalog.Products.Manage;
+using eShopSolution.ViewModels.Common;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Moq;
 
 namespace eShopSolution.BackendApi.Tests
@@ -17,12 +21,25 @@ namespace eShopSolution.BackendApi.Tests
             var manageCategoryService = new Mock<IManageCategoryService>();
             var publicProductService = new Mock<IPublicCategoryService>();
 
+            publicProductService.Setup(x => x.GetAll()).ReturnsAsync(new List<CategoryViewModel>
+            {
+                new CategoryViewModel { Id = 1, Name = "Laptop", Description = "Laptop", ParentId = null },
+                new CategoryViewModel { Id = 1, Name = "Mobile Phone", Description = "Mobile Phone", ParentId = null },
+                new CategoryViewModel { Id = 1, Name = "Tablet", Description = "Tablet", ParentId = null }
+            });
+
             var controller = new CategoriesController(publicProductService.Object, manageCategoryService.Object);
 
             // Act
             var okResult = await controller.GetAll();
+            var result = okResult as OkObjectResult;
+            var resultExpectation = result.Value as List<CategoryViewModel>;
 
             // Assert
+            Assert.NotEmpty(resultExpectation);
+            Assert.NotNull(resultExpectation);
+            Assert.Equal(3, resultExpectation.Count());
+            Assert.IsType<List<CategoryViewModel>>(resultExpectation);
             Assert.IsType<OkObjectResult>(okResult);
         }
 
@@ -38,12 +55,49 @@ namespace eShopSolution.BackendApi.Tests
             var manageCategoryService = new Mock<IManageCategoryService>();
             var publicProductService = new Mock<IPublicCategoryService>();
 
+            manageCategoryService.Setup(x => x.GetAllSubCategoryPaging(request)).ReturnsAsync(new ApiSuccessResult<PagedResult<CategoryViewModel>>(
+                new PagedResult<CategoryViewModel>
+                {
+                    PageIndex = 1,
+                    PageSize = 15,
+                    TotalRecords = 10,
+                    items = new List<CategoryViewModel>
+                    {
+                        new CategoryViewModel {
+                            Id = 1,
+                            Name = "Asus",
+                            Description = "Asus",
+                            ParentId = 1,
+                        },
+                        new CategoryViewModel {
+                            Id = 1,
+                            Name = "Acer",
+                            Description = "Acer",
+                            ParentId = 1,
+                        },
+                        new CategoryViewModel {
+                            Id = 1,
+                            Name = "Dell",
+                            Description = "Dell",
+                            ParentId = 1,
+                        }
+                    }
+                }));
+
             var controller = new CategoriesController(publicProductService.Object, manageCategoryService.Object);
 
             // Act
             var okResult = await controller.GetAllSubCategoryPaging(request);
+            var result = okResult as OkObjectResult;
+            var resultExpectation = result.Value as ApiSuccessResult<PagedResult<CategoryViewModel>>;
 
             // Assert
+            Assert.Null(resultExpectation.Message);
+            Assert.NotEmpty(resultExpectation.ResultObj.items);
+            Assert.Equal(3, resultExpectation.ResultObj.items.Count());
+            Assert.Equal(true, resultExpectation.IsSuccessed);
+            Assert.IsType<ApiSuccessResult<PagedResult<CategoryViewModel>>>(resultExpectation);
+            Assert.IsType<List<CategoryViewModel>>(resultExpectation.ResultObj.items);
             Assert.IsType<OkObjectResult>(okResult);
         }
 
@@ -54,12 +108,39 @@ namespace eShopSolution.BackendApi.Tests
             var manageCategoryService = new Mock<IManageCategoryService>();
             var publicProductService = new Mock<IPublicCategoryService>();
 
+            manageCategoryService.Setup(x => x.GetAllSubCategory()).ReturnsAsync(new List<CategoryViewModel>
+            {
+                new CategoryViewModel {
+                            Id = 1,
+                            Name = "Asus",
+                            Description = "Asus",
+                            ParentId = 1
+                },
+                new CategoryViewModel {
+                            Id = 2,
+                            Name = "Acer",
+                            Description = "Acer",
+                            ParentId = 1,
+                },
+                new CategoryViewModel {
+                            Id = 3,
+                            Name = "Dell",
+                            Description = "Dell",
+                            ParentId = 1
+                },
+            });
+
             var controller = new CategoriesController(publicProductService.Object, manageCategoryService.Object);
 
             // Act
             var okResult = await controller.GetAllSubCategory();
+            var result = okResult as OkObjectResult;
+            var resultExpectation = result.Value as List<CategoryViewModel>;
 
             // Assert
+            Assert.NotEmpty(resultExpectation);
+            Assert.Equal(3, resultExpectation.Count());
+            Assert.IsType<List<CategoryViewModel>>(resultExpectation);
             Assert.IsType<OkObjectResult>(okResult);
         }
 
@@ -70,12 +151,39 @@ namespace eShopSolution.BackendApi.Tests
             var manageCategoryService = new Mock<IManageCategoryService>();
             var publicProductService = new Mock<IPublicCategoryService>();
 
+            manageCategoryService.Setup(x => x.GetAllParentCategory()).ReturnsAsync(new List<CategoryViewModel>
+            {
+                 new CategoryViewModel {
+                            Id = 1,
+                            Name = "Laptop",
+                            Description = "Laptop",
+                            ParentId = null
+                },
+                new CategoryViewModel {
+                            Id = 2,
+                            Name = "Mobile Phone",
+                            Description = "Mobile Phone",
+                            ParentId = null,
+                },
+                new CategoryViewModel {
+                            Id = 3,
+                            Name = "Tablet",
+                            Description = "Tablet",
+                            ParentId = null
+                },
+            });
+
             var controller = new CategoriesController(publicProductService.Object, manageCategoryService.Object);
 
             // Act
             var okResult = await controller.GetAllParentCategory();
+            var result = okResult as OkObjectResult;
+            var resultExpectation = result.Value as List<CategoryViewModel>;
 
             // Assert
+            Assert.NotEmpty(resultExpectation);
+            Assert.Equal(3, resultExpectation.Count());
+            Assert.IsType<List<CategoryViewModel>>(resultExpectation);
             Assert.IsType<OkObjectResult>(okResult);
         }
 
@@ -138,7 +246,7 @@ namespace eShopSolution.BackendApi.Tests
 
             // Assert
             Assert.IsType<BadRequestResult>(badResponse);
-         }
+        }
 
         [Fact]
         public async Task Edit_InvalidObjectPassed_ReturnsBadRequest()

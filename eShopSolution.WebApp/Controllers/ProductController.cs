@@ -30,26 +30,49 @@ namespace eShopSolution.WebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Category(int subCategoryId, int parentCategoryId , int pageIndex = 0)
+        public async Task<IActionResult> Category(int subCategoryId, int parentCategoryId , string categoryName, int pageIndex = 0, int pageSize = 15)
         {
             ++pageIndex;
             PagedResult<ProductViewModel> data = null;
             ViewBag.categories = await _categoryApiClient.GetAll();
+            ViewBag.categoryName = categoryName;
 
             if (subCategoryId != 0)
             {
-                data = await _productApiClient.GetAllProductsByCategory(subCategoryId, 0, pageIndex);
+                data = await _productApiClient.GetAllProductsByCategory(subCategoryId, 0, pageIndex, pageSize);
                 ViewBag.subCategoryId = subCategoryId;
                 ViewBag.parentCategoryId = null;
             }
             else
             {
-                data = await _productApiClient.GetAllProductsByCategory(0, parentCategoryId, pageIndex);
+                data = await _productApiClient.GetAllProductsByCategory(0, parentCategoryId, pageIndex, pageSize);
                 ViewBag.parentCategoryId = parentCategoryId;
                 ViewBag.subCategoryId = null;
             }
 
             return View(data);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetProductsQuantity(int subCategoryId, int parentCategoryId, int pageSize = 15)
+        {
+            PagedResult<ProductViewModel> data = null;
+            ViewBag.categories = await _categoryApiClient.GetAll();
+
+            if (subCategoryId != 0)
+            {
+                data = await _productApiClient.GetAllProductsByCategory(subCategoryId, 0, 1, pageSize);
+                ViewBag.subCategoryId = subCategoryId;
+                ViewBag.parentCategoryId = null;
+            }
+            else
+            {
+                data = await _productApiClient.GetAllProductsByCategory(0, parentCategoryId, 1, pageSize);
+                ViewBag.parentCategoryId = parentCategoryId;
+                ViewBag.subCategoryId = null;
+            }
+
+            return View("Category", data);
         }
     }
 }

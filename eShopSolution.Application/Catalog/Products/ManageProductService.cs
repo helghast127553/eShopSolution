@@ -83,6 +83,7 @@ namespace eShopSolution.Application.Catalog.Products
 
             //2.Paging
             var totalRow = await query.CountAsync();
+
             var data = await query
                 .Skip((request.PageIndex - 1) * request.PageSize.Value)
                 .Take(request.PageSize.Value)

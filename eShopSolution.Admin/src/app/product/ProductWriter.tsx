@@ -51,8 +51,8 @@ const ProductWriter: FC<Props> = (props: Props) => {
 
   useEffect(() => {
     doGetSubCategories()
-      .then((response) => {
-        setSubCategories(response.data);
+      .then((response: any) => {
+        setSubCategories(response);
       })
       .catch((error) => console.log(error));
   }, []);

@@ -57,7 +57,7 @@ namespace eShopSolution.BackendApi.Controllers
         public async Task<IActionResult> GetAllProductPaging([FromQuery] GetManageProductPagingRequest request)
         {
             var data = await _manageProductService.GetAllProductPaging(request); ;
-            return Ok(new { data });
+            return Ok(data);
         }
 
         [HttpPost("product")]

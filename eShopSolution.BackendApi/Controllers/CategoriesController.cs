@@ -41,7 +41,7 @@ namespace eShopSolution.BackendApi.Controllers
         public async Task<IActionResult> GetAllParentCategory()
         {
             var data = await _categoryManageService.GetAllParentCategory();
-            return Ok(new { data });
+            return Ok(data);
         }
 
         [HttpGet("subCategory")]
@@ -49,7 +49,7 @@ namespace eShopSolution.BackendApi.Controllers
         public async Task<IActionResult> GetAllSubCategory()
         {
             var data = await _categoryManageService.GetAllSubCategory(); ;
-            return Ok(new { data });
+            return Ok(data);
         }
 
         [HttpGet("subCategory/paging/")]
@@ -57,7 +57,7 @@ namespace eShopSolution.BackendApi.Controllers
         public async Task<IActionResult> GetAllSubCategoryPaging([FromQuery] GetCategoryManagePagingRequest request)
         {
             var data = await _categoryManageService.GetAllSubCategoryPaging(request);
-            return Ok(new { data });
+            return Ok(data);
         }
 
 

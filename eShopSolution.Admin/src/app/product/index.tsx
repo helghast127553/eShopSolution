@@ -52,8 +52,8 @@ const Product: FC<Props> = (props: Props) => {
 
   const getProducts = (PageIndex: number): void => {
     doGetProducts(PageIndex)
-      .then((response) => {
-        const data: APIResponse<ProductData> = response.data;
+      .then((response: any) => {
+        const data: APIResponse<ProductData> = response;
         setProducts(data.resultObj.items);
         setCurrentPage(data.resultObj.pageIndex);
         setTotalPage(
