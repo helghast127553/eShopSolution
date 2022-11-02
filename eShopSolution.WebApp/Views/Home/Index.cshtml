@@ -70,7 +70,7 @@
                                                             <div class="thumbnail-container">
                                                                 <div class="ttvproduct-wrapper grid">
                                                                     <div class="ttvproduct-image">
-                                                                        <a asp-controller="product" asp-action="detail" asp-route-id="@item.Id" class="product-thumbnail">
+                                                                        <a asp-controller="product" asp-action="detail" asp-route-productId="@item.Id" class="product-thumbnail">
                                                                             <img src="@item.ImageUrl" alt="Exercitat Virginia">
                                                                         </a>
                                                                         <div class="ttvproduct-hover-btn">
@@ -85,7 +85,7 @@
                                                                                     <i class="fa fa-search search" aria-hidden="true"></i>
                                                                                 </div>
                                                                                 <div class="ttvproduct-quick-lable">
-                                                                                    <a asp-controller="product" asp-action="detail" asp-route-id="@item.Id">
+                                                                                    <a asp-controller="product" asp-action="detail" asp-route-productId="@item.Id">
                                                                                         Quick View
                                                                                     </a>
                                                                                 </div>
@@ -108,17 +108,20 @@
                                                                         <div class="ttvall-product-star-icon">
                                                                             <div class="comments_note">
                                                                                 <div class="star_content">
-                                                                                    <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                                                                    <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                                                                    <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                                                                    <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                                                                    <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
+                                                                                    @for (var i = 1; i <= item.Rating; i++)
+                                                                                    {
+                                                                                        <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
+                                                                                    }
+                                                                                    @for (var i = 1; i <= 5 - item.Rating; i++)
+                                                                                    {
+                                                                                       <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
+                                                                                    }                                                                             
                                                                                 </div>
                                                                             </div>
                                                                         </div>
                                                                         <div class="ttvproduct-name">
                                                                             <div class="product-title">
-                                                                                <a asp-controller="product" asp-action="detail" asp-route-id="@item.Id">
+                                                                                <a asp-controller="product" asp-action="detail" asp-route-productId="@item.Id">
                                                                                     <h6>@item.Name</h6>
                                                                                 </a>
                                                                             </div>

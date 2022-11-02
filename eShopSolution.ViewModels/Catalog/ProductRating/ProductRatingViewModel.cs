@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eShopSolution.Data.Entities
+namespace eShopSolution.ViewModels.Catalog.ProductRating
 {
-    public class ProductRating
+    public class ProductRatingViewModel
     {
         public int Id { get; set; }
 
@@ -14,16 +14,12 @@ namespace eShopSolution.Data.Entities
 
         public float Rating { get; set; }
 
-        public string? Review { get; set; }
+        public string Review { get; set; }
 
         public Guid UserId { get; set; }
 
         public int ProductId { get; set; }
 
-        public Product Product { get; set; }
-
-        public AppUser AppUser { get; set; }
-
-        public DateTime Time_Created { get; set; }
+        public DateTime TimeCreated { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 using eShopSolution.Application.Catalog.Categories;
+using eShopSolution.Application.Catalog.ProductRatings;
 using eShopSolution.Application.Catalog.Products;
 using eShopSolution.Application.Common;
 using eShopSolution.Application.System;
@@ -32,6 +33,7 @@ builder.Services.AddTransient<IPublicProductService, PublicProductService>();
 builder.Services.AddTransient<IManageProductService, ManageProductService>();
 builder.Services.AddTransient<IPublicCategoryService, PublicCategoryService>();
 builder.Services.AddTransient<IManageCategoryService, ManageCategoryService>();
+builder.Services.AddTransient<IProductRatingService, ProductRatingService>();
 
 builder.Services.AddTransient<IUserService, UserService>();
 

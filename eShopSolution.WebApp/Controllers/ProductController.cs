@@ -1,5 +1,6 @@
 ﻿using eShopSolution.ApiIntegration;
 using eShopSolution.ApiIntegration.Abstraction;
+using eShopSolution.ViewModels.Catalog.ProductRating;
 using eShopSolution.ViewModels.Catalog.Products;
 using eShopSolution.ViewModels.Common;
 using Microsoft.AspNetCore.Mvc;
@@ -24,9 +25,11 @@ namespace eShopSolution.WebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Detail(int id)
+        public async Task<IActionResult> Detail(int productId)
         {
-            return View(await _productApiClient.GetProductDetail(id));
+            ViewBag.productDetail = await _productApiClient.GetProductDetail(productId);
+            ViewBag.productRatings = await _productApiClient.GetAllProductRatingByProductId(productId);
+            return View();
         }
 
         [HttpGet]
@@ -74,5 +77,33 @@ namespace eShopSolution.WebApp.Controllers
 
             return View("Category", data);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateRating(ProductRatingCreateRequest request)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("login", "account");
+            }
+
+            request.Username = User.Identity.Name;
+            await _productApiClient.CreateRating(request);
+
+            return RedirectToAction("Detail", new { productId = request.ProductId });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteRating(int id, int productId)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("login", "account");
+            }
+
+            await _productApiClient.DeleteRating(id);
+
+            return RedirectToAction("Detail", new { productId = productId });
+        }
     }
 }
+

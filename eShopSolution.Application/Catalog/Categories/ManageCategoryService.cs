@@ -36,7 +36,7 @@ namespace eShopSolution.Application.Catalog.Categories
                 ParentId = request.ParentId,
             };
 
-            _dbContext.Categories.Add(category);
+            await _dbContext.Categories.AddAsync(category);
             return await _dbContext.SaveChangesAsync();
         }
 
@@ -111,14 +111,12 @@ namespace eShopSolution.Application.Catalog.Categories
         {
             var category = await _dbContext.Categories.FindAsync(categoryId);
 
-            var categoryViewModel = new CategoryViewModel
+            return new CategoryViewModel
             {
                 Id = category.Id,
                 Description = category.Description,
                 Name = category.Name,
             };
-
-            return categoryViewModel;
         }
 
         public async Task<int> Update(int id, CategoryUpdateRequest request)

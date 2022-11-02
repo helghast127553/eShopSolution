@@ -19,7 +19,9 @@ namespace eShopSolution.Data.Configurations
 
             builder.Property(x => x.Id).UseIdentityColumn();
 
-            builder.Property(x => x.Review).HasColumnType("ntext");
+            builder.Property(x => x.Name).HasMaxLength(500).IsRequired();
+
+            builder.Property(x => x.Review).HasColumnType("ntext").IsRequired();
 
             builder.HasOne(x => x.Product)
                .WithMany(x => x.ProductRatings)

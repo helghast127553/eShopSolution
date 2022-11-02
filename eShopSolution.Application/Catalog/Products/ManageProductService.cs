@@ -47,7 +47,7 @@ namespace eShopSolution.Application.Catalog.Products
                 };
             }
 
-            _dbContext.Products.Add(product);
+            await _dbContext.Products.AddAsync(product);
           
             return await _dbContext.SaveChangesAsync();
         }
@@ -117,15 +117,13 @@ namespace eShopSolution.Application.Catalog.Products
         {
             var product = await _dbContext.Products.FindAsync(productId);
 
-            var productViewModel = new ProductViewModel 
+            return new ProductViewModel 
             {
                 Id = product.Id,
                 Description = product.Description,
                 Name = product.Name,
                 Price = product.Price,
             };
-
-            return productViewModel;
         }
 
         public async Task<int> Update(int id, ProductUpdateRequest request)
