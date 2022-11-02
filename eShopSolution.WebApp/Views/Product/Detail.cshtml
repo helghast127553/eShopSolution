@@ -1,13 +1,17 @@
 ﻿@using System.Globalization
+@using eShopSolution.ViewModels.Catalog.ProductRating
 @using eShopSolution.ViewModels.Catalog.Products
-@model ProductViewModel
+@model ProductRatingCreateRequest
 
 <div class="">
+    @{
+        var productRatings = ViewBag.productRatings as List<ProductRatingViewModel>;
+    }
     <div id="product-product" class="container">
         <nav class="breadcrumb">
             <ol>
                 <li><a asp-controller="home" asp-action="index"><span><i class="fa fa-home"></i></span></a></li>
-                <li><a asp-controller="product" asp-action="detail" asp-route-id="@Model.Id"><span>@Model.Name</span></a></li>
+                <li><a asp-controller="product" asp-action="detail" asp-route-id="@ViewBag.productDetail.Id"><span>@ViewBag.productDetail.Name</span></a></li>
             </ol>
         </nav>
         <div class="row">
@@ -18,31 +22,35 @@
                             <div class="col-sm-6 ttvproduct-details-img-block">
                                 <div class="thumbnails">
                                     <div>
-                                        <a class="thumbnail" href="@Model.ImageUrl">
-                                            <img id="img_zoom" src="@Model.ImageUrl" alt="Exercitat Virginia" data-zoom-image="@Model.ImageUrl">
+                                        <a class="thumbnail" href="@ViewBag.productDetail.ImageUrl">
+                                            <img id="img_zoom" src="@ViewBag.productDetail.ImageUrl" alt="Exercitat Virginia" data-zoom-image="@ViewBag.productDetail.ImageUrl">
                                         </a>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6 ttv-wrapper-info">
-                                <h1 class="ttvproduct-title">@Model.Name</h1>
+                                <h1 class="ttvproduct-title">@ViewBag.productDetail.Name</h1>
                                 <div class="ttvall-product-star-icon">
                                     <div class="comments_note">
                                         <div class="star_content">
-                                            <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                            <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                            <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                            <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                            <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
+                                            @for (int i = 1; i <= ViewBag.productDetail.Rating; i++)
+                                            {
+                                                <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
+                                            }
+                                            @for (int i = 1; i <= 5 - ViewBag.productDetail.Rating; i++)
+                                            {
+                                                <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
+                                            }
                                         </div>
                                     </div>
                                 </div>
                                 <div class="ttv-review">
-                                    <a href="" class="reviews_button" onclick="$('a[href=\'#tab-review\']').trigger('click'); return false;"><i class="fa fa-comment"></i>1 reviews </a>| <a href="" class="reviews_button" onclick="$('a[href=\'#tab-review\']').trigger('click'); return false;"><i class="fa fa-pencil"></i>Write a review</a></div>
+                                    <a href="" class="reviews_button" onclick="$('a[href=\'#tab-review\']').trigger('click'); return false;"><i class="fa fa-comment"></i>@productRatings.Count() reviews </a>| <a href="" class="reviews_button" onclick="$('a[href=\'#tab-review\']').trigger('click'); return false;"><i class="fa fa-pencil"></i>Write a review</a>
+                                </div>
                                 <hr>
                                 <ul class="list-unstyled product-price-and-shipping">
                                     <li>
-                                        <h2 class="price">@Model.Price.ToString("C3", CultureInfo.CurrentCulture)</h2>
+                                        <h2 class="price">@ViewBag.productDetail.Price.ToString("C3", CultureInfo.CurrentCulture)</h2>
                                     </li>
                                     <li class="ttv-tax">Ex Tax: $310.00</li>
                                     <li class="ttv-point">Price in reward points: 200</li>
@@ -60,71 +68,86 @@
                         <div class="producttab">
                             <ul class="nav nav-tabs ttvtabs">
                                 <li class="active"><a href="#tab-description" data-toggle="tab">Description</a></li>
-                                <li><a href="#tab-review" data-toggle="tab">Reviews (1)</a></li>
+                                <li><a href="#tab-review" data-toggle="tab">Reviews (@productRatings.Count())</a></li>
                             </ul>
                             <div class="tab-content ">
                                 <div class="tab-pane active" id="tab-description">
                                     <p>
-                                        @Model.Description
+                                        @ViewBag.productDetail.Description
                                     </p>
                                 </div>
                                 <div class="tab-pane" id="tab-review">
-                                    <form class="form-horizontal" id="form-review">
-                                        <div id="review">
-                                            <table class="table table-striped table-bordered">
-                                                <tbody>
+
+                                    <div id="review">
+                                        <table class="table table-striped table-bordered">
+                                            <tbody>
+                                                @foreach (var item in productRatings)
+                                                {
                                                     <tr>
-                                                        <td style="width: 50%;"><strong>Austin</strong></td>
-                                                        <td class="text-right">16/03/2018</td>
+                                                        <td style="width: 50%;"><strong>@item.Name</strong><a asp-controller="product" asp-action="deleteRating" asp-route-id="@item.Id" asp-route-productId="@item.ProductId" style="margin-left:10px"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+                                                        <td class="text-right">@item.TimeCreated.ToShortDateString()</td>
                                                     </tr>
                                                     <tr>
                                                         <td colspan="2">
-                                                            <p>The 30-inch Apple Cinema HD Display delivers an amazing 2560 x 1600 pixel resolution. Designed specifically for the creative professional, this display provides more space for easier access to all the tools and palettes needed to edit, format and composite your work. Combine this display with a Mac Pro, MacBook Pro, or PowerMac G5 and there's no limit to what you can achieve.</p>
+                                                            <p>@item.Review</p>
                                                             <div class="ttvall-product-star-icon">
                                                                 <div class="comments_note">
                                                                     <div class="star_content">
-                                                                        <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                                                        <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                                                        <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                                                        <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                                                        <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
+                                                                        @for (int i = 1; i <= (int)item.Rating; i++)
+                                                                        {
+                                                                            <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
+                                                                        }
+                                                                        @for (int i = 1; i <= 5 - (int)item.Rating; i++)
+                                                                        {
+                                                                            <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
+                                                                        }
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                </tbody>
-                                            </table>
-                                            <div class="text-right">
-                                                <nav class="row pagination ttvcms-all-pagination">
-                                                    <div class="col-md-12 ttv-pagination-number"></div>
-                                                </nav>
-                                            </div>
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <div class="text-right">
+                                            <nav class="row pagination ttvcms-all-pagination">
+                                                <div class="col-md-12 ttv-pagination-number"></div>
+                                            </nav>
                                         </div>
+                                    </div>
+                                    <form asp-controller="product" asp-action="createRating" method="post" class="form-horizontal" id="form-review">
                                         <h2 class="ttvpage-sub-title">Write a review</h2>
                                         <div class="form-group required">
-                                            <div class="col-sm-12"><label class="control-label ttvpage-sub-label" for="input-name">Your Name</label><input type="text" name="name" value="" id="input-name" class="form-control"></div>
+                                            <div class="col-sm-12">
+                                                <input type="hidden" asp-for="ProductId" class="form-control" value="@ViewBag.productDetail.Id">
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <label class="control-label ttvpage-sub-label" asp-for="Name">Your Name</label>
+                                                <input type="text" asp-for="Name" class="form-control">
+                                            </div>
                                         </div>
                                         <div class="form-group required">
                                             <div class="col-sm-12">
-                                                <label class="control-label ttvpage-sub-label" for="input-review">Your Review</label>
-                                                <textarea name="text" rows="5" id="input-review" class="form-control"></textarea>
+                                                <label class="control-label ttvpage-sub-label" asp-for="Review">Your Review</label>
+                                                <textarea asp-for="Review" rows="5" class="form-control"></textarea>
                                                 <div class="help-block"><span class="text-danger">Note:</span> HTML is not translated!</div>
                                             </div>
                                         </div>
                                         <div class="form-group required">
                                             <div class="col-sm-12">
-                                                <label class="control-label ttvpage-sub-label">Rating</label>
+                                                <label class="control-label ttvpage-sub-label" asp-for="Rating">Rating</label>
                                                 &nbsp;&nbsp;&nbsp; Bad&nbsp;
-                                                <input type="radio" name="rating" value="1"> &nbsp;
-                                                <input type="radio" name="rating" value="2"> &nbsp;
-                                                <input type="radio" name="rating" value="3"> &nbsp;
-                                                <input type="radio" name="rating" value="4"> &nbsp;
-                                                <input type="radio" name="rating" value="5"> &nbsp;Good
+                                                <input type="radio" value="1" asp-for="Rating"> &nbsp;
+                                                <input type="radio" value="2" asp-for="Rating"> &nbsp;
+                                                <input type="radio" value="3" asp-for="Rating"> &nbsp;
+                                                <input type="radio" value="4" asp-for="Rating"> &nbsp;
+                                                <input type="radio" value="5" asp-for="Rating"> &nbsp;Good
                                             </div>
                                         </div>
                                         <div class="buttons clearfix">
-                                            <div class="pull-right"><button type="button" id="button-review" data-loading-text="Loading..." class="btn btn-primary">Continue</button></div>
+                                            <div class="pull-right">
+                                                <button type="submit" id="button-review" data-loading-text="Loading..." class="btn btn-primary">Continue</button>
+                                            </div>
                                         </div>
                                     </form>
                                 </div>

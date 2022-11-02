@@ -10,7 +10,5 @@ namespace eShopSolution.ApiIntegration.Abstraction
     public interface ICategoryApiClient
     {
         Task<IList<CategoryViewModel>> GetAll();
-
-        Task<CategoryViewModel> GetById(int id);
     }
 }

@@ -1,4 +1,5 @@
-﻿using eShopSolution.Application.Catalog.Products;
+﻿using eShopSolution.Application.Catalog.ProductRatings;
+using eShopSolution.Application.Catalog.Products;
 using eShopSolution.Application.System;
 using eShopSolution.BackendApi.Controllers;
 using eShopSolution.ViewModels.Catalog.Categories;
@@ -27,6 +28,7 @@ namespace eShopSolution.BackendApi.Tests
 
             var publicProductService = new Mock<IPublicProductService>();
             var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
 
             manageProductService.Setup(x => x.GetAllProductPaging(request)).ReturnsAsync(new ApiSuccessResult<PagedResult<ProductViewModel>>(
                 new PagedResult<ProductViewModel>
@@ -45,7 +47,7 @@ namespace eShopSolution.BackendApi.Tests
                     }
                 }));
 
-            var controller = new ProductsController(publicProductService.Object, manageProductService.Object);
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
 
 
             // Act
@@ -69,6 +71,7 @@ namespace eShopSolution.BackendApi.Tests
             // Arrange
             var publicProductService = new Mock<IPublicProductService>();
             var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
 
             publicProductService.Setup(x => x.GetProductDetailById(1)).ReturnsAsync(new ProductViewModel { 
                 Id = 1, 
@@ -78,7 +81,7 @@ namespace eShopSolution.BackendApi.Tests
                 ImageUrl = "https://localhost:7064/image/01ac7093-8ae2-47c6-bd53-9ce3ab7a3b89.jpg"
             });
 
-            var controller = new ProductsController(publicProductService.Object, manageProductService.Object);
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
 
             // Act
             var okResult = await controller.GetProductDetailById(1);
@@ -98,6 +101,8 @@ namespace eShopSolution.BackendApi.Tests
             // Arrange
             var publicProductService = new Mock<IPublicProductService>();
             var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
+
             var request = new GetPublicProductPagingRequest {  SubCategoryId = 5, PageIndex = 1, PageSize = 15};
 
             publicProductService.Setup(x => x.GetAllByCategoryIdPaging(request)).ReturnsAsync(new PagedResult<ProductViewModel>
@@ -113,7 +118,7 @@ namespace eShopSolution.BackendApi.Tests
                 }
             });
 
-            var controller = new ProductsController(publicProductService.Object, manageProductService.Object);
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
 
             // Act
             var okResult = await controller.GetAllByCategoryId(request);
@@ -142,8 +147,9 @@ namespace eShopSolution.BackendApi.Tests
 
             var publicProductService = new Mock<IPublicProductService>();
             var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
 
-            var controller = new ProductsController(publicProductService.Object, manageProductService.Object);
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
 
             controller.ModelState.AddModelError("Name", "Required");
             controller.ModelState.AddModelError("Description", "Required");
@@ -171,10 +177,12 @@ namespace eShopSolution.BackendApi.Tests
 
             var publicProductService = new Mock<IPublicProductService>();
             var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
+
             manageProductService.Setup(x => x.Create(request))
               .ReturnsAsync(1);
 
-            var controller = new ProductsController(publicProductService.Object, manageProductService.Object);
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
             
             // Act
             var OkResult = await controller.Create(request);
@@ -197,10 +205,12 @@ namespace eShopSolution.BackendApi.Tests
 
             var publicProductService = new Mock<IPublicProductService>();
             var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
+
             manageProductService.Setup(x => x.Create(request))
               .ReturnsAsync(0);
 
-            var controller = new ProductsController(publicProductService.Object, manageProductService.Object);
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
 
             // Act
             var badResult = await controller.Create(request);
@@ -224,8 +234,9 @@ namespace eShopSolution.BackendApi.Tests
 
             var publicProductService = new Mock<IPublicProductService>();
             var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
 
-            var controller = new ProductsController(publicProductService.Object, manageProductService.Object);
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
 
             // Act
             var badResponse = await controller.Create(request);
@@ -248,10 +259,12 @@ namespace eShopSolution.BackendApi.Tests
 
             var publicProductService = new Mock<IPublicProductService>();
             var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
+
             manageProductService.Setup(x => x.Update(1, request))
               .ReturnsAsync(1);
 
-            var controller = new ProductsController(publicProductService.Object, manageProductService.Object);
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
 
             // Act
             var okResult = await controller.Update(1, request);
@@ -274,10 +287,12 @@ namespace eShopSolution.BackendApi.Tests
 
             var publicProductService = new Mock<IPublicProductService>();
             var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
+
             manageProductService.Setup(x => x.Update(1, request))
               .ReturnsAsync(0);
 
-            var controller = new ProductsController(publicProductService.Object, manageProductService.Object);
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
 
             // Act
             var badResponse = await controller.Update(1, request);
@@ -300,8 +315,9 @@ namespace eShopSolution.BackendApi.Tests
 
             var publicProductService = new Mock<IPublicProductService>();
             var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
 
-            var controller = new ProductsController(publicProductService.Object, manageProductService.Object);
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
 
             controller.ModelState.AddModelError("Name", "Required");
             controller.ModelState.AddModelError("Description", "Required");
@@ -329,8 +345,9 @@ namespace eShopSolution.BackendApi.Tests
 
             var publicProductService = new Mock<IPublicProductService>();
             var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
 
-            var controller = new ProductsController(publicProductService.Object, manageProductService.Object);
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
 
             // Act
             var badResponse = await controller.Update(1, request);
@@ -347,8 +364,9 @@ namespace eShopSolution.BackendApi.Tests
 
             var publicProductService = new Mock<IPublicProductService>();
             var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
 
-            var controller = new ProductsController(publicProductService.Object, manageProductService.Object);
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
 
             // Act
             var badResponse = await controller.Delete(id);
@@ -364,12 +382,13 @@ namespace eShopSolution.BackendApi.Tests
             int id = 5;
 
             var publicProductService = new Mock<IPublicProductService>();
-
             var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
+
             manageProductService.Setup(x => x.Delete(id))
               .ReturnsAsync(1);
 
-            var controller = new ProductsController(publicProductService.Object, manageProductService.Object);
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
 
             // Act
             var result = await controller.Delete(id);
@@ -385,12 +404,13 @@ namespace eShopSolution.BackendApi.Tests
             int id = 5;
 
             var publicProductService = new Mock<IPublicProductService>();
-
             var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
+
             manageProductService.Setup(x => x.Delete(id))
               .ReturnsAsync(-1);
 
-            var controller = new ProductsController(publicProductService.Object, manageProductService.Object);
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
 
             // Act
             var result = await controller.Delete(id);
@@ -405,12 +425,13 @@ namespace eShopSolution.BackendApi.Tests
             int id = 5;
 
             var publicProductService = new Mock<IPublicProductService>();
-
             var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
+
             manageProductService.Setup(x => x.Delete(id))
               .ReturnsAsync(0);
 
-            var controller = new ProductsController(publicProductService.Object, manageProductService.Object);
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
 
             // Act
             var result = await controller.Delete(id);

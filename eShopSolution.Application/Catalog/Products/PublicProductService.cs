@@ -22,21 +22,20 @@ namespace eShopSolution.Application.Catalog.Products
                         join i in _dbContext.ProductImages on p.Id equals i.ProductId
                         select new { p, i };
 
-
-            var data = await query.Select(x => new ProductViewModel()
+            return await query.Select(x => new ProductViewModel()
             {
                 Id = x.p.Id,
                 ImageUrl = $"https://localhost:7064/image/{x.i.ImagePath}",
                 Name = x.p.Name,
                 Description = x.p.Description,
                 Price = x.p.Price,
+                Rating = _dbContext.ProductRatings.Any(pr => pr.ProductId == x.p.Id)
+                ? (int)_dbContext.ProductRatings.Where(pr => pr.ProductId == x.p.Id).Average(x => x.Rating) : 0,
                 Time_Created = x.p.Time_Created.Value,
                 Time_Updated = x.p.Time_Updated.Value
             })
                 .Take(10)
                 .ToListAsync();
-
-            return data;
         }
 
         public async Task<PagedResult<ProductViewModel>> GetAllByCategoryIdPaging(GetPublicProductPagingRequest request)
@@ -70,6 +69,8 @@ namespace eShopSolution.Application.Catalog.Products
                     Name = x.p.Name,
                     Description = x.p.Description,
                     Price = x.p.Price,
+                    Rating = _dbContext.ProductRatings.Any(pr => pr.ProductId == x.p.Id)
+                ? (int)_dbContext.ProductRatings.Where(pr => pr.ProductId == x.p.Id).Average(x => x.Rating) : 0,
                 }).ToListAsync();
 
             //3. Select and projection
@@ -87,7 +88,7 @@ namespace eShopSolution.Application.Catalog.Products
         public async Task<ProductViewModel> GetProductDetailById(int id)
         {
             var productDetail = await _dbContext.Products.FindAsync(id);
-            var productImages = await _dbContext.ProductImages.SingleOrDefaultAsync(x => x.ProductId == productDetail.Id);
+            var productImages = await _dbContext.ProductImages.SingleOrDefaultAsync(x => x.ProductId == id);
 
             return new ProductViewModel
             {
@@ -95,6 +96,8 @@ namespace eShopSolution.Application.Catalog.Products
                 Name = productDetail.Name,
                 Description = productDetail.Description,
                 Price = productDetail.Price,
+                Rating = _dbContext.ProductRatings.Any(x => x.ProductId == id)
+                ? (int)_dbContext.ProductRatings.Where(x => x.ProductId == id).Average(x => x.Rating) : 0,
                 ImageUrl = $"https://localhost:7064/image/{productImages.ImagePath}"
             };
         }

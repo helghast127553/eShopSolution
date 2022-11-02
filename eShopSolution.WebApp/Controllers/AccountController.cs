@@ -15,6 +15,7 @@ namespace eShopSolution.WebApp.Controllers
     {
         private readonly IUserApiClient _userApiClient;
         private readonly IConfiguration _configuration;
+
         public AccountController(IUserApiClient userApiClient, IConfiguration configuration)
         {
             _userApiClient = userApiClient;
@@ -42,7 +43,7 @@ namespace eShopSolution.WebApp.Controllers
                 return View();
             }
 
-            HttpContext.Session.SetString(SystemConstants.Token, result.ResultObj);
+            HttpContext.Response.Cookies.Append(SystemConstants.Token, result.ResultObj, new CookieOptions { Expires = DateTime.Now.AddHours(int.Parse(_configuration["JwtSettings:expires"])) });
             var userPrincipal = ValidateToken(result.ResultObj);
             await HttpContext.SignInAsync(
                         CookieAuthenticationDefaults.AuthenticationScheme,
@@ -55,7 +56,6 @@ namespace eShopSolution.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            HttpContext.Session.Clear();
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }

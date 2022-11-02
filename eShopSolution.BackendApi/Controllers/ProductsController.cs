@@ -1,4 +1,6 @@
-﻿using eShopSolution.Application.Catalog.Products;
+﻿using eShopSolution.Application.Catalog.ProductRatings;
+using eShopSolution.Application.Catalog.Products;
+using eShopSolution.ViewModels.Catalog.ProductRating;
 using eShopSolution.ViewModels.Catalog.Products.Manage;
 using eShopSolution.ViewModels.Catalog.Products.Public;
 using Microsoft.AspNetCore.Authorization;
@@ -12,11 +14,14 @@ namespace eShopSolution.BackendApi.Controllers
     {
         private readonly IPublicProductService _publicProductService;
         private readonly IManageProductService _manageProductService;
+        private readonly IProductRatingService _productRatingService;
 
-        public ProductsController(IPublicProductService publicProductService, IManageProductService manageProductService)
+        public ProductsController(IPublicProductService publicProductService, IManageProductService manageProductService, 
+            IProductRatingService productRatingService)
         {
             _publicProductService = publicProductService;
             _manageProductService = manageProductService;
+            _productRatingService = productRatingService;
         }
 
         [HttpGet("product")]
@@ -24,6 +29,51 @@ namespace eShopSolution.BackendApi.Controllers
         {
             var products = await _publicProductService.GetAll();
             return Ok(products);
+        }
+
+        [HttpPost("product/rating/")]
+        [Authorize]
+        public async Task<IActionResult> CreateRating([FromBody] ProductRatingCreateRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var result = await _productRatingService.Create(request);
+
+            if (result == 0)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
+
+        [HttpDelete("product/rating/{id}/")]
+        [Authorize]
+        public async Task<IActionResult> DeleteRating([FromRoute] int id)
+        {
+            var result = await _productRatingService.Delete(id);
+
+            if (result == -1)
+            {
+                return NotFound();
+            }
+
+            if (result == 0)
+            {
+                return BadRequest();
+            }
+
+            return NoContent();
+        }
+
+        [HttpGet("product/rating/{id}")]
+        public async Task<IActionResult> GetAllRatingsByProductId([FromRoute] int id)
+        {
+            var data = await _productRatingService.GetAllProductRatingsByProductId(id);
+            return Ok(data);
         }
 
         [HttpGet("product/detail/{id}/")]

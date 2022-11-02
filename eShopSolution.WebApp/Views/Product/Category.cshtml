@@ -200,7 +200,7 @@
                                                 <div class="thumbnail-container">
                                                     <div class="ttvproduct-wrapper grid">
                                                         <div class="ttvproduct-image">
-                                                            <a asp-controller="product" asp-action="detail" asp-route-id="@item.Id" class="thumbnail product-thumbnail">
+                                                            <a asp-controller="product" asp-action="detail" asp-route-productId="@item.Id" class="thumbnail product-thumbnail">
                                                                 <img src="@item.ImageUrl" class="ttvproduct-defult-img gridimg1" />
                                                             </a>
                                                             <div class="ttvproduct-hover-btn-wrapper">
@@ -220,11 +220,14 @@
                                                             <div class="ttvall-product-star-icon">
                                                                 <div class="comments_note">
                                                                     <div class="star_content">
-                                                                        <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                                                        <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                                                        <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                                                        <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                                                        <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
+                                                                        @for (int i = 1; i <= item.Rating; i++)
+                                                                        {
+                                                                            <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
+                                                                        }
+                                                                        @for (int i = 1; i <= 5 - item.Rating; i++)
+                                                                        {
+                                                                            <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
+                                                                        }
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -242,7 +245,7 @@
                                                     </div>
                                                     <div class="ttvproduct-wrapper list">
                                                         <div class="ttvproduct-image col-sm-4">
-                                                            <a asp-controller="product" asp-action="detail" asp-route-id="@item.Id" class="thumbnail product-thumbnail">
+                                                            <a asp-controller="product" asp-action="detail" asp-route-productId="@item.Id" class="thumbnail product-thumbnail">
                                                                 <img src="@item.ImageUrl" class="ttvproduct-defult-img">
                                                             </a>
                                                         </div>
@@ -263,11 +266,14 @@
                                                                     <div class="ttvall-product-star-icon">
                                                                         <div class="comments_note">
                                                                             <div class="star_content">
-                                                                                <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                                                                <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                                                                <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                                                                <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                                                                <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
+                                                                                 @for (int i = 1; i <= item.Rating; i++)
+                                                                                 {
+                                                                                    <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
+                                                                                 }
+                                                                                 @for (int i = 1; i <= 5 - item.Rating; i++)
+                                                                                 {
+                                                                                     <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
+                                                                                 }
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -289,7 +295,7 @@
                                                     <div class="ttvproduct-wrapper catalog">
                                                         <div class="ttvproduct-catalog-wrapper">
                                                             <div class="ttvproduct-image col-sm-12 col-md-3">
-                                                                <a asp-controller="product" asp-action="detail" asp-route-id="@item.Id" class="thumbnail product-thumbnail">
+                                                                <a asp-controller="product" asp-action="detail" asp-route-productId="@item.Id" class="thumbnail product-thumbnail">
                                                                     <img src="@item.ImageUrl" class="ttvproduct-defult-img">
                                                                 </a>
                                                             </div>
@@ -309,11 +315,14 @@
                                                                 <div class="ttvall-product-star-icon">
                                                                     <div class="comments_note">
                                                                         <div class="star_content">
-                                                                            <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                                                            <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                                                            <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                                                            <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
-                                                                            <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
+                                                                            @for (int i = 1; i <= item.Rating; i++)
+                                                                            {
+                                                                                <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
+                                                                            }
+                                                                            @for (int i = 1; i <= 5 - item.Rating; i++)
+                                                                            {
+                                                                                <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
+                                                                            }
                                                                         </div>
                                                                     </div>
                                                                 </div>

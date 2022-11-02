@@ -22,15 +22,19 @@ namespace eShopSolution.Application.Catalog.Categories
         public async Task<IList<CategoryViewModel>> GetAll()
         {
             return await _context.Categories
-                .Select(x => new CategoryViewModel { Id = x.Id, Name = x.Name, ParentId = x.ParentId })
+                .Select(x => new CategoryViewModel
+                { 
+                    Id = x.Id,
+                    Name = x.Name, 
+                    ParentId = x.ParentId 
+                })
                 .ToListAsync();
         }
 
         public async Task<CategoryViewModel> GetById(int id)
         {
             var category = await _context.Categories.FindAsync(id);
-            var categoryViewModel = new CategoryViewModel { Id = category.Id, Name = category.Name };
-            return categoryViewModel;
+            return new CategoryViewModel { Id = category.Id, Name = category.Name };
         }
     }
 }
