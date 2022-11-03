@@ -90,11 +90,11 @@ namespace eShopSolution.WebApp.Controllers
             request.Username = User.Identity.Name;
             await _productApiClient.CreateRating(request);
 
-            return RedirectToAction("Detail", new { productId = request.ProductId });
+            return RedirectToAction("Detail", new { productId = request.ProductId, categoryId = request.CategoryId });
         }
 
         [HttpGet]
-        public async Task<IActionResult> DeleteRating(int id, int productId)
+        public async Task<IActionResult> DeleteRating(int id, int productId, int categoryId)
         {
             if (!User.Identity.IsAuthenticated)
             {
@@ -103,7 +103,7 @@ namespace eShopSolution.WebApp.Controllers
 
             await _productApiClient.DeleteRating(id);
 
-            return RedirectToAction("Detail", new { productId = productId });
+            return RedirectToAction("Detail", new { productId = productId, categoryId = categoryId });
         }
     }
 }
