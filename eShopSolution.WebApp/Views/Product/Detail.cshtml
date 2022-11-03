@@ -50,7 +50,7 @@
                                 <hr>
                                 <ul class="list-unstyled product-price-and-shipping">
                                     <li>
-                                        <h2 class="price">@ViewBag.productDetail.Price.ToString("C3", CultureInfo.CurrentCulture)</h2>
+                                        <h2 class="price">@ViewBag.productDetail.Price.ToString("C2", CultureInfo.CurrentCulture)</h2>
                                     </li>
                                     <li class="ttv-tax">Ex Tax: $310.00</li>
                                     <li class="ttv-point">Price in reward points: 200</li>
@@ -216,7 +216,7 @@
                                                                                 <div class="ttvproduct-name">
                                                                                     <div class="product-title">
                                                                                         <a asp-controller="product" asp-action="detail" asp-route-productId="@item.Id" asp-route-categoryId="@item.CategoryId">
-                                                                                            <h6>Annabelle by Pantaloons</h6>
+                                                                                            <h6>@item.Name</h6>
                                                                                         </a>
                                                                                     </div>
                                                                                 </div>
