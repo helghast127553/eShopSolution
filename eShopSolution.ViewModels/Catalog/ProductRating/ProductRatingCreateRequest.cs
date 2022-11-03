@@ -17,6 +17,8 @@ namespace eShopSolution.ViewModels.Catalog.ProductRating
 
         public int Rating { get; set; }
 
+        public int CategoryId { get; set; }
+
         public string Username { get; set; }
     }
 }
