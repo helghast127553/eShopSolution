@@ -76,6 +76,13 @@ namespace eShopSolution.BackendApi.Controllers
             return Ok(data);
         }
 
+        [HttpGet("product/relatedProduct/{categoryId}")]
+        public async Task<IActionResult> GetRelateProductsByCategoryId([FromRoute] int categoryId)
+        {
+            var data = await _publicProductService.GetRelatedProductsByCategoryId(categoryId);
+            return Ok(data);
+        }
+
         [HttpGet("product/detail/{id}/")]
         public async Task<IActionResult> GetProductDetailById([FromRoute] int id)
         {

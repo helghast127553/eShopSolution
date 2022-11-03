@@ -15,6 +15,8 @@ namespace eShopSolution.Application.Catalog.Products
 
         Task<IList<ProductViewModel>> GetAll();
 
+        Task<IList<ProductViewModel>> GetRelatedProductsByCategoryId(int categoryId);
+
         Task<ProductViewModel> GetProductDetailById(int id);
     }
 }

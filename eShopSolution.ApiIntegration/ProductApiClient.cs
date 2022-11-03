@@ -112,5 +112,16 @@ namespace eShopSolution.ApiIntegration
 
             return JsonConvert.DeserializeObject(body, typeof(ProductViewModel)) as ProductViewModel;
         }
+
+        public async Task<IList<ProductViewModel>> GetRelatedProductsByCategoryId(int categoryId)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+
+            var response = await client.GetAsync($"api/product/relatedProduct/{categoryId}/");
+            var body = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject(body, typeof(List<ProductViewModel>)) as List<ProductViewModel>;
+        }
     }
 }

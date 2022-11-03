@@ -430,5 +430,24 @@
             /*************** End left Right Product Toggle in Mobile Size ***************************************************/
         });
     </script>
+    <script type="text/javascript">
+        <!--
+        /*******************************ralateproduct*******************************/
+        $('.ttvrelated-product-wrapper').owlCarousel({
+            loop: false, dots: false, nav: false, responsive: {
+                0: { items: 1 }, 320: { items: 1, slideBy: 1 }, 576: { items: 2, slideBy: 1 }, 768: { items: 2, slideBy: 1 }, 992: { items: 3, slideBy: 1 }, 1200: { items: 4, slideBy: 1 }, 1600: { items: 5, slideBy: 1 }, 1800: { items: 5, slideBy: 1 }
+            },
+        });
+        $('.ttvcmsrelated-next-pre-btn .ttvcmsrelated-prev ').click(function (e) {
+            e.preventDefault();
+            $('.ttvrelated-product-wrapper .owl-nav .owl-prev').trigger('click');
+        });
+        $('.ttvcmsrelated-next-pre-btn .ttvcmsrelated-next ').click(function (e) {
+            e.preventDefault();
+            $('.ttvrelated-product-wrapper .owl-nav .owl-next').trigger('click');
+        });
+        // $(owlClass[i][3]+' .ttv-pagination-wrapper').insertAfter(owlClass[i][3]+' .ttvproduct-wrapper-content-box');
+        //*******************************ralateproduct******************************/
+        //--></script>
 </body>
 </html>

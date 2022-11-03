@@ -4,6 +4,7 @@ using eShopSolution.ViewModels.Common;
 using eShopSolution.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using eShopSolution.Data.Configurations;
+using eShopSolution.Data.Entities;
 
 namespace eShopSolution.Application.Catalog.Products
 {
@@ -29,6 +30,7 @@ namespace eShopSolution.Application.Catalog.Products
                 Name = x.p.Name,
                 Description = x.p.Description,
                 Price = x.p.Price,
+                CategoryId = x.p.CategoryId,
                 Rating = _dbContext.ProductRatings.Any(pr => pr.ProductId == x.p.Id)
                 ? (int)_dbContext.ProductRatings.Where(pr => pr.ProductId == x.p.Id).Average(x => x.Rating) : 0,
                 Time_Created = x.p.Time_Created.Value,
@@ -69,6 +71,7 @@ namespace eShopSolution.Application.Catalog.Products
                     Name = x.p.Name,
                     Description = x.p.Description,
                     Price = x.p.Price,
+                    CategoryId = x.p.CategoryId,
                     Rating = _dbContext.ProductRatings.Any(pr => pr.ProductId == x.p.Id)
                 ? (int)_dbContext.ProductRatings.Where(pr => pr.ProductId == x.p.Id).Average(x => x.Rating) : 0,
                 }).ToListAsync();
@@ -98,8 +101,27 @@ namespace eShopSolution.Application.Catalog.Products
                 Price = productDetail.Price,
                 Rating = _dbContext.ProductRatings.Any(x => x.ProductId == id)
                 ? (int)_dbContext.ProductRatings.Where(x => x.ProductId == id).Average(x => x.Rating) : 0,
-                ImageUrl = $"https://localhost:7064/image/{productImages.ImagePath}"
+                ImageUrl = $"https://localhost:7064/image/{productImages.ImagePath}",
+                CategoryId = productDetail.CategoryId,
             };
+        }
+
+        public async Task<IList<ProductViewModel>> GetRelatedProductsByCategoryId(int categoryId)
+        {
+            return await _dbContext.Products.Where(x => x.CategoryId == categoryId)
+                .Select(x => new ProductViewModel 
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    Price = x.Price,
+                    Rating = _dbContext.ProductRatings.Any(x => x.ProductId == x.Id)
+                ? (int)_dbContext.ProductRatings.Where(x => x.ProductId == x.Id).Average(x => x.Rating) : 0,
+                    ImageUrl = $"https://localhost:7064/image/{_dbContext.ProductImages.SingleOrDefault(pi => pi.ProductId == x.Id).ImagePath}",
+                    CategoryId = x.CategoryId,
+                })
+                .Take(8)
+                .ToListAsync();
         }
     }
 }

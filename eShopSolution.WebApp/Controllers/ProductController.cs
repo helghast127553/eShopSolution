@@ -25,10 +25,11 @@ namespace eShopSolution.WebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Detail(int productId)
+        public async Task<IActionResult> Detail(int productId, int categoryId)
         {
             ViewBag.productDetail = await _productApiClient.GetProductDetail(productId);
             ViewBag.productRatings = await _productApiClient.GetAllProductRatingByProductId(productId);
+            ViewBag.relatedProducts = await _productApiClient.GetRelatedProductsByCategoryId(categoryId);
             return View();
         }
 

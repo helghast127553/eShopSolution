@@ -200,7 +200,7 @@
                                                 <div class="thumbnail-container">
                                                     <div class="ttvproduct-wrapper grid">
                                                         <div class="ttvproduct-image">
-                                                            <a asp-controller="product" asp-action="detail" asp-route-productId="@item.Id" class="thumbnail product-thumbnail">
+                                                            <a asp-controller="product" asp-action="detail" asp-route-productId="@item.Id" asp-route-categoryId="@item.CategoryId" class="thumbnail product-thumbnail">
                                                                 <img src="@item.ImageUrl" class="ttvproduct-defult-img gridimg1" />
                                                             </a>
                                                             <div class="ttvproduct-hover-btn-wrapper">
@@ -233,7 +233,7 @@
                                                             </div>
                                                             <div class="ttvproduct-name">
                                                                 <div class="product-title">
-                                                                    <a href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/index.php?route=product/product&amp;path=20&amp;product_id=36&amp;limit=15">
+                                                                    <a asp-controller="product" asp-action="detail" asp-route-productId="@item.Id" asp-route-categoryId="@item.CategoryId">
                                                                         <h6>@item.Name</h6>
                                                                     </a>
                                                                 </div>
@@ -245,7 +245,7 @@
                                                     </div>
                                                     <div class="ttvproduct-wrapper list">
                                                         <div class="ttvproduct-image col-sm-4">
-                                                            <a asp-controller="product" asp-action="detail" asp-route-productId="@item.Id" class="thumbnail product-thumbnail">
+                                                            <a asp-controller="product" asp-action="detail" asp-route-productId="@item.Id" asp-route-categoryId="@item.CategoryId" class="thumbnail product-thumbnail">
                                                                 <img src="@item.ImageUrl" class="ttvproduct-defult-img">
                                                             </a>
                                                         </div>
@@ -253,7 +253,7 @@
                                                             <div class="product-description">
                                                                 <div class="ttvproduct-name">
                                                                     <div class="product-title">
-                                                                        <a href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/index.php?route=product/product&amp;path=20&amp;product_id=36&amp;limit=15">
+                                                                        <a asp-controller="product" asp-action="detail" asp-route-productId="@item.Id" asp-route-categoryId="@item.CategoryId">
                                                                             <h6>@item.Name</h6>
                                                                         </a>
                                                                     </div>
@@ -295,14 +295,14 @@
                                                     <div class="ttvproduct-wrapper catalog">
                                                         <div class="ttvproduct-catalog-wrapper">
                                                             <div class="ttvproduct-image col-sm-12 col-md-3">
-                                                                <a asp-controller="product" asp-action="detail" asp-route-productId="@item.Id" class="thumbnail product-thumbnail">
+                                                                <a asp-controller="product" asp-action="detail" asp-route-productId="@item.Id" asp-route-categoryId="@item.CategoryId" class="thumbnail product-thumbnail">
                                                                     <img src="@item.ImageUrl" class="ttvproduct-defult-img">
                                                                 </a>
                                                             </div>
                                                             <div class="col-sm-12 col-md-3 ttvcms-product-name-star">
                                                                 <div class="ttvproduct-name">
                                                                     <div class="product-title">
-                                                                        <a href="https://monster.themevolty.com/opencart/opc_electronics_salora_2301/index.php?route=product/product&amp;path=20&amp;product_id=36&amp;limit=15">
+                                                                        <a asp-controller="product" asp-action="detail" asp-route-productId="@item.Id" asp-route-categoryId="@item.CategoryId">
                                                                             <h6>@item.Name</h6>
                                                                         </a>
                                                                     </div>

@@ -19,6 +19,8 @@ namespace eShopSolution.ApiIntegration.Abstraction
 
         Task<IList<ProductRatingViewModel>> GetAllProductRatingByProductId(int id);
 
+        Task<IList<ProductViewModel>> GetRelatedProductsByCategoryId(int categoryId);
+
         Task<IList<ProductViewModel>> GetAll();
 
         Task<ProductViewModel> GetProductDetail(int id);
