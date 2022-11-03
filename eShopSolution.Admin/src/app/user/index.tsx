@@ -22,8 +22,8 @@ const User: FC<Props> = (props: Props) => {
 
   const getUsers = (PageIndex: number): void => {
     doGetUsers(PageIndex)
-      .then((response) => {
-        const data: APIResponse<UserProfile> = response.data;
+      .then((response: any) => {
+        const data: APIResponse<UserProfile> = response;
         setUserProfiles(data.resultObj.items);
         setCurrentPage(data.resultObj.pageIndex);
         setTotalPage(
