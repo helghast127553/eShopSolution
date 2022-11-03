@@ -3,6 +3,7 @@ using eShopSolution.Application.Catalog.Products;
 using eShopSolution.Application.System;
 using eShopSolution.BackendApi.Controllers;
 using eShopSolution.ViewModels.Catalog.Categories;
+using eShopSolution.ViewModels.Catalog.ProductRating;
 using eShopSolution.ViewModels.Catalog.Products;
 using eShopSolution.ViewModels.Catalog.Products.Manage;
 using eShopSolution.ViewModels.Catalog.Products.Public;
@@ -11,6 +12,7 @@ using eShopSolution.ViewModels.System.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 
 namespace eShopSolution.BackendApi.Tests
@@ -56,7 +58,7 @@ namespace eShopSolution.BackendApi.Tests
             var resultExpectation = result.Value as ApiSuccessResult<PagedResult<ProductViewModel>>;
 
             // Assert
-            Assert.NotNull(resultExpectation.Message);
+            Assert.Null(resultExpectation.Message);
             Assert.NotEmpty(resultExpectation.ResultObj.items);
             Assert.Equal(6, resultExpectation.ResultObj.items.Count());
             Assert.Equal(true, resultExpectation.IsSuccessed);
@@ -418,6 +420,7 @@ namespace eShopSolution.BackendApi.Tests
             // Assert
             Assert.IsType<NotFoundResult>(result);
         }
+
         [Fact]
         public async Task Remove_Fail_ReturnsBadRequest()
         {
@@ -438,6 +441,172 @@ namespace eShopSolution.BackendApi.Tests
 
             // Assert
             Assert.IsType<BadRequestResult>(result);
+        }
+
+        [Fact]
+        public async Task AddRating_Success_ReturnsOkResult()
+        {
+            //Arrange
+            var publicProductService = new Mock<IPublicProductService>();
+            var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
+
+            var request = new ProductRatingCreateRequest { Name = "Nghia", Review = "dsadsadsadsadsadsa", ProductId = 1, Rating = 4, Username = "helghast127553" };
+
+            productRating.Setup(x => x.Create(request))
+              .ReturnsAsync(1);
+
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
+
+            // Act
+            var result = await controller.CreateRating(request);
+
+            // Assert
+            Assert.IsType<OkResult>(result);
+        }
+
+        [Fact]
+        public async Task AddRating_Fail_ReturnsBadRequest()
+        {
+            //Arrange
+            var publicProductService = new Mock<IPublicProductService>();
+            var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
+
+            var request = new ProductRatingCreateRequest { Name = "Nghia", Review = "dsadsadsadsadsadsa", ProductId = 1, Rating = 4, Username = "helghast127553" };
+
+            productRating.Setup(x => x.Create(request))
+              .ReturnsAsync(0);
+
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
+
+            // Act
+            var result = await controller.CreateRating(request);
+
+            // Assert
+            Assert.IsType<BadRequestResult>(result);
+        }
+
+        [Fact]
+        public async Task DeleteRating_Success_ReturnsOkResult()
+        {
+            //Arrange
+            int id = 1;
+            var publicProductService = new Mock<IPublicProductService>();
+            var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
+
+            productRating.Setup(x => x.Delete(id)).ReturnsAsync(1);
+
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
+
+            // Act
+            var result = await controller.DeleteRating(id);
+
+            // Assert
+            Assert.IsType<NoContentResult>(result);
+        }
+
+        [Fact]
+        public async Task DeleteRating_Fail_ReturnsBadRequest()
+        {
+            //Arrange
+            int id = 1;
+            var publicProductService = new Mock<IPublicProductService>();
+            var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
+
+            productRating.Setup(x => x.Delete(id)).ReturnsAsync(0);
+
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
+
+            // Act
+            var result = await controller.DeleteRating(id);
+
+            // Assert
+            Assert.IsType<BadRequestResult>(result);
+        }
+
+        [Fact]
+        public async Task DeleteRating_Fail_ReturnsNotFound()
+        {
+            //Arrange
+            int id = 1;
+            var publicProductService = new Mock<IPublicProductService>();
+            var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
+
+            productRating.Setup(x => x.Delete(id)).ReturnsAsync(-1);
+
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
+
+            // Act
+            var result = await controller.DeleteRating(id);
+
+            // Assert
+            Assert.IsType<NotFoundResult>(result);
+        }
+
+        [Fact]
+        public async Task GetAllRatingsByProductId_Success_ReturnsOkResult()
+        {
+            //Arrange
+            int id = 1;
+            var publicProductService = new Mock<IPublicProductService>();
+            var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
+
+            productRating.Setup(x => x.GetAllProductRatingsByProductId(id)).ReturnsAsync(new List<ProductRatingViewModel> 
+            {
+                new ProductRatingViewModel { Id = 1, Name = "Minh", Review = "dsadsadsadsadsadsa", Rating = 4, ProductId = 1, TimeCreated = DateTime.Now, UserId = new Guid("984f55c9-d6ec-47d2-8b31-409a59b3d7e4") },
+                new ProductRatingViewModel { Id = 2, Name = "Minh", Review = "dsadsadsadsadsadsa", Rating = 4, ProductId = 1, TimeCreated = DateTime.Now, UserId = new Guid("984f55c9-d6ec-47d2-8b31-409a59b3d7e4") },
+                new ProductRatingViewModel { Id = 3, Name = "Minh", Review = "dsadsadsadsadsadsa", Rating = 4, ProductId = 1, TimeCreated = DateTime.Now, UserId = new Guid("984f55c9-d6ec-47d2-8b31-409a59b3d7e4") },
+            });
+
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
+
+            // Act
+            var okResult = await controller.GetAllRatingsByProductId(id);
+            var result = okResult as OkObjectResult;
+            var resultExpectation = result.Value as List<ProductRatingViewModel>;
+
+            // Assert
+            Assert.NotNull(resultExpectation);
+            Assert.NotEmpty(resultExpectation);
+            Assert.Equal(3, resultExpectation.Count());
+            Assert.IsType<List<ProductRatingViewModel>>(resultExpectation);
+            Assert.IsType<OkObjectResult>(okResult);
+        }
+
+        [Fact]
+        public async Task GetRelateProductsByCategoryId_Success_ReturnsOkResult()
+        {
+            //Arrange
+            int id = 1;
+            var publicProductService = new Mock<IPublicProductService>();
+            var manageProductService = new Mock<IManageProductService>();
+            var productRating = new Mock<IProductRatingService>();
+
+            publicProductService.Setup(x => x.GetRelatedProductsByCategoryId(id)).ReturnsAsync(new List<ProductViewModel>
+            {
+               new ProductViewModel { Id = 1, Name = "Asus Gaming XE33443", Description = "dsadsadsadsadsadsadsadsa", CategoryId = 1, Price = 343, Rating = 4,  ImageUrl = $"https://localhost:7064/image/01ac7093-8ae2-47c6-bd53-9ce3ab7a3b89.jpg"},
+               new ProductViewModel { Id = 2, Name = "Asus Gaming XP34", Description = "dsadsadsadsadsadsadsadsa", CategoryId = 1, Price = 343, Rating = 4,  ImageUrl = $"https://localhost:7064/image/01a27093-8ae2-47c6-bd53-9ce3ab7a3b89.jpg"},
+               new ProductViewModel { Id = 3, Name = "Asus Gaming XP4354", Description = "dsadsadsadsadsadsadsadsa", CategoryId = 1, Price = 343, Rating = 4,  ImageUrl = $"https://localhost:7064/image/01a57093-8ae2-47c6-bd53-9ce3ab7a3b89.jpg"},
+            });
+
+            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
+
+            // Act
+            var okResult = await controller.GetRelateProductsByCategoryId(id);
+            var result = okResult as OkObjectResult;
+            var resultExpectation = result.Value as List<ProductViewModel>;
+
+            // Assert
+            Assert.NotNull(resultExpectation);
+            Assert.NotEmpty(resultExpectation);
+            Assert.Equal(3, resultExpectation.Count());
+            Assert.IsType<List<ProductViewModel>>(resultExpectation);
+            Assert.IsType<OkObjectResult>(okResult);
         }
     }
 }

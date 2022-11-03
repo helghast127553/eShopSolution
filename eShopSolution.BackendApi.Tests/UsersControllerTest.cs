@@ -3,9 +3,11 @@ using eShopSolution.BackendApi.Controllers;
 using eShopSolution.ViewModels.Common;
 using eShopSolution.ViewModels.System.Users;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Moq;
 using Newtonsoft.Json.Linq;
 using System.Security.Principal;
+using Xunit;
 
 namespace eShopSolution.BackendApi.Tests
 {
@@ -19,11 +21,30 @@ namespace eShopSolution.BackendApi.Tests
             var controller = new UsersController(userServices.Object);
             var request = new GetUserPagingRequest { PageIndex = 1 };
 
+            userServices.Setup(x => x.GetUsersPaging(request)).ReturnsAsync(new ApiSuccessResult<PagedResult<UserViewModel>>(new PagedResult<UserViewModel>
+            {
+               PageIndex = 1,
+               PageSize = 10,
+               TotalRecords = 30,
+               items = new List<UserViewModel> 
+               {
+                   new UserViewModel { Id = new Guid("1F89A0C2-F362-4E54-5E3D-08DAB8CCCB45"), FirstName= "Trong", LastName = "Nghia", UserName = "helghast127553", Email = "nghia.t6363@gmail.com" },
+                   new UserViewModel { Id = new Guid("1F89A0C2-F362-4E54-5E3D-08DAB8CCCB45"), FirstName= "Toan", LastName = "Bach", UserName = "admin", Email = "tedu.international@gmail.com" }
+               }
+            }));
+
             //Act
-            var okResult = await controller.GetUsers(request);
+            var result = await controller.GetUsers(request);
+            var resultObj = result as OkObjectResult;
+            var resultExpectation = resultObj.Value as ApiSuccessResult<PagedResult<UserViewModel>>;
 
             //Assert
-            Assert.IsType<OkObjectResult>(okResult);
+            Assert.NotEmpty(resultExpectation.ResultObj.items);
+            Assert.True(resultExpectation.IsSuccessed);
+            Assert.Null(resultExpectation.Message);
+            Assert.Equal(2, resultExpectation.ResultObj.items.Count());
+            Assert.IsType<ApiSuccessResult<PagedResult<UserViewModel>>>(resultExpectation);
+            Assert.IsType<OkObjectResult>(result);
         }
 
         [Fact]
@@ -68,9 +89,12 @@ namespace eShopSolution.BackendApi.Tests
             var tokenExpectation = resultObj.Value as ApiResult<string>;
 
             // Assert
+            Assert.Null(tokenExpectation.Message);
             Assert.NotNull(tokenExpectation.ResultObj);
             Assert.IsType<string>(tokenExpectation.ResultObj);
-            Assert.Equal(tokenExpectation.ResultObj, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c");
+            Assert.IsType<OkObjectResult>(resultObj);
+            Assert.True(tokenExpectation.IsSuccessed);
+            Assert.Equal("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c", tokenExpectation.ResultObj);
         }
 
         [Fact]
@@ -94,8 +118,9 @@ namespace eShopSolution.BackendApi.Tests
 
             // Assert
             Assert.Null(resultExpectation.ResultObj);
+            Assert.False(resultExpectation.IsSuccessed);
+            Assert.IsType<BadRequestObjectResult>(resultObj);
             Assert.IsType<ApiErrorResult<string>>(resultExpectation);
-            Assert.Equal(resultExpectation.ResultObj, null);
         }
 
         [Fact]
@@ -129,7 +154,7 @@ namespace eShopSolution.BackendApi.Tests
         }
 
         [Fact]
-        public async Task Register_Success()
+        public async Task Register_Success_ReturnsOkResult()
         {
             // Arrange
             var request = new RegisterRequest()
@@ -153,13 +178,15 @@ namespace eShopSolution.BackendApi.Tests
             var resultExpectation = resultObj.Value as ApiSuccessResult<bool>;
 
             // Assert
-            Assert.IsType<ApiSuccessResult<bool>>(resultExpectation);
             Assert.NotNull(resultExpectation);
-            Assert.Equal(resultExpectation.IsSuccessed, true);
+            Assert.Null(resultExpectation.Message);
+            Assert.IsType<ApiSuccessResult<bool>>(resultExpectation);
+            Assert.IsType<OkObjectResult>(resultObj);
+            Assert.True(resultExpectation.IsSuccessed);
         }
 
         [Fact]
-        public async Task Register_Failed()
+        public async Task Register_Failed_ReturnsBadRequest()
         {
             // Arrange
             var request = new RegisterRequest()
@@ -183,7 +210,11 @@ namespace eShopSolution.BackendApi.Tests
             var resultExpectation = resultObj.Value as ApiErrorResult<bool>;
 
             // Assert
-            Assert.Equal(resultExpectation.IsSuccessed, false);
+            Assert.False(resultExpectation.ResultObj);
+            Assert.False(resultExpectation.IsSuccessed);
+            Assert.IsType<BadRequestObjectResult>(resultObj);
+            Assert.IsType<ApiErrorResult<bool>>(resultExpectation);
+            Assert.NotNull(resultExpectation);
         }
     }
 }

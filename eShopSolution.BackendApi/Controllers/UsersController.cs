@@ -72,7 +72,7 @@ namespace eShopSolution.BackendApi.Controllers
         public async Task<IActionResult> GetUsers([FromQuery]GetUserPagingRequest request)
         {
             var data = await _userService.GetUsersPaging(request);
-            return Ok(new { data });
+            return Ok(data);
         }
     }
 }
