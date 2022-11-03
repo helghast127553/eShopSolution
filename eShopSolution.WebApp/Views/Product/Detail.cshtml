@@ -154,6 +154,93 @@
                             </div>
                         </div>
                     </div>
+                    <div class="ttvcmsrelated-product container-fluid">
+                        <div class="ttvrelated-product-wrapper-box container">
+                            <div class="ttvrelated-product-all-box">
+                                <div class="ttvrelated-product-content">
+                                    <div class="ttvall-block-box-shadows">
+                                        <div class="ttvrelated-main-title-wrapper">
+                                            <div class="ttvcmsmain-title-wrapper">
+                                                <div class="ttvcms-main-title">
+                                                    <div class="ttvmain-title">Related Products</div>
+                                                </div>
+                                            </div>
+                                            <div class="ttvrelated-pagination-wrapper ttv-pagination-wrapper">
+                                                <div class="ttvcmsrelated-pagination">
+                                                    <div class="ttvcmsrelated-next-pre-btn ttvcms-next-pre-btn">
+                                                        <div class="ttvcmsrelated-prev" data-parent="ttvcmsrelated-product"><i class="fa fa-angle-left" aria-hidden="true"></i></div>
+                                                        <div class="ttvcmsrelated-next" data-parent="ttvcmsrelated-product"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ttvrelated-product">
+                                            <div class="products owl-theme owl-carousel ttvrelated-product-wrapper ttvproduct-wrapper-content-box owl-loaded owl-drag">
+                                                <div class="owl-stage-outer">
+                                                    <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: all 0s ease 0s; width: 664px;">
+                                                        @foreach (var item in ViewBag.relatedProducts)
+                                                        {
+                                                            <div class="owl-item" style="width: 332px;">
+                                                                <article class=" product-miniature js-product-miniature ttvall-product-wrapper-info-box">
+                                                                    <div class="thumbnail-container">
+                                                                        <div class="ttvproduct-wrapper grid">
+                                                                            <div class="ttvproduct-image">
+                                                                                <a asp-controller="product" asp-action="detail" asp-route-productId="@item.Id" asp-route-categoryId="@item.CategoryId" class="product-thumbnail">
+                                                                                    <img src="@item.ImageUrl" alt="Annabelle by Pantaloons">
+                                                                                </a>
+                                                                                <div class="ttvproduct-hover-btn">
+                                                                                    <div class="ttvproduct-cart-btn"><button data-button-action="add-to-cart" type="submit" class="btn btn-primary add-to-cart ttvproduct-add-to-cart" onclick="cart.add1('41');" title="" data-link-action="Add to Cart" data-toggle="ttvtooltip" data-placement="top" data-html="true" data-original-title="Add to Cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i><span class="ttvproduct-add-to-cart-label">Add to Cart</span></button></div>
+                                                                                    <div class="ttvproduct-quick-btn quickview" data-quickviewid="41" title="" data-link-action="Quick View" data-toggle="ttvtooltip" data-placement="top" data-html="true" data-original-title="Quick View">
+                                                                                        <div class="ttvproduct-quick-icon"><i class="fa fa-search search" aria-hidden="true"></i></div>
+                                                                                        <div class="ttvproduct-quick-lable">Quick View</div>
+                                                                                    </div>
+                                                                                    <div class="ttvproduct-compare-btn"><button onclick="compare.add1('41');" class="btn btn-primary ttvproduct-compare" title="" data-link-action="Compare this Product" data-toggle="ttvtooltip" data-placement="top" data-html="true" data-original-title="Compare this Product"><i class="fa fa-exchange"></i><span class="ttvproduct-add-to-compare-label">Compare this Product</span></button></div>
+                                                                                    <div class="ttvproduct-wishlist-btn"><button onclick="wishlist.add1('41');" class="btn btn-primary ttvproduct-wishlist" title="" data-link-action="Add to Wish List" data-toggle="ttvtooltip" data-placement="top" data-html="true" data-original-title="Add to Wish List"><i class="fa fa-heart"></i><span class="ttvproduct-add-to-wishlist-label">Add to Wish List</span></button></div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="product-description">
+                                                                                <div class="ttvall-product-star-icon">
+                                                                                    <div class="comments_note">
+                                                                                        <div class="star_content">
+                                                                                           @for (int i = 1; i <= item.Rating; i++)
+                                                                                           {
+                                                                                               <div class="star star_on"><i class="fa fa-star" aria-hidden="true"></i></div>
+                                                                                           }
+                                                                                           @for (int i = 1; i <= 5 - item.Rating; i++)
+                                                                                           {
+                                                                                               <div class="star"><i class="fa fa-star" aria-hidden="true"></i></div>
+                                                                                           }
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="ttvproduct-name">
+                                                                                    <div class="product-title">
+                                                                                        <a asp-controller="product" asp-action="detail" asp-route-productId="@item.Id" asp-route-categoryId="@item.CategoryId">
+                                                                                            <h6>Annabelle by Pantaloons</h6>
+                                                                                        </a>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="ttvproduct-name-price-wrapper">
+                                                                                    <div class="product-price-and-shipping"><span class="price">@item.Price.ToString("C2", CultureInfo.CurrentCulture)</span><span class="regular-price">$240.00</span><span class="price-tax">Ex Tax:$80.00</span></div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </article>
+                                                            </div>
+
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span aria-label="Previous">‹</span></button><button type="button" role="presentation" class="owl-next"><span aria-label="Next">›</span></button></div>
+                                                <div class="owl-dots disabled"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
