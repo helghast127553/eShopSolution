@@ -84,7 +84,7 @@
                                                 @foreach (var item in productRatings)
                                                 {
                                                     <tr>
-                                                        <td style="width: 50%;"><strong>@item.Name</strong><a asp-controller="product" asp-action="deleteRating" asp-route-id="@item.Id" asp-route-productId="@item.ProductId" asp-route-categoryId="@ViewBag.productDetail.CategoryId" style="margin-left:10px"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+                                                        <td style="width: 50%;"><strong>@item.Name</strong></td>
                                                         <td class="text-right">@item.TimeCreated.ToShortDateString()</td>
                                                     </tr>
                                                     <tr>

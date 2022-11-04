@@ -47,18 +47,6 @@ namespace eShopSolution.ApiIntegration
             return response.IsSuccessStatusCode ? 1 : 0;
         }
 
-        public async Task<int> DeleteRating(int id)
-        {
-            var token = _httpContextAccessor.HttpContext.Request.Cookies[SystemConstants.Token];
-            var client = _httpClientFactory.CreateClient();
-            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-            var response = await client.DeleteAsync($"api/product/rating/{id}/");
-
-            return response.IsSuccessStatusCode ? 1 : 0;
-        }
-
         public async Task<IList<ProductViewModel>> GetAll()
         {
             var client = _httpClientFactory.CreateClient();

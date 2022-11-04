@@ -57,19 +57,5 @@ namespace eShopSolution.Application.Catalog.ProductRatings
                     TimeCreated = x.Time_Created
                 }).ToListAsync();
         }
-
-        public async Task<int> Delete(int id)
-        {
-            var productRating = await _dbContext.ProductRatings.FindAsync(id);
-
-            if (productRating == null)
-            {
-                return -1;
-            }
-
-            _dbContext.Remove(productRating);
-
-            return await _dbContext.SaveChangesAsync();
-        }
     }
 }

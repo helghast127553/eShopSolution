@@ -488,66 +488,6 @@ namespace eShopSolution.BackendApi.Tests
         }
 
         [Fact]
-        public async Task DeleteRating_Success_ReturnsOkResult()
-        {
-            //Arrange
-            int id = 1;
-            var publicProductService = new Mock<IPublicProductService>();
-            var manageProductService = new Mock<IManageProductService>();
-            var productRating = new Mock<IProductRatingService>();
-
-            productRating.Setup(x => x.Delete(id)).ReturnsAsync(1);
-
-            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
-
-            // Act
-            var result = await controller.DeleteRating(id);
-
-            // Assert
-            Assert.IsType<NoContentResult>(result);
-        }
-
-        [Fact]
-        public async Task DeleteRating_Fail_ReturnsBadRequest()
-        {
-            //Arrange
-            int id = 1;
-            var publicProductService = new Mock<IPublicProductService>();
-            var manageProductService = new Mock<IManageProductService>();
-            var productRating = new Mock<IProductRatingService>();
-
-            productRating.Setup(x => x.Delete(id)).ReturnsAsync(0);
-
-            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
-
-            // Act
-            var result = await controller.DeleteRating(id);
-
-            // Assert
-            Assert.IsType<BadRequestResult>(result);
-        }
-
-        [Fact]
-        public async Task DeleteRating_Fail_ReturnsNotFound()
-        {
-            //Arrange
-            int id = 1;
-            var publicProductService = new Mock<IPublicProductService>();
-            var manageProductService = new Mock<IManageProductService>();
-            var productRating = new Mock<IProductRatingService>();
-
-            productRating.Setup(x => x.Delete(id)).ReturnsAsync(-1);
-
-            var controller = new ProductsController(publicProductService.Object, manageProductService.Object, productRating.Object);
-
-            // Act
-            var result = await controller.DeleteRating(id);
-
-            // Assert
-            Assert.IsType<NotFoundResult>(result);
-        }
-
-        [Fact]
         public async Task GetAllRatingsByProductId_Success_ReturnsOkResult()
         {
             //Arrange

@@ -56,6 +56,7 @@ namespace eShopSolution.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
+            Response.Cookies.Delete(SystemConstants.Token, new CookieOptions { Expires = DateTime.Now.AddDays(-1) });
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }

@@ -15,8 +15,6 @@ namespace eShopSolution.ApiIntegration.Abstraction
     {
         Task<int> CreateRating(ProductRatingCreateRequest request);
 
-        Task<int> DeleteRating(int id);
-
         Task<IList<ProductRatingViewModel>> GetAllProductRatingByProductId(int id);
 
         Task<IList<ProductViewModel>> GetRelatedProductsByCategoryId(int categoryId);
