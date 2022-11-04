@@ -92,19 +92,6 @@ namespace eShopSolution.WebApp.Controllers
 
             return RedirectToAction("Detail", new { productId = request.ProductId, categoryId = request.CategoryId });
         }
-
-        [HttpGet]
-        public async Task<IActionResult> DeleteRating(int id, int productId, int categoryId)
-        {
-            if (!User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("login", "account");
-            }
-
-            await _productApiClient.DeleteRating(id);
-
-            return RedirectToAction("Detail", new { productId = productId, categoryId = categoryId });
-        }
     }
 }
 

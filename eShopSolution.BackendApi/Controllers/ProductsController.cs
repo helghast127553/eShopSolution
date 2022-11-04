@@ -50,25 +50,6 @@ namespace eShopSolution.BackendApi.Controllers
             return Ok();
         }
 
-        [HttpDelete("product/rating/{id}/")]
-        [Authorize]
-        public async Task<IActionResult> DeleteRating([FromRoute] int id)
-        {
-            var result = await _productRatingService.Delete(id);
-
-            if (result == -1)
-            {
-                return NotFound();
-            }
-
-            if (result == 0)
-            {
-                return BadRequest();
-            }
-
-            return NoContent();
-        }
-
         [HttpGet("product/rating/{id}")]
         public async Task<IActionResult> GetAllRatingsByProductId([FromRoute] int id)
         {

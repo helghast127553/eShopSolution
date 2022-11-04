@@ -13,7 +13,5 @@ namespace eShopSolution.Application.Catalog.ProductRatings
         Task<int> Create(ProductRatingCreateRequest request);
 
         Task<IList<ProductRatingViewModel>> GetAllProductRatingsByProductId(int id);
-
-        Task<int> Delete(int id);
     }
 }
