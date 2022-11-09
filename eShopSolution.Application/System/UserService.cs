@@ -31,7 +31,7 @@ namespace eShopSolution.Application.System
             var result = await _userManager.CheckPasswordAsync(user, request.Password);
             if (!result)
             {
-                return new ApiErrorResult<string>("No match for E-Mail Address and/or Password.");
+                return new ApiErrorResult<string>("No match for username and/or password.");
             }
 
             var roles = await _userManager.GetRolesAsync(user);
